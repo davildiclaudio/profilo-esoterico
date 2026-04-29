@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
 <style>
   :root {
     --bg: #05030f;
@@ -80,76 +81,109 @@
     100% { background-position: 30% 20%, 70% 80%, 60% 40%; }
   }
 
-  /* Cosmo · simboli archetipici fluttuanti */
-  .cosmos-bg {
+  /* Sfondo arcano · simboli SVG fluttuanti */
+  .arcane-bg {
     position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
   }
-  .cosmos-symbol {
+  .arcane-bg .arc {
     position: absolute;
-    font-family: 'Fraunces', 'Apple Symbols', serif;
     color: rgba(244, 201, 93, 0.12);
-    text-shadow:
-      0 0 14px rgba(244, 201, 93, 0.45),
-      0 0 30px rgba(124, 58, 237, 0.35);
-    user-select: none;
-    will-change: transform, opacity;
-    animation: cosmosFloat linear infinite, cosmosPulse ease-in-out infinite alternate;
+    will-change: transform, opacity, filter;
+    filter: drop-shadow(0 0 12px rgba(244, 201, 93, 0.45));
+    animation: arcDrift linear infinite, arcPulse ease-in-out infinite alternate;
   }
-  .cosmos-symbol.violet {
-    color: rgba(167, 139, 250, 0.14);
-    text-shadow:
-      0 0 14px rgba(167, 139, 250, 0.5),
-      0 0 30px rgba(236, 72, 153, 0.3);
+  .arcane-bg .arc.violet {
+    color: rgba(167, 139, 250, 0.13);
+    filter: drop-shadow(0 0 14px rgba(167, 139, 250, 0.5));
   }
-  .cosmos-symbol.cyan {
+  .arcane-bg .arc.cyan {
     color: rgba(34, 211, 238, 0.10);
-    text-shadow:
-      0 0 12px rgba(34, 211, 238, 0.45),
-      0 0 28px rgba(124, 58, 237, 0.25);
+    filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.5));
   }
-  @keyframes cosmosFloat {
+  .arcane-bg .arc.crimson {
+    color: rgba(236, 90, 160, 0.11);
+    filter: drop-shadow(0 0 14px rgba(236, 90, 160, 0.45));
+  }
+  .arcane-bg .arc svg { width: 100%; height: 100%; display: block; }
+  @keyframes arcDrift {
     0%   { transform: translate(0, 0) rotate(0deg); }
-    25%  { transform: translate(40px, -30px) rotate(90deg); }
-    50%  { transform: translate(-20px, -60px) rotate(180deg); }
-    75%  { transform: translate(-50px, -20px) rotate(270deg); }
+    25%  { transform: translate(60px, -40px) rotate(90deg); }
+    50%  { transform: translate(-30px, -80px) rotate(180deg); }
+    75%  { transform: translate(-70px, -30px) rotate(270deg); }
     100% { transform: translate(0, 0) rotate(360deg); }
   }
-  @keyframes cosmosPulse {
-    0%   { opacity: 0.4; }
+  @keyframes arcPulse {
+    0%   { opacity: 0.35; }
     100% { opacity: 1; }
   }
 
-  /* Zodiaco grande · ruota lenta in centro pagina */
-  .cosmic-wheel {
+  /* Mandala centrale · ruota zodiacale arcana */
+  .cosmic-mandala {
     position: fixed;
     top: 50%; left: 50%;
-    width: min(140vmin, 1400px);
-    height: min(140vmin, 1400px);
+    width: min(140vmin, 1500px);
+    height: min(140vmin, 1500px);
     transform: translate(-50%, -50%);
     z-index: -1;
     pointer-events: none;
-    opacity: 0.06;
-    animation: wheelSpin 360s linear infinite;
+    opacity: 0.10;
+    color: rgba(244, 201, 93, 0.7);
+    animation: mandalaSpin 480s linear infinite;
   }
-  @keyframes wheelSpin {
+  .cosmic-mandala-counter {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: min(100vmin, 1100px);
+    height: min(100vmin, 1100px);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.07;
+    color: rgba(167, 139, 250, 0.7);
+    animation: mandalaSpin 720s linear infinite reverse;
+  }
+  @keyframes mandalaSpin {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to   { transform: translate(-50%, -50%) rotate(360deg); }
   }
-  .cosmic-wheel .ring {
-    position: absolute;
-    inset: 0;
-    border: 1px solid rgba(244, 201, 93, 0.5);
-    border-radius: 50%;
+  .cosmic-mandala svg, .cosmic-mandala-counter svg { width: 100%; height: 100%; }
+
+  /* Diagrammi (BodyGraph + Tema natale) */
+  .diagram-wrap {
+    display: flex; justify-content: center; align-items: center;
+    margin: 24px 0;
+    background: rgba(5,3,15,.5);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border-soft);
   }
-  .cosmic-wheel .ring.r2 { inset: 8%; border-color: rgba(167, 139, 250, 0.4); }
-  .cosmic-wheel .ring.r3 { inset: 18%; border-color: rgba(236, 72, 153, 0.3); }
-  .cosmic-wheel .zodiac-mark {
-    position: absolute;
-    top: 50%; left: 50%;
-    font-family: 'Fraunces', serif;
-    font-size: 48px;
-    color: rgba(244, 201, 93, 0.7);
-    transform-origin: 0 0;
+  .diagram-wrap svg { max-width: 100%; height: auto; display: block; }
+
+  /* Type badge HD */
+  .hd-type-banner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .hd-type-banner .badge {
+    background: linear-gradient(135deg, rgba(124,58,237,.20), rgba(244,201,93,.12));
+    border: 1px solid var(--gold-deep);
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+  }
+  .hd-type-banner .badge .key {
+    font-size: 10px; color: var(--ink-dim);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .hd-type-banner .badge .val {
+    font-family: var(--ff-display);
+    font-size: 22px; color: var(--gold);
+    font-weight: 400; line-height: 1.1;
+  }
+  .hd-type-banner .badge .meta {
+    font-size: 12px; color: var(--ink-soft); margin-top: 4px;
   }
 
   header.hero {
@@ -610,9 +644,249 @@
 </head>
 <body class="locked">
 
+<!-- SVG defs · simboli arcani -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="arc-pentagram" viewBox="-50 -50 100 100">
+    <circle r="46" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <polygon points="0,-42 24.7,33.9 -39.9,-12.9 39.9,-12.9 -24.7,33.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    <circle r="2.5" fill="currentColor"/>
+  </symbol>
+  <symbol id="arc-hexagram" viewBox="-50 -50 100 100">
+    <circle r="46" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+    <polygon points="0,-42 36.4,21 -36.4,21" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <polygon points="0,42 -36.4,-21 36.4,-21" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+  <symbol id="arc-eye" viewBox="-60 -40 120 80">
+    <path d="M-50,-12 Q-25,-32 0,-26 Q25,-32 50,-12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M-46,5 Q-24,-18 0,-18 Q24,-18 46,2 L42,9 Q22,17 0,14 Q-22,14 -42,9 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle r="11" cx="0" cy="-2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle r="5" cx="0" cy="-2" fill="currentColor"/>
+    <path d="M-15,15 Q-32,24 -48,30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M2,15 L2,32 L-12,40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="arc-ra" viewBox="-50 -50 100 100">
+    <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle r="3.5" fill="currentColor"/>
+    <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none">
+      <line x1="0" y1="-22" x2="0" y2="-44"/>
+      <line x1="11" y1="-19" x2="22" y2="-38"/>
+      <line x1="19" y1="-11" x2="38" y2="-22"/>
+      <line x1="22" y1="0" x2="44" y2="0"/>
+      <line x1="19" y1="11" x2="38" y2="22"/>
+      <line x1="11" y1="19" x2="22" y2="38"/>
+      <line x1="0" y1="22" x2="0" y2="44"/>
+      <line x1="-11" y1="19" x2="-22" y2="38"/>
+      <line x1="-19" y1="11" x2="-38" y2="22"/>
+      <line x1="-22" y1="0" x2="-44" y2="0"/>
+      <line x1="-19" y1="-11" x2="-38" y2="-22"/>
+      <line x1="-11" y1="-19" x2="-22" y2="-38"/>
+    </g>
+  </symbol>
+  <symbol id="arc-ankh" viewBox="-30 -50 60 100">
+    <ellipse cx="0" cy="-25" rx="14" ry="18" fill="none" stroke="currentColor" stroke-width="2.2"/>
+    <line x1="0" y1="-7" x2="0" y2="45" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-22" y1="5" x2="22" y2="5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="arc-flower" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.2">
+      <circle r="14"/>
+      <circle r="14" cx="0" cy="-24"/>
+      <circle r="14" cx="20.8" cy="-12"/>
+      <circle r="14" cx="20.8" cy="12"/>
+      <circle r="14" cx="0" cy="24"/>
+      <circle r="14" cx="-20.8" cy="12"/>
+      <circle r="14" cx="-20.8" cy="-12"/>
+    </g>
+  </symbol>
+  <symbol id="arc-tree" viewBox="-30 -60 60 120">
+    <g fill="none" stroke="currentColor" stroke-width="1">
+      <line x1="0" y1="-50" x2="0" y2="-15"/>
+      <line x1="0" y1="-50" x2="20" y2="-35"/>
+      <line x1="0" y1="-50" x2="-20" y2="-35"/>
+      <line x1="20" y1="-35" x2="-20" y2="-35"/>
+      <line x1="20" y1="-35" x2="0" y2="-15"/>
+      <line x1="-20" y1="-35" x2="0" y2="-15"/>
+      <line x1="20" y1="-35" x2="20" y2="0"/>
+      <line x1="-20" y1="-35" x2="-20" y2="0"/>
+      <line x1="20" y1="0" x2="-20" y2="0"/>
+      <line x1="20" y1="0" x2="0" y2="-15"/>
+      <line x1="-20" y1="0" x2="0" y2="-15"/>
+      <line x1="20" y1="0" x2="0" y2="20"/>
+      <line x1="-20" y1="0" x2="0" y2="20"/>
+      <line x1="0" y1="-15" x2="0" y2="20"/>
+      <line x1="0" y1="20" x2="0" y2="50"/>
+      <line x1="0" y1="20" x2="20" y2="0"/>
+      <line x1="0" y1="20" x2="-20" y2="0"/>
+    </g>
+    <g fill="rgba(0,0,0,0.6)" stroke="currentColor" stroke-width="1.4">
+      <circle r="5" cx="0" cy="-50"/>
+      <circle r="5" cx="20" cy="-35"/>
+      <circle r="5" cx="-20" cy="-35"/>
+      <circle r="5" cx="20" cy="0"/>
+      <circle r="5" cx="-20" cy="0"/>
+      <circle r="5" cx="0" cy="-15"/>
+      <circle r="5" cx="20" cy="20"/>
+      <circle r="5" cx="-20" cy="20"/>
+      <circle r="5" cx="0" cy="35"/>
+      <circle r="5" cx="0" cy="55"/>
+    </g>
+  </symbol>
+  <symbol id="arc-ouroboros" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <circle r="38" stroke-dasharray="5 4"/>
+      <path d="M28,-25 Q42,-15 38,-2 Q34,8 24,4" stroke-linecap="round"/>
+      <circle r="2.5" cx="32" cy="-12" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="arc-yantra" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.1">
+      <circle r="46"/>
+      <polygon points="0,-44 38,22 -38,22"/>
+      <polygon points="0,44 -38,-22 38,-22"/>
+      <polygon points="0,-30 26,15 -26,15"/>
+      <polygon points="0,30 -26,-15 26,-15"/>
+      <polygon points="0,-18 16,9 -16,9"/>
+      <polygon points="0,18 -16,-9 16,-9"/>
+      <circle r="3" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="arc-caduceus" viewBox="-30 -55 60 120">
+    <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <line x1="0" y1="-45" x2="0" y2="55"/>
+      <path d="M-13,-25 Q13,-17 -13,-9 Q13,-1 -13,7 Q13,15 -13,23 Q13,31 -13,38"/>
+      <path d="M13,-25 Q-13,-17 13,-9 Q-13,-1 13,7 Q-13,15 13,23 Q-13,31 13,38"/>
+      <path d="M0,-38 Q-22,-38 -20,-22 Q-12,-30 -2,-28"/>
+      <path d="M0,-38 Q22,-38 20,-22 Q12,-30 2,-28"/>
+      <circle r="3.5" cx="0" cy="-48" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="arc-star8" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
+      <polygon points="0,-44 11,-11 44,0 11,11 0,44 -11,11 -44,0 -11,-11"/>
+      <polygon points="0,-30 7,-7 30,0 7,7 0,30 -7,7 -30,0 -7,-7"/>
+      <circle r="3" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="arc-triplemoon" viewBox="-65 -25 130 50">
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M-25,-18 Q-50,-18 -50,0 Q-50,18 -25,18 Q-37,9 -37,0 Q-37,-9 -25,-18"/>
+      <circle cx="0" cy="0" r="18"/>
+      <path d="M25,-18 Q50,-18 50,0 Q50,18 25,18 Q37,9 37,0 Q37,-9 25,-18"/>
+    </g>
+  </symbol>
+  <symbol id="arc-vesica" viewBox="-55 -40 110 80">
+    <g fill="none" stroke="currentColor" stroke-width="1.4">
+      <circle cx="-15" cy="0" r="32"/>
+      <circle cx="15" cy="0" r="32"/>
+    </g>
+  </symbol>
+  <symbol id="arc-bagua" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.2">
+      <polygon points="20,-46 46,-20 46,20 20,46 -20,46 -46,20 -46,-20 -20,-46"/>
+      <circle r="14"/>
+      <path d="M0,-14 A7,7 0 0,1 0,0 A7,7 0 0,0 0,14 A14,14 0 0,1 0,-14 Z" fill="currentColor"/>
+      <circle r="2" cx="0" cy="-7" fill="rgba(0,0,0,0.6)"/>
+      <circle r="2" cx="0" cy="7" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="arc-lotus" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <path d="M0,30 Q-25,10 -38,-22 Q-15,-5 0,15 Q15,-5 38,-22 Q25,10 0,30"/>
+      <path d="M0,30 Q-12,5 -25,-30 Q-5,-10 0,15 Q5,-10 25,-30 Q12,5 0,30"/>
+      <path d="M0,30 L0,-25"/>
+      <ellipse cx="0" cy="30" rx="38" ry="3"/>
+    </g>
+  </symbol>
+  <symbol id="arc-rose" viewBox="-50 -50 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="0.9">
+      <circle r="44"/>
+      <circle r="34"/>
+      <circle r="24"/>
+      <line x1="0" y1="-44" x2="0" y2="44"/>
+      <line x1="-44" y1="0" x2="44" y2="0"/>
+      <line x1="-31" y1="-31" x2="31" y2="31"/>
+      <line x1="-31" y1="31" x2="31" y2="-31"/>
+      <line x1="0" y1="-44" x2="22" y2="38"/>
+      <line x1="0" y1="-44" x2="-22" y2="38"/>
+      <line x1="44" y1="0" x2="-22" y2="38"/>
+      <line x1="-44" y1="0" x2="22" y2="38"/>
+      <circle r="6" fill="currentColor"/>
+    </g>
+  </symbol>
+  <!-- Mandala zodiacale (12 segni in cerchio) -->
+  <symbol id="cosmic-mandala-svg" viewBox="-300 -300 600 600">
+    <g fill="none" stroke="currentColor" stroke-width="0.8">
+      <circle r="290"/>
+      <circle r="260"/>
+      <circle r="220"/>
+      <circle r="180"/>
+      <circle r="140"/>
+      <circle r="100"/>
+      <circle r="60"/>
+      <!-- 12 raggi divisori -->
+      <g stroke-width="0.5" opacity="0.7">
+        <line x1="0" y1="-290" x2="0" y2="290"/>
+        <line x1="-290" y1="0" x2="290" y2="0"/>
+        <line x1="-251" y1="-145" x2="251" y2="145"/>
+        <line x1="251" y1="-145" x2="-251" y2="145"/>
+        <line x1="-145" y1="-251" x2="145" y2="251"/>
+        <line x1="145" y1="-251" x2="-145" y2="251"/>
+      </g>
+      <!-- Sigilli zodiacali sui 12 settori (font Fraunces simbolo) -->
+    </g>
+    <g font-family="Fraunces, serif" font-size="36" fill="currentColor" text-anchor="middle" dominant-baseline="middle">
+      <text x="0" y="-240">♈</text>
+      <text x="120" y="-208">♉</text>
+      <text x="208" y="-120">♊</text>
+      <text x="240" y="0">♋</text>
+      <text x="208" y="120">♌</text>
+      <text x="120" y="208">♍</text>
+      <text x="0" y="240">♎</text>
+      <text x="-120" y="208">♏</text>
+      <text x="-208" y="120">♐</text>
+      <text x="-240" y="0">♑</text>
+      <text x="-208" y="-120">♒</text>
+      <text x="-120" y="-208">♓</text>
+    </g>
+    <!-- Esagramma + pentagramma centrali -->
+    <g fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.85">
+      <polygon points="0,-90 78,45 -78,45"/>
+      <polygon points="0,90 -78,-45 78,-45"/>
+      <polygon points="0,-50 47,40 -47,40 47,-15 -47,-15"/>
+    </g>
+  </symbol>
+  <!-- Mandala controruotante: pianeti -->
+  <symbol id="cosmic-mandala-counter-svg" viewBox="-300 -300 600 600">
+    <g fill="none" stroke="currentColor" stroke-width="0.6">
+      <circle r="280"/>
+      <circle r="200"/>
+      <circle r="120"/>
+    </g>
+    <g font-family="Fraunces, serif" font-size="32" fill="currentColor" text-anchor="middle" dominant-baseline="middle" opacity="0.8">
+      <text x="0" y="-260">☉</text>
+      <text x="225" y="-130">☽</text>
+      <text x="225" y="130">☿</text>
+      <text x="0" y="260">♀</text>
+      <text x="-225" y="130">♂</text>
+      <text x="-225" y="-130">♃</text>
+    </g>
+    <g font-family="Fraunces, serif" font-size="26" fill="currentColor" text-anchor="middle" dominant-baseline="middle" opacity="0.7">
+      <text x="0" y="-180">♄</text>
+      <text x="156" y="-90">♅</text>
+      <text x="156" y="90">♆</text>
+      <text x="0" y="180">♇</text>
+      <text x="-156" y="90">☊</text>
+      <text x="-156" y="-90">☋</text>
+    </g>
+  </symbol>
+</defs>
+</svg>
+
 <div class="aurora"></div>
-<div class="cosmic-wheel" id="cosmic-wheel"></div>
-<div class="cosmos-bg" id="cosmos-bg"></div>
+<div class="cosmic-mandala"><svg><use href="#cosmic-mandala-svg"/></svg></div>
+<div class="cosmic-mandala-counter"><svg><use href="#cosmic-mandala-counter-svg"/></svg></div>
+<div class="arcane-bg" id="arcane-bg"></div>
 
 <div id="gate">
   <form class="gate-card" id="gate-form">
@@ -678,55 +952,34 @@
 "use strict";
 
 /* =====================================================================
-   COSMOS BACKGROUND · simboli archetipici fluttuanti + ruota zodiacale
+   ARCANE BACKGROUND · simboli SVG sacri fluttuanti
    ===================================================================== */
-(function buildCosmos() {
-  const ZODIAC_GLYPHS = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
-  const PLANETS = ["☉","☽","☿","♀","♂","♃","♄","♅","♆","♇"];
-  const STARS = ["✦","✧","✶","★","⚝","⊙","⊚","✺","❋","✷"];
-  const ALCHEMY = ["☥","☯","♁","⚷","⚸","⚹","⚺","⚻","⚼"];
-  const ARCANE = ["𓂀","☤","⌬","⛤","☼","◐","◑","☾","♆"];
-  const ALL = [...ZODIAC_GLYPHS, ...PLANETS, ...STARS, ...ALCHEMY, ...ARCANE];
-
-  // Ruota zodiacale al centro
-  const wheel = document.getElementById("cosmic-wheel");
-  if (wheel) {
-    const ring1 = document.createElement("div"); ring1.className = "ring";
-    const ring2 = document.createElement("div"); ring2.className = "ring r2";
-    const ring3 = document.createElement("div"); ring3.className = "ring r3";
-    wheel.appendChild(ring1); wheel.appendChild(ring2); wheel.appendChild(ring3);
-    // 12 segni equidistanti sul cerchio
-    const radius = 0.46; // 46% del raggio (cerchio esterno)
-    ZODIAC_GLYPHS.forEach((g, i) => {
-      const angle = (i * 30 - 90) * Math.PI / 180; // partenza in alto, in senso orario
-      const span = document.createElement("div");
-      span.className = "zodiac-mark";
-      span.textContent = g;
-      const x = Math.cos(angle) * radius * 100;
-      const y = Math.sin(angle) * radius * 100;
-      span.style.transform = `translate(${x}%, ${y}%) translate(-50%, -50%)`;
-      wheel.appendChild(span);
-    });
-  }
-
-  // Simboli fluttuanti sparsi
-  const cosmos = document.getElementById("cosmos-bg");
-  if (!cosmos) return;
-  const COUNT = 42;
-  const colorClasses = ["", "violet", "cyan"];
+(function buildArcaneBg() {
+  const SYMBOLS = [
+    "arc-pentagram", "arc-hexagram", "arc-eye", "arc-ra", "arc-ankh",
+    "arc-flower", "arc-tree", "arc-ouroboros", "arc-yantra", "arc-caduceus",
+    "arc-star8", "arc-triplemoon", "arc-vesica", "arc-bagua", "arc-lotus", "arc-rose"
+  ];
+  const colorClasses = ["", "violet", "cyan", "crimson"];
+  const container = document.getElementById("arcane-bg");
+  if (!container) return;
+  const COUNT = 28;
   for (let i = 0; i < COUNT; i++) {
-    const span = document.createElement("span");
+    const div = document.createElement("div");
     const cls = colorClasses[Math.floor(Math.random() * colorClasses.length)];
-    span.className = "cosmos-symbol" + (cls ? " " + cls : "");
-    span.textContent = ALL[Math.floor(Math.random() * ALL.length)];
-    span.style.left = Math.random() * 100 + "vw";
-    span.style.top = Math.random() * 100 + "vh";
-    span.style.fontSize = (18 + Math.random() * 56) + "px";
-    const floatDur = 40 + Math.random() * 80;
-    const pulseDur = 4 + Math.random() * 10;
-    span.style.animationDuration = `${floatDur}s, ${pulseDur}s`;
-    span.style.animationDelay = `${-Math.random() * floatDur}s, ${-Math.random() * pulseDur}s`;
-    cosmos.appendChild(span);
+    div.className = "arc" + (cls ? " " + cls : "");
+    const size = 60 + Math.random() * 180;
+    div.style.width = size + "px";
+    div.style.height = size + "px";
+    div.style.left = Math.random() * 100 + "vw";
+    div.style.top = Math.random() * 100 + "vh";
+    const floatDur = 60 + Math.random() * 120;
+    const pulseDur = 6 + Math.random() * 14;
+    div.style.animationDuration = `${floatDur}s, ${pulseDur}s`;
+    div.style.animationDelay = `${-Math.random() * floatDur}s, ${-Math.random() * pulseDur}s`;
+    const sym = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    div.innerHTML = `<svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><use href="#${sym}"/></svg>`;
+    container.appendChild(div);
   }
 })();
 
@@ -1482,12 +1735,37 @@ function yearCardCalc(d, m, currentYear) {
 }
 
 /* =====================================================================
-   8. HUMAN DESIGN — Sun gates + Incarnation Cross approximation
+   8. HUMAN DESIGN — calcolo completo (Tipo, Autorità, Profilo, BodyGraph)
    ===================================================================== */
 
+const HD_GATE_TO_CENTER = {
+  64:"HEAD",61:"HEAD",63:"HEAD",
+  47:"AJNA",24:"AJNA",4:"AJNA",17:"AJNA",11:"AJNA",43:"AJNA",
+  62:"THROAT",23:"THROAT",56:"THROAT",16:"THROAT",20:"THROAT",31:"THROAT",
+  8:"THROAT",33:"THROAT",35:"THROAT",12:"THROAT",45:"THROAT",
+  1:"G",13:"G",25:"G",46:"G",2:"G",15:"G",10:"G",7:"G",
+  21:"HEART",40:"HEART",26:"HEART",51:"HEART",
+  6:"SOLAR",37:"SOLAR",22:"SOLAR",36:"SOLAR",30:"SOLAR",55:"SOLAR",49:"SOLAR",
+  5:"SACRAL",14:"SACRAL",29:"SACRAL",59:"SACRAL",9:"SACRAL",3:"SACRAL",42:"SACRAL",27:"SACRAL",34:"SACRAL",
+  48:"SPLEEN",57:"SPLEEN",44:"SPLEEN",50:"SPLEEN",32:"SPLEEN",28:"SPLEEN",18:"SPLEEN",
+  53:"ROOT",60:"ROOT",52:"ROOT",19:"ROOT",39:"ROOT",41:"ROOT",58:"ROOT",38:"ROOT",54:"ROOT"
+};
+
+const HD_CHANNELS = [
+  [1,8],[2,14],[3,60],[4,63],[5,15],[6,59],[7,31],[9,52],
+  [10,20],[10,34],[10,57],[11,56],[12,22],[13,33],[16,48],
+  [17,62],[18,58],[19,49],[20,34],[20,57],[21,45],[23,43],
+  [24,61],[25,51],[26,44],[27,50],[28,38],[29,46],[30,41],
+  [32,54],[34,57],[35,36],[37,40],[39,55],[42,53],[47,64]
+];
+
+const HD_BODIES = ["Sun","Earth","Moon","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto","NorthNode","SouthNode"];
+const HD_BODY_GLYPHS = { Sun:"☉", Earth:"⊕", Moon:"☽", Mercury:"☿", Venus:"♀", Mars:"♂", Jupiter:"♃", Saturn:"♄", Uranus:"♅", Neptune:"♆", Pluto:"♇", NorthNode:"☊", SouthNode:"☋" };
+const HD_BODY_NAMES_IT = { Sun:"Sole", Earth:"Terra", Moon:"Luna", Mercury:"Mercurio", Venus:"Venere", Mars:"Marte", Jupiter:"Giove", Saturn:"Saturno", Uranus:"Urano", Neptune:"Nettuno", Pluto:"Plutone", NorthNode:"Nodo Nord", SouthNode:"Nodo Sud" };
+
 function gateFromLongitude(lon) {
-  const startDeg = 3.875; // Aries 3°52'30"
-  const span = 360 / 64; // 5.625°
+  const startDeg = 3.875;
+  const span = 360 / 64;
   const idx = Math.floor((((lon - startDeg) % 360) + 360) % 360 / span);
   return HD_GATES_WHEEL[idx];
 }
@@ -1497,23 +1775,199 @@ function lineFromLongitude(lon) {
   const span = 360 / 64;
   const within = (((lon - startDeg) % 360) + 360) % 360 % span;
   const lineSpan = span / 6;
-  return Math.floor(within / lineSpan) + 1; // 1-6
+  return Math.min(6, Math.floor(within / lineSpan) + 1);
 }
 
-function humanDesignSun(date) {
-  const personalitySun = sunLongitudeAt(date);
-  const personalityEarth = (personalitySun + 180) % 360;
-  // Design = 88° solar before birth = ~88 days
-  const designDate = new Date(date.getTime() - 88 * 86400000);
-  const designSun = sunLongitudeAt(designDate);
-  const designEarth = (designSun + 180) % 360;
-  return {
-    personalitySun: { gate: gateFromLongitude(personalitySun), line: lineFromLongitude(personalitySun), lon: personalitySun },
-    personalityEarth: { gate: gateFromLongitude(personalityEarth), line: lineFromLongitude(personalityEarth), lon: personalityEarth },
-    designSun: { gate: gateFromLongitude(designSun), line: lineFromLongitude(designSun), lon: designSun },
-    designEarth: { gate: gateFromLongitude(designEarth), line: lineFromLongitude(designEarth), lon: designEarth }
-  };
+function eclipticLongitudeOfDate(body, date) {
+  if (typeof Astronomy === "undefined") return null;
+  if (body === "Earth") {
+    const s = eclipticLongitudeOfDate("Sun", date);
+    return s !== null ? ((s + 180) % 360 + 360) % 360 : null;
+  }
+  if (body === "SouthNode") {
+    const n = eclipticLongitudeOfDate("NorthNode", date);
+    return n !== null ? ((n + 180) % 360 + 360) % 360 : null;
+  }
+  if (body === "NorthNode") {
+    // Nodo lunare medio: longitudine ascendente, moto retrogrado ~19.341°/anno
+    const yearsFromJ2000 = (date.getTime() - Date.UTC(2000, 0, 1, 12)) / (365.25 * 86400000);
+    let mn = 125.04452 - 1934.13626 * yearsFromJ2000 / 100;
+    return ((mn % 360) + 360) % 360;
+  }
+  try {
+    const time = Astronomy.MakeTime(date);
+    const vec = Astronomy.GeoVector(Astronomy.Body[body], time, true);
+    const ecl = Astronomy.Ecliptic(vec);
+    let lon = ecl.elon;
+    // Precessione J2000 → data (lineare ~50.29"/anno)
+    const yearsFromJ2000 = (date.getTime() - Date.UTC(2000, 0, 1, 12)) / (365.25 * 86400000);
+    lon += 50.29 / 3600 * yearsFromJ2000;
+    return ((lon % 360) + 360) % 360;
+  } catch (e) {
+    console.error("Astronomy error", body, e);
+    return null;
+  }
 }
+
+function findDesignDate(birthDate) {
+  const sunBirth = eclipticLongitudeOfDate("Sun", birthDate);
+  if (sunBirth === null) return new Date(birthDate.getTime() - 88 * 86400000);
+  const target = ((sunBirth - 88) % 360 + 360) % 360;
+  let cand = new Date(birthDate.getTime() - 88 * 86400000);
+  for (let i = 0; i < 40; i++) {
+    const cs = eclipticLongitudeOfDate("Sun", cand);
+    if (cs === null) break;
+    const diff = ((cs - target + 540) % 360) - 180;
+    if (Math.abs(diff) < 0.001) break;
+    cand = new Date(cand.getTime() - (diff / 0.9856) * 86400000);
+  }
+  return cand;
+}
+
+function fullHumanDesign(birthDate) {
+  if (typeof Astronomy === "undefined") return null;
+  const designDate = findDesignDate(birthDate);
+  const personality = {}, design = {};
+  for (const body of HD_BODIES) {
+    const pLon = eclipticLongitudeOfDate(body, birthDate);
+    const dLon = eclipticLongitudeOfDate(body, designDate);
+    personality[body] = pLon !== null ? { lon: pLon, gate: gateFromLongitude(pLon), line: lineFromLongitude(pLon) } : null;
+    design[body] = dLon !== null ? { lon: dLon, gate: gateFromLongitude(dLon), line: lineFromLongitude(dLon) } : null;
+  }
+
+  // Gates attivati
+  const activatedGates = new Set();
+  for (const body of HD_BODIES) {
+    if (personality[body]) activatedGates.add(personality[body].gate);
+    if (design[body]) activatedGates.add(design[body].gate);
+  }
+
+  // Canali attivati e centri definiti
+  const activatedChannels = [];
+  const definedCenters = new Set();
+  for (const [g1, g2] of HD_CHANNELS) {
+    if (activatedGates.has(g1) && activatedGates.has(g2)) {
+      activatedChannels.push([g1, g2]);
+      definedCenters.add(HD_GATE_TO_CENTER[g1]);
+      definedCenters.add(HD_GATE_TO_CENTER[g2]);
+    }
+  }
+
+  const type = determineHDType(definedCenters, activatedChannels);
+  const authority = determineHDAuthority(type, definedCenters, activatedChannels);
+  const profile = personality.Sun && design.Sun ? `${personality.Sun.line}/${design.Sun.line}` : "?";
+  const definitionType = countDefinitionSplits(definedCenters, activatedChannels);
+
+  return { designDate, personality, design, activatedGates, activatedChannels, definedCenters, type, authority, profile, definitionType };
+}
+
+function motorConnectsToThroat(definedCenters, channels) {
+  if (!definedCenters.has("THROAT")) return false;
+  const adj = {};
+  for (const c of definedCenters) adj[c] = [];
+  for (const [g1, g2] of channels) {
+    const c1 = HD_GATE_TO_CENTER[g1], c2 = HD_GATE_TO_CENTER[g2];
+    if (c1 !== c2) { adj[c1].push(c2); adj[c2].push(c1); }
+  }
+  const motors = ["SACRAL", "HEART", "SOLAR", "ROOT"];
+  for (const motor of motors) {
+    if (!definedCenters.has(motor)) continue;
+    const visited = new Set([motor]);
+    const queue = [motor];
+    while (queue.length) {
+      const c = queue.shift();
+      if (c === "THROAT") return motor;
+      for (const n of (adj[c] || [])) if (!visited.has(n)) { visited.add(n); queue.push(n); }
+    }
+  }
+  return false;
+}
+
+function determineHDType(definedCenters, channels) {
+  if (definedCenters.size === 0) return "Reflector";
+  const sacralDef = definedCenters.has("SACRAL");
+  const motorThroat = motorConnectsToThroat(definedCenters, channels);
+  if (sacralDef && motorThroat) return "Manifesting Generator";
+  if (sacralDef) return "Generator";
+  if (motorThroat) return "Manifestor";
+  return "Projector";
+}
+
+function determineHDAuthority(type, definedCenters, channels) {
+  if (type === "Reflector") return { code: "Lunare", desc: "Aspettare un ciclo lunare completo (28 giorni) prima delle decisioni grandi." };
+  if (definedCenters.has("SOLAR")) return { code: "Emotiva (Solar Plexus)", desc: "Aspettare il ciclo emotivo: nessuna chiarezza nell'onda. Dormire sopra le decisioni." };
+  if (definedCenters.has("SACRAL")) return { code: "Sacrale", desc: "Risposta viscerale immediata («uh-uh» / «uh-uh»). La verità è nel ventre." };
+  if (definedCenters.has("SPLEEN")) return { code: "Splenica", desc: "Intuizione istantanea — sussurro del corpo che parla una sola volta." };
+  if (definedCenters.has("HEART")) return { code: "Volontà (Ego)", desc: "Quando il cuore vuole davvero. Funziona se la volontà è autentica, non performativa." };
+  if (definedCenters.has("G") && definedCenters.has("THROAT")) {
+    for (const [g1, g2] of channels) {
+      const c1 = HD_GATE_TO_CENTER[g1], c2 = HD_GATE_TO_CENTER[g2];
+      if ((c1 === "G" && c2 === "THROAT") || (c1 === "THROAT" && c2 === "G")) {
+        return { code: "Self-Projected", desc: "Parlare per sentire la verità. Decidere ascoltandosi mentre si dice." };
+      }
+    }
+  }
+  return { code: "Mentale (Outer)", desc: "Discutere con figure fidate — ma non decidere dalla mente: lasciare che la chiarezza emerga dal dialogo." };
+}
+
+function countDefinitionSplits(definedCenters, channels) {
+  if (definedCenters.size === 0) return "Nessuna definizione";
+  // Build graph and count connected components
+  const parent = {};
+  for (const c of definedCenters) parent[c] = c;
+  function find(x) { return parent[x] === x ? x : (parent[x] = find(parent[x])); }
+  function union(a, b) { parent[find(a)] = find(b); }
+  for (const [g1, g2] of channels) {
+    const c1 = HD_GATE_TO_CENTER[g1], c2 = HD_GATE_TO_CENTER[g2];
+    if (c1 !== c2 && definedCenters.has(c1) && definedCenters.has(c2)) union(c1, c2);
+  }
+  const roots = new Set();
+  for (const c of definedCenters) roots.add(find(c));
+  const n = roots.size;
+  if (n === 1) return "Definizione unica (Single)";
+  if (n === 2) return "Definizione divisa (Split)";
+  if (n === 3) return "Triplice divisione (Triple Split)";
+  if (n === 4) return "Quadruplice divisione (Quadruple Split)";
+  return `${n} cluster`;
+}
+
+const HD_TYPE_INFO = {
+  "Generator": {
+    strategy: "Rispondere",
+    aura: "Aperta e avvolgente",
+    nonself: "Frustrazione",
+    coach: "Sei una macchina di forza vitale generativa. Non iniziare per primo: rispondi a ciò che bussa. Quando rispondi con un sì autentico, l'energia c'è; quando rispondi di testa, ti svuoti. La frustrazione cronica è il segnale che hai forzato.",
+    daily: "Domanda quotidiana: «cosa eccita davvero il mio sacrale ora?». Se senti contrazione, è no — anche se la mente vorrebbe."
+  },
+  "Manifesting Generator": {
+    strategy: "Rispondere e poi informare",
+    aura: "Aperta, avvolgente, con guizzi rapidi",
+    nonself: "Frustrazione e rabbia",
+    coach: "Sei un generatore con accesso veloce all'azione. Rispondi con il sacrale, ma poi sappi saltare passaggi se l'energia è chiara. Devi informare chi è coinvolto prima di muoverti, altrimenti generi ostilità intorno. La rabbia accumulata è il segnale che non hai informato.",
+    daily: "Domanda quotidiana: «c'è una risposta sì in me? E ho avvisato chi va avvisato prima di muovermi?»"
+  },
+  "Manifestor": {
+    strategy: "Informare prima di agire",
+    aura: "Chiusa e respingente",
+    nonself: "Rabbia",
+    coach: "Sei l'iniziatore. Hai impatto. Devi informare prima di muoverti — non per chiedere permesso, ma per ridurre la resistenza che il tuo movimento genera. Quando salti questa fase, gli altri reagiscono e tu ti incolerizzi. La rabbia cronica segnala che hai agito senza informare.",
+    daily: "Pratica: prima di ogni mossa significativa, chiediti «chi è impattato e come glielo dico?». Poi muoviti."
+  },
+  "Projector": {
+    strategy: "Aspettare l'invito",
+    aura: "Penetrante e focalizzata",
+    nonself: "Amarezza",
+    coach: "Sei la guida del nuovo mondo. Vedi gli altri profondamente, ma il tuo dono richiede di essere riconosciuto e invitato. Forzare lo sguardo crea respingimento; aspettare l'invito (sulle grandi cose: lavoro, amore, casa) attiva la tua influenza autentica. L'amarezza è il segnale che hai dato senza essere visto.",
+    daily: "Pratica: studia, raffina, sii padrone della tua maestria. Aspetta riconoscimento per le svolte grandi. Per le piccole, vivi e respira come tutti."
+  },
+  "Reflector": {
+    strategy: "Aspettare un ciclo lunare",
+    aura: "Resistente, sondante, lunare",
+    nonself: "Delusione",
+    coach: "Sei lo specchio della comunità. Senti tutto ciò che ti circonda. Le tue decisioni grandi richiedono un ciclo lunare di 28 giorni: senti come la cosa risuona nel tuo corpo attraverso ogni transito lunare. Forzare i tempi della maggioranza ti delude profondamente.",
+    daily: "Pratica: ambiente è tutto. Cura dove vivi e con chi stai. Annota come ti senti in luoghi diversi. La tua saggezza nasce dal contrasto."
+  }
+};
 
 /* =====================================================================
    9. RENDERING
@@ -1816,33 +2270,219 @@ function renderKabbalistic(parent, kab) {
   parent.appendChild(card);
 }
 
-function renderAstrology(parent, dateObj) {
-  const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, [document.createTextNode("Astrologia "), el("em", {}, "occidentale")]));
-  card.appendChild(el("div", { class: "subtitle" }, "Tropicale · segno solare e archetipo stagionale"));
+function renderNatalChartSVG(planetPositions) {
+  const W = 540, H = 540;
+  const cx = W / 2, cy = H / 2;
+  const rOuter = 250, rZodiacInner = 215, rPlanetTrack = 175, rInner = 125;
 
-  const z = sunSign(dateObj.getMonth() + 1, dateObj.getDate());
-  if (!z) { card.appendChild(el("p", {}, "Errore: segno non determinato.")); parent.appendChild(card); return; }
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:540px;">`;
 
-  const row = el("div", { class: "row" }, [
-    statBox("Segno solare", `${z.glyph} ${z.sign}`, null, true),
-    statBox("Elemento", z.el),
-    statBox("Modalità", z.mod),
-    statBox("Pianeta reggente", z.pl)
-  ]);
-  card.appendChild(row);
+  // Definizione gradiente sfondo
+  svg += `<defs>
+    <radialGradient id="natalBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a0f3a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#05030f" stop-opacity="0.3"/>
+    </radialGradient>
+    <filter id="natalGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`;
 
-  const interp = SIGN_INTERP[z.sign];
-  if (interp) {
-    card.appendChild(el("h3", {}, `${z.glyph} ${z.sign}`));
-    const box = el("div", { class: "interp-box" });
-    box.appendChild(el("div", { class: "epigraph" }, interp.breve));
-    box.appendChild(el("p", {}, interp.esteso));
-    box.appendChild(detailRow("Stagione", interp.stagione));
-    card.appendChild(box);
+  // Sfondo cerchio
+  svg += `<circle cx="${cx}" cy="${cy}" r="${rOuter}" fill="url(#natalBg)" stroke="#f4c95d" stroke-width="1.2"/>`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${rZodiacInner}" fill="none" stroke="rgba(244,201,93,0.5)" stroke-width="0.8"/>`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${rPlanetTrack}" fill="none" stroke="rgba(180,150,240,0.25)" stroke-width="0.6" stroke-dasharray="2 3"/>`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="${rInner}" fill="none" stroke="rgba(244,201,93,0.4)" stroke-width="1"/>`;
+
+  // 12 settori zodiacali (Ariete a sinistra = 0° = ovest in astrologia tradizionale)
+  // In una ruota astrologica standard: Ariete è a 9 di un orologio (sinistra), procede in senso antiorario
+  function lonToAngle(lon) {
+    // lon in degrees (0-360, Aries=0). Standard chart: Aries at left (180° in screen), going counter-clockwise.
+    // Screen angle (clockwise from right=0): we want Aries 0° at screen 180° (left), proceeding counter-clockwise = decreasing screen angle
+    return (180 - lon) * Math.PI / 180;
+  }
+  function pointOnCircle(lon, r) {
+    const a = lonToAngle(lon);
+    return [cx + Math.cos(a) * r, cy - Math.sin(a) * r];
   }
 
-  card.appendChild(el("div", { class: "disclaimer" }, "Tema natale completo (Luna, Ascendente, pianeti, case, aspetti) richiede effemeridi astronomiche e luogo di nascita preciso. Implementazione successiva."));
+  // Disegna 12 settori
+  const SIGN_GLYPHS = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
+  const SIGN_NAMES = ["Ariete","Toro","Gemelli","Cancro","Leone","Vergine","Bilancia","Scorpione","Sagittario","Capricorno","Acquario","Pesci"];
+  const SIGN_COLORS = ["#ec4899","#964e2c","#f4c95d","#22d3ee","#ec4899","#964e2c","#f4c95d","#22d3ee","#ec4899","#964e2c","#f4c95d","#22d3ee"];
+  for (let i = 0; i < 12; i++) {
+    const lonStart = i * 30, lonEnd = (i + 1) * 30;
+    const [x1, y1] = pointOnCircle(lonStart, rOuter);
+    const [x2, y2] = pointOnCircle(lonStart, rZodiacInner);
+    svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(244,201,93,0.3)" stroke-width="0.6"/>`;
+    // Glifo nel mezzo del settore
+    const lonMid = lonStart + 15;
+    const [gx, gy] = pointOnCircle(lonMid, (rOuter + rZodiacInner) / 2);
+    svg += `<text x="${gx}" y="${gy + 8}" text-anchor="middle" font-family="Fraunces, serif" font-size="22" fill="${SIGN_COLORS[i]}" filter="url(#natalGlow)">${SIGN_GLYPHS[i]}</text>`;
+  }
+
+  // Tacche dei gradi (ogni 5°)
+  for (let deg = 0; deg < 360; deg += 5) {
+    const isMajor = deg % 30 === 0;
+    const r1 = rZodiacInner;
+    const r2 = isMajor ? rZodiacInner - 12 : rZodiacInner - 6;
+    const [x1, y1] = pointOnCircle(deg, r1);
+    const [x2, y2] = pointOnCircle(deg, r2);
+    svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(244,201,93,${isMajor ? 0.5 : 0.25})" stroke-width="${isMajor ? 1 : 0.5}"/>`;
+  }
+
+  // Pianeti
+  const PLANET_GLYPHS = { Sun:"☉", Moon:"☽", Mercury:"☿", Venus:"♀", Mars:"♂", Jupiter:"♃", Saturn:"♄", Uranus:"♅", Neptune:"♆", Pluto:"♇", NorthNode:"☊", SouthNode:"☋" };
+  const PLANET_ORDER = ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto","NorthNode","SouthNode"];
+
+  // Aspetti (linee tra pianeti con angoli specifici)
+  const aspects = [
+    { angle: 0, orb: 8, color: "rgba(244,201,93,0.4)", name:"Cong" },
+    { angle: 60, orb: 4, color: "rgba(34,211,238,0.4)", name:"Sest" },
+    { angle: 90, orb: 6, color: "rgba(236,72,153,0.5)", name:"Quad" },
+    { angle: 120, orb: 6, color: "rgba(167,139,250,0.5)", name:"Trig" },
+    { angle: 180, orb: 8, color: "rgba(236,72,153,0.6)", name:"Opp" }
+  ];
+  const planets = PLANET_ORDER.filter(p => planetPositions[p] !== null && planetPositions[p] !== undefined);
+  // Disegna aspetti
+  svg += `<g>`;
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
+      const p1 = planets[i], p2 = planets[j];
+      let diff = Math.abs(planetPositions[p1] - planetPositions[p2]) % 360;
+      if (diff > 180) diff = 360 - diff;
+      for (const asp of aspects) {
+        if (Math.abs(diff - asp.angle) <= asp.orb) {
+          const [x1, y1] = pointOnCircle(planetPositions[p1], rInner - 5);
+          const [x2, y2] = pointOnCircle(planetPositions[p2], rInner - 5);
+          svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${asp.color}" stroke-width="0.8"/>`;
+          break;
+        }
+      }
+    }
+  }
+  svg += `</g>`;
+
+  // Anti-collisione: se due pianeti sono vicini, separali angolarmente
+  const adjusted = {};
+  const sortedPlanets = [...planets].sort((a,b) => planetPositions[a] - planetPositions[b]);
+  for (const p of sortedPlanets) adjusted[p] = planetPositions[p];
+  const minSep = 6;
+  for (let i = 1; i < sortedPlanets.length; i++) {
+    const prev = sortedPlanets[i-1], curr = sortedPlanets[i];
+    const diff = adjusted[curr] - adjusted[prev];
+    if (diff < minSep) adjusted[curr] = adjusted[prev] + minSep;
+  }
+
+  // Disegna i pianeti come glifi
+  for (const p of planets) {
+    const lon = planetPositions[p];
+    const adjLon = adjusted[p];
+    // Linea dal cerchio all'eclittica reale (radiale tick)
+    const [x1, y1] = pointOnCircle(lon, rZodiacInner);
+    const [x2, y2] = pointOnCircle(lon, rZodiacInner - 6);
+    svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#f4c95d" stroke-width="1.2"/>`;
+    // Glifo posizionato (con offset per anti-collisione)
+    const [gx, gy] = pointOnCircle(adjLon, rPlanetTrack);
+    svg += `<circle cx="${gx}" cy="${gy}" r="14" fill="rgba(5,3,15,0.85)" stroke="#f4c95d" stroke-width="1"/>`;
+    svg += `<text x="${gx}" y="${gy + 6}" text-anchor="middle" font-family="Fraunces, serif" font-size="18" fill="#f4c95d">${PLANET_GLYPHS[p]}</text>`;
+    // Connessione visiva tra glifo e tick
+    if (Math.abs(adjLon - lon) > 0.5) {
+      const [cx_, cy_] = pointOnCircle(adjLon, rPlanetTrack - 14);
+      svg += `<line x1="${x2}" y1="${y2}" x2="${cx_}" y2="${cy_}" stroke="rgba(244,201,93,0.3)" stroke-width="0.5" stroke-dasharray="1 2"/>`;
+    }
+  }
+
+  // Legenda al centro
+  svg += `<text x="${cx}" y="${cy - 5}" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="rgba(232,234,235,0.5)" letter-spacing="2">TEMA NATALE</text>`;
+  svg += `<text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Fraunces, serif" font-size="9" fill="rgba(232,234,235,0.35)" letter-spacing="1">posizioni geocentriche tropicali</text>`;
+
+  svg += `</svg>`;
+  return svg;
+}
+
+function renderAstrology(parent, dateObj) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("Astrologia · "), el("em", {}, "tema natale")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Tropicale · ruota planetaria · aspetti maggiori"));
+
+  const z = sunSign(dateObj.getMonth() + 1, dateObj.getDate());
+
+  // Calcola posizioni di tutti i pianeti
+  const planetPositions = {};
+  if (typeof Astronomy !== "undefined") {
+    for (const body of ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto","NorthNode","SouthNode"]) {
+      planetPositions[body] = eclipticLongitudeOfDate(body, dateObj);
+    }
+  }
+
+  if (z) {
+    const row = el("div", { class: "row" }, [
+      statBox("Segno solare", `${z.glyph} ${z.sign}`, null, true),
+      statBox("Elemento", z.el),
+      statBox("Modalità", z.mod),
+      statBox("Pianeta reggente", z.pl)
+    ]);
+    card.appendChild(row);
+  }
+
+  // Grafico tema natale
+  if (Object.keys(planetPositions).length > 0 && planetPositions.Sun !== null) {
+    const wrap = el("div", { class: "diagram-wrap" });
+    wrap.innerHTML = renderNatalChartSVG(planetPositions);
+    card.appendChild(wrap);
+
+    // Tabella posizioni
+    const tableDet = el("details");
+    tableDet.appendChild(el("summary", {}, "Posizioni planetarie · gradi e segni"));
+    const tbl = el("table");
+    let html = `<tr><th>Pianeta</th><th>Glifo</th><th>Segno</th><th>Gradi</th></tr>`;
+    const SIGN_GLYPHS = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
+    const SIGN_NAMES_IT = ["Ariete","Toro","Gemelli","Cancro","Leone","Vergine","Bilancia","Scorpione","Sagittario","Capricorno","Acquario","Pesci"];
+    const NAMES_IT = { Sun:"Sole", Moon:"Luna", Mercury:"Mercurio", Venus:"Venere", Mars:"Marte", Jupiter:"Giove", Saturn:"Saturno", Uranus:"Urano", Neptune:"Nettuno", Pluto:"Plutone", NorthNode:"Nodo Nord", SouthNode:"Nodo Sud" };
+    const GLYPHS = { Sun:"☉", Moon:"☽", Mercury:"☿", Venus:"♀", Mars:"♂", Jupiter:"♃", Saturn:"♄", Uranus:"♅", Neptune:"♆", Pluto:"♇", NorthNode:"☊", SouthNode:"☋" };
+    for (const p of ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto","NorthNode","SouthNode"]) {
+      const lon = planetPositions[p];
+      if (lon === null || lon === undefined) continue;
+      const signIdx = Math.floor(lon / 30);
+      const signDeg = lon - signIdx * 30;
+      const deg = Math.floor(signDeg);
+      const min = Math.floor((signDeg - deg) * 60);
+      html += `<tr><td>${NAMES_IT[p]}</td><td style="font-family:Fraunces,serif;font-size:18px;color:var(--gold)">${GLYPHS[p]}</td><td>${SIGN_GLYPHS[signIdx]} ${SIGN_NAMES_IT[signIdx]}</td><td><strong>${deg}° ${min}'</strong></td></tr>`;
+    }
+    tbl.innerHTML = html;
+    tableDet.appendChild(tbl);
+    card.appendChild(tableDet);
+  }
+
+  if (z) {
+    const interp = SIGN_INTERP[z.sign];
+    if (interp) {
+      card.appendChild(el("h3", {}, `${z.glyph} Sole in ${z.sign}`));
+      const box = el("div", { class: "interp-box" });
+      box.appendChild(el("div", { class: "epigraph" }, interp.breve));
+      box.appendChild(el("p", {}, interp.esteso));
+      box.appendChild(detailRow("Stagione", interp.stagione));
+      card.appendChild(box);
+    }
+  }
+
+  // Lettura Luna se calcolata
+  if (planetPositions.Moon !== null && planetPositions.Moon !== undefined) {
+    const moonSignIdx = Math.floor(planetPositions.Moon / 30);
+    const moonSign = ["Ariete","Toro","Gemelli","Cancro","Leone","Vergine","Bilancia","Scorpione","Sagittario","Capricorno","Acquario","Pesci"][moonSignIdx];
+    card.appendChild(el("h3", {}, `☽ Luna in ${moonSign}`));
+    const moonInterp = SIGN_INTERP[moonSign];
+    if (moonInterp) {
+      card.appendChild(el("p", {}, [
+        el("strong", {}, "Mondo emotivo, bisogno di sicurezza, infanzia. "),
+        document.createTextNode("Quando ti senti al sicuro, vai in modalità " + moonSign + ": " + moonInterp.breve.toLowerCase())
+      ]));
+    }
+  }
+
+  card.appendChild(el("div", { class: "disclaimer" }, "Calcolo basato su effemeridi astronomy-engine + correzione precessione lineare. Aspetti maggiori (cong/sest/quad/trig/opp) disegnati nel cerchio centrale. Per Ascendente e case serve luogo di nascita preciso (lat/long) — implementazione successiva via geocoding."));
 
   parent.appendChild(card);
 }
@@ -1933,49 +2573,234 @@ function renderTarot(parent, dateObj) {
   parent.appendChild(card);
 }
 
+/* ---- HD BodyGraph SVG ---- */
+
+// Posizioni dei centri nel BodyGraph (viewBox 480x720)
+const HD_CENTER_LAYOUT = {
+  HEAD:   { shape:"triangle-up",   cx:240, cy:80,  size:60, color:"#f4c95d" },
+  AJNA:   { shape:"triangle-down", cx:240, cy:160, size:60, color:"#7c3aed" },
+  THROAT: { shape:"square",        cx:240, cy:250, size:80, color:"#964e2c" },
+  G:      { shape:"diamond",       cx:240, cy:360, size:90, color:"#f4c95d" },
+  HEART:  { shape:"triangle-left", cx:340, cy:325, size:50, color:"#c93a7a" },
+  SOLAR:  { shape:"triangle-left", cx:380, cy:430, size:80, color:"#964e2c" },
+  SPLEEN: { shape:"triangle-right",cx:100, cy:430, size:75, color:"#964e2c" },
+  SACRAL: { shape:"square",        cx:240, cy:480, size:90, color:"#c93a7a" },
+  ROOT:   { shape:"square",        cx:240, cy:610, size:100,color:"#964e2c" }
+};
+
+// Posizioni delle 64 porte (su quale centro stanno + offset interno)
+// Ogni porta ha posizione approssimata sul centro come {center, dx, dy} relativo al centro
+function gatePos(gate) {
+  // Layout standard HD bodygraph (semplificato, posizioni indicative)
+  const centerName = HD_GATE_TO_CENTER[gate];
+  const c = HD_CENTER_LAYOUT[centerName];
+  // Per semplicità, distribuisco le porte attorno al centro
+  const gates = Object.keys(HD_GATE_TO_CENTER).filter(g => HD_GATE_TO_CENTER[g] === centerName);
+  const idx = gates.indexOf(String(gate));
+  const total = gates.length;
+  const angle = (idx / total) * Math.PI * 2 - Math.PI / 2;
+  const r = c.size * 0.5;
+  return { x: c.cx + Math.cos(angle) * r, y: c.cy + Math.sin(angle) * r };
+}
+
+function shapePath(layout) {
+  const { shape, cx, cy, size } = layout;
+  const h = size / 2;
+  if (shape === "triangle-up") return `M${cx},${cy-h} L${cx+h*1.05},${cy+h*0.6} L${cx-h*1.05},${cy+h*0.6} Z`;
+  if (shape === "triangle-down") return `M${cx},${cy+h} L${cx+h*1.05},${cy-h*0.6} L${cx-h*1.05},${cy-h*0.6} Z`;
+  if (shape === "triangle-left") return `M${cx-h},${cy} L${cx+h*0.6},${cy-h*1.05} L${cx+h*0.6},${cy+h*1.05} Z`;
+  if (shape === "triangle-right") return `M${cx+h},${cy} L${cx-h*0.6},${cy-h*1.05} L${cx-h*0.6},${cy+h*1.05} Z`;
+  if (shape === "diamond") return `M${cx},${cy-h} L${cx+h},${cy} L${cx},${cy+h} L${cx-h},${cy} Z`;
+  // square
+  return `M${cx-h},${cy-h} h${h*2} v${h*2} h${-h*2} Z`;
+}
+
+function renderBodyGraphSVG(hd) {
+  const W = 480, H = 720;
+  const activatedGates = hd.activatedGates;
+  const definedCenters = hd.definedCenters;
+  const activatedChannels = hd.activatedChannels;
+
+  // Personality (P) gates per body, Design (D) gates per body
+  const pGates = new Set();
+  const dGates = new Set();
+  for (const body of HD_BODIES) {
+    if (hd.personality[body]) pGates.add(hd.personality[body].gate);
+    if (hd.design[body]) dGates.add(hd.design[body].gate);
+  }
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:480px; background:transparent;">`;
+
+  // Disegna tutti i canali (linee tra centri) — base in grigio
+  svg += `<g stroke="rgba(180,150,240,.15)" stroke-width="1">`;
+  for (const [g1, g2] of HD_CHANNELS) {
+    const p1 = gatePos(g1), p2 = gatePos(g2);
+    svg += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}"/>`;
+  }
+  svg += `</g>`;
+
+  // Canali attivi sopra
+  svg += `<g stroke="#f4c95d" stroke-width="2.5" stroke-linecap="round" filter="url(#hdGlow)">`;
+  for (const [g1, g2] of activatedChannels) {
+    const p1 = gatePos(g1), p2 = gatePos(g2);
+    // Disegna metà se solo una è personality e l'altra è design (split colors)
+    const g1IsP = pGates.has(g1), g1IsD = dGates.has(g1);
+    const g2IsP = pGates.has(g2), g2IsD = dGates.has(g2);
+    const allP = g1IsP && g2IsP, allD = g1IsD && g2IsD;
+    let color = "#f4c95d";
+    if (allP && !g1IsD && !g2IsD) color = "#ec4899"; // mixed
+    svg += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="${color}"/>`;
+  }
+  svg += `</g>`;
+
+  // Definitions: glow filter
+  svg = svg.replace("<g stroke=\"rgba(180,150,240,.15)\"", `<defs><filter id="hdGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g stroke="rgba(180,150,240,.15)"`);
+
+  // Centri
+  for (const [name, layout] of Object.entries(HD_CENTER_LAYOUT)) {
+    const defined = definedCenters.has(name);
+    const fill = defined ? layout.color : "transparent";
+    const fillOp = defined ? 0.32 : 0;
+    const stroke = defined ? "#f4c95d" : "rgba(180,150,240,.55)";
+    const sw = defined ? 2 : 1.2;
+    svg += `<path d="${shapePath(layout)}" fill="${fill}" fill-opacity="${fillOp}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    // Etichetta centro
+    const labels = { HEAD:"Testa", AJNA:"Ajna", THROAT:"Gola", G:"G·Sé", HEART:"Cuore", SOLAR:"Plesso", SPLEEN:"Milza", SACRAL:"Sacrale", ROOT:"Radice" };
+    svg += `<text x="${layout.cx}" y="${layout.cy + 4}" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="${defined ? '#1a1410' : 'rgba(232,234,235,0.5)'}" font-weight="${defined ? '600' : '400'}">${labels[name]}</text>`;
+  }
+
+  // Porte
+  for (const [g, centerName] of Object.entries(HD_GATE_TO_CENTER)) {
+    const gate = parseInt(g);
+    const pos = gatePos(gate);
+    const isP = pGates.has(gate);
+    const isD = dGates.has(gate);
+    let fill = "rgba(180,150,240,.20)";
+    let stroke = "rgba(180,150,240,.30)";
+    let txtColor = "rgba(232,234,235,0.45)";
+    if (isP && isD) { fill = "#ec4899"; stroke = "#fff0c8"; txtColor = "#fff"; } // entrambi
+    else if (isP) { fill = "#1a1410"; stroke = "#f4c95d"; txtColor = "#f4c95d"; } // P only (gold border)
+    else if (isD) { fill = "#fff0c8"; stroke = "#f4c95d"; txtColor = "#1a1410"; } // D only (gold fill)
+    svg += `<circle cx="${pos.x}" cy="${pos.y}" r="9" fill="${fill}" stroke="${stroke}" stroke-width="1.2"/>`;
+    svg += `<text x="${pos.x}" y="${pos.y + 3}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" font-weight="600" fill="${txtColor}">${gate}</text>`;
+  }
+
+  svg += `</svg>`;
+  return svg;
+}
+
 function renderHumanDesign(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, [document.createTextNode("Human Design · "), el("em", {}, "Croce di Personalità")]));
-  card.appendChild(el("div", { class: "subtitle" }, "Sistema di Ra Uru Hu · 64 porte dell'I-Ching"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Human Design · "), el("em", {}, "BodyGraph completo")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Sistema di Ra Uru Hu · 64 porte I-Ching · 9 centri · 36 canali"));
 
-  card.appendChild(el("p", {}, "L'Human Design integra astrologia, I-Ching, kabbalah e chakra. La firma più forte è la Croce di Personalità: quattro porte (Sole e Terra di nascita + Sole e Terra del momento del Design, 88° solari prima della nascita) che definiscono il tema centrale dell'incarnazione."));
-
-  const hd = humanDesignSun(dateObj);
-  const grid = el("div", { class: "gate-grid" });
-
-  for (const [role, sub, key] of [
-    ["Sole di Personalità", "Coscienza · ciò che vivi consapevolmente", "personalitySun"],
-    ["Terra di Personalità", "Equilibrio della coscienza · ciò che ti tiene radicato", "personalityEarth"],
-    ["Sole di Design", "Inconscio · genetica corporea, ciò che sei senza saperlo", "designSun"],
-    ["Terra di Design", "Equilibrio dell'inconscio · radicamento corporeo", "designEarth"]
-  ]) {
-    const g = hd[key];
-    const info = HD_GATE_NAMES[g.gate] || { nome: "—", chiave: "—" };
-    const c = el("div", { class: "gate-card-hd" });
-    c.appendChild(el("div", { class: "role" }, role));
-    c.appendChild(el("div", { class: "gate-num" }, `Porta ${g.gate}.${g.line}`));
-    c.appendChild(el("div", { class: "gate-name" }, info.nome));
-    c.appendChild(el("div", { class: "epigraph" }, sub));
-    c.appendChild(el("div", { class: "gate-key" }, info.chiave));
-    grid.appendChild(c);
+  if (typeof Astronomy === "undefined") {
+    card.appendChild(el("p", {}, "Caricamento dati astronomici in corso. Riprova tra qualche secondo."));
+    parent.appendChild(card);
+    return;
   }
-  card.appendChild(grid);
 
-  card.appendChild(el("h3", {}, "Come leggere"));
-  card.appendChild(el("p", {}, [
-    el("strong", {}, "Sole di Personalità: "),
-    document.createTextNode("è la porta più importante. Rappresenta il 70% dell'energia che porti consapevolmente nel mondo. Quando vivi allineato a questo dono, ti senti vivo.")
-  ]));
-  card.appendChild(el("p", {}, [
-    el("strong", {}, "Sole di Design: "),
-    document.createTextNode("è il tuo corpo, la tua genetica energetica. Lavora 88° solari prima della nascita perché il sistema neurologico inconscio si forma in quel momento. Lo riconosci come «come funzioni» quando smetti di pensare.")
-  ]));
-  card.appendChild(el("p", {}, [
-    el("strong", {}, "La linea (1-6): "),
-    document.createTextNode("aggiunge sfumatura. 1=ricerca, 2=ritiro, 3=esperimento, 4=relazione, 5=guarigione, 6=ruolo modello.")
-  ]));
+  const hd = fullHumanDesign(dateObj);
+  if (!hd) {
+    card.appendChild(el("p", {}, "Errore nel calcolo dell'Human Design."));
+    parent.appendChild(card);
+    return;
+  }
 
-  card.appendChild(el("div", { class: "disclaimer" }, "Calcolo della Croce di Personalità basato su effemeridi solari semplificate (precisione ±0,01°). Per chart completo (Tipo, Strategia, Autorità, Profilo, centri definiti, canali, Croce di Incarnazione) servono effemeridi di tutti i pianeti. Strumenti di riferimento: jovianarchive.com, mybodygraph.com, humdes.info."));
+  // Banner Tipo / Autorità / Profilo / Definizione
+  const banner = el("div", { class: "hd-type-banner" });
+  for (const [k, v, m] of [
+    ["Tipo", hd.type, ""],
+    ["Strategia", HD_TYPE_INFO[hd.type]?.strategy || "—", ""],
+    ["Autorità", hd.authority.code, ""],
+    ["Profilo", hd.profile, "linea Personalità / linea Design"],
+    ["Definizione", hd.definitionType, ""],
+    ["Non-Sé", HD_TYPE_INFO[hd.type]?.nonself || "—", "il segnale che sei fuori rotta"]
+  ]) {
+    const b = el("div", { class: "badge" });
+    b.appendChild(el("div", { class: "key" }, k));
+    b.appendChild(el("div", { class: "val" }, v));
+    if (m) b.appendChild(el("div", { class: "meta" }, m));
+    banner.appendChild(b);
+  }
+  card.appendChild(banner);
+
+  // BodyGraph SVG
+  const wrap = el("div", { class: "diagram-wrap" });
+  wrap.innerHTML = renderBodyGraphSVG(hd);
+  card.appendChild(wrap);
+
+  // Legenda
+  card.appendChild(el("p", { class: "epigraph" }, "Cerchi vuoti color oro = porta di Personalità (consapevole). Cerchi pieni oro = porta di Design (corporea/inconscia). Cerchi rosa = porta attivata da entrambi. Centri colorati = definiti. Canali oro = canali attivi che definiscono i centri."));
+
+  // Lettura del Tipo
+  const typeInfo = HD_TYPE_INFO[hd.type];
+  if (typeInfo) {
+    card.appendChild(el("h3", {}, hd.type));
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(detailRow("Aura", typeInfo.aura));
+    box.appendChild(detailRow("Strategia", typeInfo.strategy));
+    box.appendChild(detailRow("Non-Sé", typeInfo.nonself + " — quando senti questo, sei fuori dalla tua strategia."));
+    box.appendChild(detailRow("Coach", typeInfo.coach));
+    box.appendChild(detailRow("Pratica", typeInfo.daily));
+    card.appendChild(box);
+  }
+
+  // Autorità
+  card.appendChild(el("h3", {}, "Autorità · " + hd.authority.code));
+  card.appendChild(el("p", {}, hd.authority.desc));
+
+  // Profilo
+  card.appendChild(el("h3", {}, "Profilo " + hd.profile));
+  if (hd.personality.Sun && hd.design.Sun) {
+    const lineNames = {
+      1: "Investigatore (fondamenta, ricerca)",
+      2: "Eremita (talento naturale, ritiro)",
+      3: "Martire (esperimento, prova ed errore)",
+      4: "Opportunista (rete relazionale, conoscere chi serve)",
+      5: "Eretico (proiezioni altrui, ruolo di guarigione)",
+      6: "Modello (saggezza dopo la vita vissuta — 3 fasi: prova, ritiro, ruolo)"
+    };
+    card.appendChild(el("p", {}, [
+      el("strong", {}, `Linea conscia ${hd.personality.Sun.line} — `),
+      document.createTextNode(lineNames[hd.personality.Sun.line] + ". È il modo in cui ti percepisci e affronti il mondo consapevolmente.")
+    ]));
+    card.appendChild(el("p", {}, [
+      el("strong", {}, `Linea inconscia ${hd.design.Sun.line} — `),
+      document.createTextNode(lineNames[hd.design.Sun.line] + ". È come il tuo corpo opera senza che tu te ne accorga.")
+    ]));
+  }
+
+  // Centri definiti / aperti
+  const allCenters = ["HEAD","AJNA","THROAT","G","HEART","SOLAR","SACRAL","SPLEEN","ROOT"];
+  const centerLabels = { HEAD:"Testa (pressione mentale)", AJNA:"Ajna (concettualizzazione)", THROAT:"Gola (manifestazione)", G:"G/Sé (identità, direzione)", HEART:"Cuore (volontà, valore)", SOLAR:"Plesso solare (emozioni)", SACRAL:"Sacrale (forza vitale)", SPLEEN:"Milza (intuizione, salute, paura)", ROOT:"Radice (pressione, adrenalina)" };
+  card.appendChild(el("h3", {}, "Centri"));
+  const defList = el("p", {});
+  defList.appendChild(el("strong", {}, "Definiti (energia consistente, tua firma): "));
+  defList.appendChild(document.createTextNode([...hd.definedCenters].map(c => centerLabels[c]).join(" · ") || "nessuno (Reflector)"));
+  card.appendChild(defList);
+  const openList = el("p", {});
+  openList.appendChild(el("strong", {}, "Aperti (apprendimento, saggezza, vulnerabilità): "));
+  const open = allCenters.filter(c => !hd.definedCenters.has(c));
+  openList.appendChild(document.createTextNode(open.map(c => centerLabels[c]).join(" · ") || "nessuno"));
+  card.appendChild(openList);
+
+  // Tabella attivazioni planetarie
+  const det = el("details");
+  det.appendChild(el("summary", {}, "Tutte le attivazioni planetarie (26 porte)"));
+  const tbl = el("table");
+  let tblHTML = `<tr><th></th><th>Personalità (conscio)</th><th>Design (inconscio)</th></tr>`;
+  for (const body of HD_BODIES) {
+    const p = hd.personality[body], d = hd.design[body];
+    const pStr = p ? `${HD_BODY_GLYPHS[body]} ${HD_BODY_NAMES_IT[body]}: <strong style="color:var(--gold)">${p.gate}.${p.line}</strong>` : "—";
+    const dStr = d ? `<strong style="color:var(--gold)">${d.gate}.${d.line}</strong>` : "—";
+    tblHTML += `<tr><td>${HD_BODY_GLYPHS[body]}</td><td>${HD_BODY_NAMES_IT[body]} ${p ? `<strong style="color:var(--gold)">${p.gate}.${p.line}</strong>` : "—"}</td><td>${dStr}</td></tr>`;
+  }
+  tbl.innerHTML = tblHTML;
+  det.appendChild(tbl);
+  card.appendChild(det);
+
+  card.appendChild(el("div", { class: "disclaimer" }, "Calcolo basato su effemeridi astronomy-engine (precisione planetaria <1°). Per chart professionale di riferimento: jovianarchive.com, mybodygraph.com."));
 
   parent.appendChild(card);
 }
