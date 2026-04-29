@@ -4,214 +4,619 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profilo Esoterico-Archetipico · Davil</title>
+<meta name="theme-color" content="#05030f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0f1a;
-    --bg-card: #161827;
-    --bg-card-2: #1d2034;
-    --border: #2a2e47;
-    --text: #e8e6df;
-    --text-dim: #9d9aa8;
-    --accent: #c9a44c;
-    --accent-dim: #8a6f30;
-    --warn: #b85c5c;
-    --good: #6b9b7a;
+    --bg: #05030f;
+    --bg-2: #0e0628;
+    --bg-3: #1a0f3a;
+    --bg-card: rgba(20,14,50,.55);
+    --bg-card-2: rgba(30,20,60,.45);
+    --ink: #ece6fb;
+    --ink-soft: #b8afd6;
+    --ink-dim: #7a708f;
+    --brand: #7c3aed;
+    --brand-light: #a78bfa;
+    --cosmic-violet: #7c3aed;
+    --cosmic-cyan: #22d3ee;
+    --cosmic-magenta: #ec4899;
+    --cosmic-indigo: #4338ca;
+    --gold: #f4c95d;
+    --gold-soft: #e8c87a;
+    --gold-bright: #fff0c8;
+    --gold-deep: #d4a93d;
+    --crimson: #c93a7a;
+    --border: rgba(180,150,240,.18);
+    --border-soft: rgba(180,150,240,.08);
+    --border-hover: rgba(236,90,160,.45);
+    --shadow-sm: 0 2px 12px rgba(0,0,0,.45);
+    --shadow-md: 0 24px 60px rgba(0,0,0,.55);
+    --ff-display: 'Fraunces', Georgia, serif;
+    --ff-sans: 'Space Grotesk', system-ui, sans-serif;
   }
-  * { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html {
+    background: radial-gradient(ellipse at top, #0e0628 0%, #05030f 60%, #020108 100%);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
   body {
-    margin: 0;
-    font-family: -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.55;
-    font-size: 15px;
+    background: transparent;
+    font-family: var(--ff-sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    min-height: 100vh;
   }
-  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
-  header { margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
-  header h1 {
-    font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
-    font-size: 28px;
-    font-weight: 600;
-    margin: 0 0 8px;
-    letter-spacing: 0.3px;
-  }
-  header p { margin: 0; color: var(--text-dim); font-size: 14px; max-width: 640px; }
+  ::selection { background: var(--cosmic-magenta); color: var(--ink); }
+  em { font-style: italic; font-family: var(--ff-display); font-weight: 400; color: var(--gold); }
+  strong { font-weight: 600; color: var(--ink); }
+  a { color: var(--brand-light); text-decoration: none; }
+  a:hover { color: var(--gold); }
 
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    position: relative;
+  }
+
+  /* Aurora di sfondo */
+  .aurora {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background:
+      radial-gradient(900px 600px at 15% 0%, rgba(124,58,237,.20), transparent 60%),
+      radial-gradient(700px 500px at 90% 100%, rgba(236,72,153,.14), transparent 55%),
+      radial-gradient(600px 500px at 50% 50%, rgba(34,211,238,.08), transparent 65%);
+    animation: auroraDrift 60s ease-in-out infinite alternate;
+  }
+  @keyframes auroraDrift {
+    0%   { background-position: 0% 0%, 100% 100%, 50% 50%; }
+    100% { background-position: 30% 20%, 70% 80%, 60% 40%; }
+  }
+
+  /* Cosmo · simboli archetipici fluttuanti */
+  .cosmos-bg {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+  }
+  .cosmos-symbol {
+    position: absolute;
+    font-family: 'Fraunces', 'Apple Symbols', serif;
+    color: rgba(244, 201, 93, 0.12);
+    text-shadow:
+      0 0 14px rgba(244, 201, 93, 0.45),
+      0 0 30px rgba(124, 58, 237, 0.35);
+    user-select: none;
+    will-change: transform, opacity;
+    animation: cosmosFloat linear infinite, cosmosPulse ease-in-out infinite alternate;
+  }
+  .cosmos-symbol.violet {
+    color: rgba(167, 139, 250, 0.14);
+    text-shadow:
+      0 0 14px rgba(167, 139, 250, 0.5),
+      0 0 30px rgba(236, 72, 153, 0.3);
+  }
+  .cosmos-symbol.cyan {
+    color: rgba(34, 211, 238, 0.10);
+    text-shadow:
+      0 0 12px rgba(34, 211, 238, 0.45),
+      0 0 28px rgba(124, 58, 237, 0.25);
+  }
+  @keyframes cosmosFloat {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(40px, -30px) rotate(90deg); }
+    50%  { transform: translate(-20px, -60px) rotate(180deg); }
+    75%  { transform: translate(-50px, -20px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+  @keyframes cosmosPulse {
+    0%   { opacity: 0.4; }
+    100% { opacity: 1; }
+  }
+
+  /* Zodiaco grande · ruota lenta in centro pagina */
+  .cosmic-wheel {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: min(140vmin, 1400px);
+    height: min(140vmin, 1400px);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.06;
+    animation: wheelSpin 360s linear infinite;
+  }
+  @keyframes wheelSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  .cosmic-wheel .ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(244, 201, 93, 0.5);
+    border-radius: 50%;
+  }
+  .cosmic-wheel .ring.r2 { inset: 8%; border-color: rgba(167, 139, 250, 0.4); }
+  .cosmic-wheel .ring.r3 { inset: 18%; border-color: rgba(236, 72, 153, 0.3); }
+  .cosmic-wheel .zodiac-mark {
+    position: absolute;
+    top: 50%; left: 50%;
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    color: rgba(244, 201, 93, 0.7);
+    transform-origin: 0 0;
+  }
+
+  header.hero {
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  header.hero .eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  header.hero h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+  header.hero h1 em { color: var(--gold-soft); }
+  header.hero p.lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 680px;
+    margin: 0;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* Form */
   form#birth-form {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 32px;
+    border-radius: 18px;
+    padding: 32px;
+    margin-bottom: 56px;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.04) inset,
+      0 20px 40px -20px rgba(124,58,237,.25),
+      0 0 0 1px rgba(124,58,237,.08);
+  }
+  form .form-title {
+    font-family: var(--ff-display);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--gold-soft);
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
   }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
-  label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+  label {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
   input, button {
     width: 100%;
-    padding: 10px 12px;
-    background: var(--bg);
+    padding: 12px 14px;
+    background: rgba(5,3,15,.5);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
+    border-radius: 10px;
+    color: var(--ink);
     font-family: inherit;
-    font-size: 14px;
+    font-size: 15px;
+    transition: border-color .25s, background .25s;
   }
-  input:focus { outline: none; border-color: var(--accent); }
+  input:focus {
+    outline: none;
+    border-color: var(--gold-soft);
+    background: rgba(5,3,15,.7);
+  }
   button {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--gold-deep), var(--gold), var(--gold-soft));
     color: #1a1410;
     border: none;
     cursor: pointer;
     font-weight: 600;
-    margin-top: 16px;
-    transition: background 0.2s;
+    margin-top: 24px;
+    letter-spacing: 0.5px;
+    transition: filter .25s, transform .15s;
+    box-shadow: 0 8px 24px -8px rgba(244,201,93,.4);
   }
-  button:hover { background: #d8b25a; }
-  button:disabled { background: var(--accent-dim); cursor: not-allowed; }
+  button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
 
-  .toggle-row { display: flex; gap: 16px; margin-top: 12px; font-size: 13px; color: var(--text-dim); }
-  .toggle-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; }
-  .toggle-row input[type=checkbox] { width: auto; }
+  .toggle-row {
+    display: flex; gap: 24px; margin-top: 16px;
+    font-size: 13px; color: var(--ink-soft);
+    flex-wrap: wrap;
+  }
+  .toggle-row label {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; margin: 0;
+    font-size: 13px; text-transform: none; letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+  .toggle-row input[type=checkbox] {
+    width: auto;
+    accent-color: var(--gold);
+  }
 
-  #results { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  /* Sections */
+  #results { display: flex; flex-direction: column; gap: 32px; }
+  .section-marker {
+    font-family: var(--ff-display);
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin: 32px 0 4px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .section-marker .num {
+    color: var(--ink-dim);
+    margin-right: 12px;
+    font-style: italic;
+  }
+
   .card {
-    background: var(--bg-card);
+    background: linear-gradient(135deg, rgba(30,20,60,.55), rgba(20,14,50,.40));
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px;
+    border-radius: 18px;
+    padding: 32px;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.04) inset,
+      0 20px 40px -20px rgba(124,58,237,.20),
+      0 0 0 1px rgba(124,58,237,.06);
+    transition: border-color .35s, box-shadow .35s;
+  }
+  .card:hover {
+    border-color: rgba(236,90,160,.35);
   }
   .card h2 {
-    font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 4px;
-    color: var(--accent);
-    letter-spacing: 0.3px;
+    font-family: var(--ff-display);
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0 0 6px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
   }
+  .card h2 em { color: var(--gold); }
   .card .subtitle {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-bottom: 20px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    margin-bottom: 28px;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 2.5px;
+    font-weight: 500;
   }
+  .card h3 {
+    font-family: var(--ff-display);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--gold-soft);
+    margin: 24px 0 8px;
+    letter-spacing: -0.005em;
+  }
+  .card p { margin: 8px 0; color: var(--ink-soft); }
+  .card p strong { color: var(--ink); font-weight: 500; }
+
   .row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 14px;
+    margin-bottom: 24px;
   }
   .stat {
-    background: var(--bg-card-2);
-    border-left: 3px solid var(--accent);
-    padding: 12px 14px;
-    border-radius: 4px;
+    background: rgba(5,3,15,.4);
+    border: 1px solid var(--border-soft);
+    border-left: 3px solid var(--gold-deep);
+    padding: 14px 16px;
+    border-radius: 10px;
   }
   .stat .label {
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 10px;
+    color: var(--ink-dim);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+    letter-spacing: 1.8px;
+    margin-bottom: 6px;
+    font-weight: 500;
   }
   .stat .value {
-    font-family: "Playfair Display", Georgia, serif;
+    font-family: var(--ff-display);
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .stat .value.small { font-size: 18px; }
+  .stat .meta {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .interp-box {
+    background: rgba(5,3,15,.35);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-left: 3px solid var(--gold-deep);
+  }
+  .interp-box .heading {
+    font-family: var(--ff-display);
     font-size: 22px;
-    color: var(--accent);
+    color: var(--gold);
+    margin-bottom: 4px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .interp-box .heading .num {
+    color: var(--ink-dim);
+    margin-right: 10px;
+    font-style: italic;
+    font-size: 18px;
+  }
+  .interp-box .epigraph {
+    font-style: italic;
+    color: var(--ink-dim);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .interp-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    margin: 10px 0;
+    font-size: 14px;
+    align-items: baseline;
+  }
+  .interp-row .key {
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .interp-row .val { color: var(--ink-soft); }
+  .interp-row .val strong { color: var(--ink); }
+
+  .archetypes { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+  .chip {
+    background: rgba(5,3,15,.4);
+    border: 1px solid var(--border-soft);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--ink-dim);
+    transition: all .25s;
+  }
+  .chip.active {
+    background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+    color: #1a1410;
+    border-color: var(--gold);
     font-weight: 600;
   }
-  .stat .meta {
+
+  details { margin-top: 16px; }
+  details summary {
+    cursor: pointer;
+    color: var(--ink-dim);
     font-size: 13px;
-    color: var(--text);
-    margin-top: 2px;
+    padding: 8px 0;
+    list-style: none;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 12px;
   }
-  .interp { font-size: 14px; color: var(--text); margin: 6px 0; }
-  .interp strong { color: var(--accent); }
-  .compound-box {
-    background: var(--bg-card-2);
-    border-radius: 4px;
-    padding: 14px;
-    margin-top: 12px;
-    border-left: 3px solid var(--accent-dim);
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: "+ ";
+    color: var(--gold);
+    font-weight: 600;
   }
-  .compound-box .num { font-family: "Playfair Display", Georgia, serif; font-size: 18px; color: var(--accent); }
-  .compound-box .name { font-style: italic; color: var(--text-dim); margin-bottom: 6px; }
-  .archetypes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .chip {
-    background: var(--bg-card-2);
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-  .chip.active { background: var(--accent); color: #1a1410; border-color: var(--accent); font-weight: 600; }
-  .footer-note {
-    margin-top: 40px;
-    padding: 20px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
-  .footer-note strong { color: var(--text); }
-  .glyph { font-size: 18px; vertical-align: middle; margin-right: 4px; }
-  .hidden { display: none; }
-  .error { color: var(--warn); margin-top: 8px; font-size: 13px; }
-  .loading { color: var(--text-dim); font-style: italic; }
-  details { margin-top: 12px; }
-  details summary { cursor: pointer; color: var(--text-dim); font-size: 13px; padding: 6px 0; }
-  details[open] summary { color: var(--accent); }
-  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
-  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
-  th { color: var(--text-dim); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+  details[open] summary::before { content: "− "; }
+  details[open] summary { color: var(--gold-soft); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border-soft); }
+  th { color: var(--ink-dim); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; }
+  td { color: var(--ink-soft); }
+
   .disclaimer {
     font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 12px;
-    padding: 10px 14px;
-    background: rgba(184, 92, 92, 0.08);
-    border-left: 3px solid var(--warn);
-    border-radius: 4px;
+    color: var(--ink-dim);
+    margin-top: 16px;
+    padding: 12px 18px;
+    background: rgba(201,58,122,.08);
+    border-left: 2px solid var(--crimson);
+    border-radius: 6px;
+    line-height: 1.55;
   }
+
+  .footer-note {
+    margin-top: 64px;
+    padding: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    backdrop-filter: blur(14px);
+  }
+  .footer-note strong { color: var(--gold-soft); }
+
+  .glyph { font-size: 22px; vertical-align: middle; margin-right: 6px; }
+  .hidden { display: none; }
+  .error { color: var(--crimson-bright, #ec5aa0); margin-top: 12px; font-size: 13px; }
+
+  /* Pinnacoli/Sfide visual */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0 24px;
+  }
+  @media (max-width: 700px) { .timeline { grid-template-columns: repeat(2, 1fr); } }
+  .timeline .stage {
+    background: linear-gradient(180deg, rgba(124,58,237,.10), rgba(5,3,15,.4));
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .timeline .stage .age {
+    font-size: 11px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .timeline .stage .num-big {
+    font-family: var(--ff-display);
+    font-size: 36px;
+    color: var(--gold);
+    line-height: 1;
+    margin: 6px 0;
+    font-weight: 400;
+  }
+  .timeline .stage .label-name {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .quote-block {
+    border-left: 3px solid var(--brand-light);
+    padding: 4px 18px;
+    margin: 16px 0;
+    color: var(--ink-soft);
+    font-style: italic;
+    font-family: var(--ff-display);
+    font-size: 16px;
+  }
+
+  /* Gate */
   #gate {
     position: fixed; inset: 0;
-    background: var(--bg);
+    background: radial-gradient(ellipse at center, #0e0628 0%, #05030f 70%, #020108 100%);
     display: flex; align-items: center; justify-content: center;
     z-index: 9999;
   }
   #gate .gate-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 32px;
-    max-width: 380px;
+    border-radius: 18px;
+    padding: 40px;
+    max-width: 420px;
     width: 90%;
     text-align: center;
+    backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(124,58,237,.1);
   }
   #gate h2 {
-    font-family: "Playfair Display", Georgia, serif;
-    color: var(--accent);
+    font-family: var(--ff-display);
+    color: var(--gold);
     margin: 0 0 8px;
-    font-size: 22px;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
-  #gate p { color: var(--text-dim); font-size: 13px; margin: 0 0 20px; }
-  #gate input { margin-bottom: 12px; text-align: center; letter-spacing: 4px; font-size: 16px; }
-  #gate-error { color: var(--warn); font-size: 13px; min-height: 18px; margin-top: 8px; }
+  #gate .gate-eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold-soft); margin-bottom: 8px;
+  }
+  #gate p { color: var(--ink-soft); font-size: 14px; margin: 0 0 24px; }
+  #gate input { margin-bottom: 16px; text-align: center; letter-spacing: 4px; font-size: 16px; }
+  #gate-error { color: var(--crimson-bright, #ec5aa0); font-size: 13px; min-height: 18px; margin-top: 8px; }
   body.locked { overflow: hidden; }
   body.locked .container { display: none; }
+
+  /* Hexagram visual for HD */
+  .hexagram { display: inline-flex; flex-direction: column; gap: 4px; margin: 12px 0; vertical-align: middle; }
+  .hexagram .line { width: 60px; height: 6px; display: flex; gap: 4px; }
+  .hexagram .line.solid { background: var(--gold); border-radius: 2px; }
+  .hexagram .line.broken { background: transparent; }
+  .hexagram .line.broken::before, .hexagram .line.broken::after {
+    content: ""; flex: 1; background: var(--gold); border-radius: 2px;
+  }
+
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .gate-card-hd {
+    background: rgba(5,3,15,.4);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .gate-card-hd .role {
+    font-size: 11px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .gate-card-hd .gate-num {
+    font-family: var(--ff-display);
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .gate-card-hd .gate-name {
+    font-family: var(--ff-display);
+    font-style: italic;
+    color: var(--ink);
+    margin: 6px 0 4px;
+    font-size: 16px;
+  }
+  .gate-card-hd .gate-key {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin-top: 6px;
+  }
 </style>
 </head>
 <body class="locked">
 
+<div class="aurora"></div>
+<div class="cosmic-wheel" id="cosmic-wheel"></div>
+<div class="cosmos-bg" id="cosmos-bg"></div>
+
 <div id="gate">
   <form class="gate-card" id="gate-form">
+    <div class="gate-eyebrow">Davil · Profilo Esoterico</div>
     <h2>Accesso riservato</h2>
     <p>Strumento privato. Inserisci la password per continuare.</p>
     <input type="password" id="gate-pwd" autocomplete="current-password" autofocus required>
@@ -222,12 +627,14 @@
 
 <div class="container">
 
-  <header>
-    <h1>Profilo Esoterico-Archetipico</h1>
-    <p>Lente integrata su numerologia (pitagorica, caldea, kabbalistica), astrologia, sistemi maya e cinesi, arcani maggiori e archetipi junghiani. Strumento di riflessione per il lavoro di coaching, non oracolo.</p>
+  <header class="hero">
+    <div class="eyebrow">Profilo · Davil Life Leadership Coaching</div>
+    <h1>Lettura <em>archetipica</em> del nome e della nascita</h1>
+    <p class="lead">Strumento integrato per coaching profondo. Numerologia pitagorica e caldea, gematria kabbalistica, astrologia tropicale, zodiaco cinese, Maya Dreamspell, arcani maggiori, archetipi junghiani, Human Design. Le tradizioni si parlano: ogni numero, ogni segno è un messaggero — non una sentenza.</p>
   </header>
 
   <form id="birth-form">
+    <div class="form-title">Dati di nascita</div>
     <div class="grid">
       <div>
         <label for="firstName">Nome (di nascita)</label>
@@ -242,17 +649,16 @@
         <input type="date" id="birthDate" required>
       </div>
       <div>
-        <label for="birthTime">Ora di nascita (opzionale)</label>
+        <label for="birthTime">Ora di nascita</label>
         <input type="time" id="birthTime" placeholder="HH:MM">
       </div>
       <div style="grid-column: 1 / -1;">
-        <label for="birthPlace">Luogo di nascita (opzionale, per Ascendente)</label>
+        <label for="birthPlace">Luogo di nascita</label>
         <input type="text" id="birthPlace" placeholder="Roma, Italia" autocomplete="off">
       </div>
     </div>
     <div class="toggle-row">
-      <label><input type="checkbox" id="yAsVowel"> Tratta la Y come vocale</label>
-      <label><input type="checkbox" id="useFullName"> Usa nome+cognome attuali se diversi da quelli di nascita</label>
+      <label><input type="checkbox" id="yAsVowel"> Tratta la <em>Y</em> come vocale</label>
     </div>
     <button type="submit">Calcola profilo</button>
     <div id="form-error" class="error hidden"></div>
@@ -261,7 +667,10 @@
   <div id="results"></div>
 
   <div class="footer-note">
-    <strong>Nota di metodo.</strong> Questo strumento incrocia letture archetipiche di tradizioni diverse — pitagorica, caldea, kabbalistica, astrologia tropicale, cinese, maya/dreamspell, tarocchi, archetipi junghiani. Le interpretazioni sono frame, non sentenze. Coerentemente con il principio per cui il sintomo è messaggero, ogni numero o segno qui è un'apertura a domande, non una diagnosi. Tutti i calcoli avvengono nel browser: nessun dato lascia la macchina.
+    <strong>Nota di metodo.</strong><br>
+    Questo strumento incrocia tradizioni archetipiche diverse: pitagorica, caldea, kabbalistica, astrologia tropicale, cinese, maya/dreamspell, tarocchi, archetipi junghiani, Human Design. Le interpretazioni sono <em>frame di lettura</em>, non diagnosi né predizioni. <br><br>
+    Coerentemente con il principio per cui <em>il sintomo è messaggero dell'Anima</em>, ogni numero e ogni segno qui si offre come domanda, non come risposta. Lo scopo è aprire ascolto, non chiudere riflessione. <br><br>
+    Tutti i calcoli avvengono nel browser. Nessun dato lascia il dispositivo.
   </div>
 </div>
 
@@ -269,7 +678,60 @@
 "use strict";
 
 /* =====================================================================
-   0. PASSWORD GATE (soft client-side)
+   COSMOS BACKGROUND · simboli archetipici fluttuanti + ruota zodiacale
+   ===================================================================== */
+(function buildCosmos() {
+  const ZODIAC_GLYPHS = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
+  const PLANETS = ["☉","☽","☿","♀","♂","♃","♄","♅","♆","♇"];
+  const STARS = ["✦","✧","✶","★","⚝","⊙","⊚","✺","❋","✷"];
+  const ALCHEMY = ["☥","☯","♁","⚷","⚸","⚹","⚺","⚻","⚼"];
+  const ARCANE = ["𓂀","☤","⌬","⛤","☼","◐","◑","☾","♆"];
+  const ALL = [...ZODIAC_GLYPHS, ...PLANETS, ...STARS, ...ALCHEMY, ...ARCANE];
+
+  // Ruota zodiacale al centro
+  const wheel = document.getElementById("cosmic-wheel");
+  if (wheel) {
+    const ring1 = document.createElement("div"); ring1.className = "ring";
+    const ring2 = document.createElement("div"); ring2.className = "ring r2";
+    const ring3 = document.createElement("div"); ring3.className = "ring r3";
+    wheel.appendChild(ring1); wheel.appendChild(ring2); wheel.appendChild(ring3);
+    // 12 segni equidistanti sul cerchio
+    const radius = 0.46; // 46% del raggio (cerchio esterno)
+    ZODIAC_GLYPHS.forEach((g, i) => {
+      const angle = (i * 30 - 90) * Math.PI / 180; // partenza in alto, in senso orario
+      const span = document.createElement("div");
+      span.className = "zodiac-mark";
+      span.textContent = g;
+      const x = Math.cos(angle) * radius * 100;
+      const y = Math.sin(angle) * radius * 100;
+      span.style.transform = `translate(${x}%, ${y}%) translate(-50%, -50%)`;
+      wheel.appendChild(span);
+    });
+  }
+
+  // Simboli fluttuanti sparsi
+  const cosmos = document.getElementById("cosmos-bg");
+  if (!cosmos) return;
+  const COUNT = 42;
+  const colorClasses = ["", "violet", "cyan"];
+  for (let i = 0; i < COUNT; i++) {
+    const span = document.createElement("span");
+    const cls = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+    span.className = "cosmos-symbol" + (cls ? " " + cls : "");
+    span.textContent = ALL[Math.floor(Math.random() * ALL.length)];
+    span.style.left = Math.random() * 100 + "vw";
+    span.style.top = Math.random() * 100 + "vh";
+    span.style.fontSize = (18 + Math.random() * 56) + "px";
+    const floatDur = 40 + Math.random() * 80;
+    const pulseDur = 4 + Math.random() * 10;
+    span.style.animationDuration = `${floatDur}s, ${pulseDur}s`;
+    span.style.animationDelay = `${-Math.random() * floatDur}s, ${-Math.random() * pulseDur}s`;
+    cosmos.appendChild(span);
+  }
+})();
+
+/* =====================================================================
+   0. PASSWORD GATE
    ===================================================================== */
 const PWD_HASH = "b2a5d230ec8460d99e57183ef0f9900ec43abae0b4593179d5b92f4de3cadba0";
 
@@ -293,26 +755,19 @@ document.getElementById("gate-form").addEventListener("submit", async (e) => {
   const err = document.getElementById("gate-error");
   err.textContent = "";
   const h = await sha256(pwd);
-  if (h === PWD_HASH) {
-    unlock();
-  } else {
-    err.textContent = "Password errata.";
-    document.getElementById("gate-pwd").value = "";
-  }
+  if (h === PWD_HASH) unlock();
+  else { err.textContent = "Password errata."; document.getElementById("gate-pwd").value = ""; }
 });
 
 /* =====================================================================
-   1. TAVOLE DI MAPPATURA
+   1. TAVOLE
    ===================================================================== */
 
-// Pitagorica: A=1...I=9, J=1...R=9, S=1...Z=8
 const PYTH = {
   A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,
   J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,
   S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8
 };
-
-// Caldea: niente 9 (sacro)
 const CHALDEAN = {
   A:1,I:1,J:1,Q:1,Y:1,
   B:2,K:2,R:2,
@@ -323,174 +778,276 @@ const CHALDEAN = {
   O:7,Z:7,
   F:8,P:8
 };
-
 const VOWELS = new Set(["A","E","I","O","U"]);
 
-// Significati archetipici dei numeri
-const NUM_MEANINGS = {
-  1: { titolo: "Pioniere", luce: "Iniziativa, leadership, individualità che si afferma.", ombra: "Egotismo, isolamento, aggressività difensiva.", coach: "Imparare ad agire da sé senza schiacciare l'altro." },
-  2: { titolo: "Diplomatico", luce: "Mediazione, sensibilità, partenariato.", ombra: "Dipendenza, indecisione, sottomissione.", coach: "La sensibilità come strumento, non come ferita." },
-  3: { titolo: "Comunicatore", luce: "Espressione, gioia, creatività.", ombra: "Dispersione, superficialità, vanità.", coach: "Espressione come terapia: dare forma è guarire." },
-  4: { titolo: "Costruttore", luce: "Stabilità, lavoro, ordine.", ombra: "Rigidità, durezza, blocco.", coach: "Stabilità interna come base per il salto." },
-  5: { titolo: "Esploratore", luce: "Libertà, cambiamento, esperienza.", ombra: "Caos, dipendenze, irrequietezza.", coach: "Trasformare il bisogno di evasione in ricerca." },
-  6: { titolo: "Guaritore", luce: "Cura, responsabilità, famiglia.", ombra: "Iper-protezione, controllo, martirio.", coach: "Amare senza salvare. Il limite come atto d'amore." },
-  7: { titolo: "Mistico", luce: "Ricerca, analisi, profondità.", ombra: "Distacco, paranoia, isolamento.", coach: "L'introversione come via, non come fuga." },
-  8: { titolo: "Manager", luce: "Potere, materia, organizzazione.", ombra: "Ambizione cieca, durezza, abuso.", coach: "Forza vs Potere (Hawkins): trasmutare." },
-  9: { titolo: "Saggio", luce: "Visione, completamento, compassione.", ombra: "Rinuncia, vittimismo, malinconia.", coach: "Lasciare andare per servire. Chiusura del ciclo." },
-  11: { titolo: "Visionario", luce: "Intuizione, ispirazione, canale.", ombra: "Iper-sensibilità, ansia, paralisi.", coach: "Master Number: canale tra invisibile e visibile (Dispenza, Grof)." },
-  22: { titolo: "Architetto", luce: "Visione manifestata, costruzione monumentale.", ombra: "Megalomania, paura della grandezza.", coach: "Master Number: portare il sogno nella materia (Zeland)." },
-  33: { titolo: "Maestro", luce: "Servizio cristico, guarigione, insegnamento.", ombra: "Sacrificio compulsivo, complesso del salvatore.", coach: "Master Number: il guaritore ferito (Hillman)." }
+// Numeri con descrizioni dettagliate (luce, ombra, coach, relazione, professione, pratica)
+const NUM_DETAIL = {
+  1: {
+    titolo: "Pioniere · Il Sé che si afferma",
+    epigrafe: "L'inizio. La prima volta che si dice «io».",
+    luce: "Iniziativa, originalità, leadership naturale. Capacità di aprire strade dove non esistevano. Coraggio dell'essere il primo.",
+    ombra: "Egotismo, autoritarismo, isolamento difensivo. Aggressività mascherata da sicurezza. Incapacità di chiedere aiuto.",
+    coach: "Lavoro centrale: imparare ad agire da sé senza schiacciare l'altro, e ad ammettere il bisogno senza sentirlo come debolezza. Distinguere tra autonomia (forza) e auto-isolamento (paura).",
+    relazione: "Tende a comandare o a ritirarsi. Funziona meglio con partner forti che non ha paura di disinnescare. La sfida è collaborare senza fagocitare.",
+    professione: "Imprenditore, fondatore, regista. Lavori dove serve aprire — non gestire ciò che esiste già. Mal sopporta l'ambiguità gerarchica.",
+    pratica: "Esercizio settimanale: chiedere aiuto su qualcosa di concreto. Riconoscere il dono altrui senza minimizzarlo."
+  },
+  2: {
+    titolo: "Diplomatico · Il Sé che si specchia nell'altro",
+    epigrafe: "La pausa. Lo spazio tra chi parla e chi ascolta.",
+    luce: "Sensibilità raffinata, intuito relazionale, dono della mediazione. Capacità di vedere entrambi i lati. Pazienza autentica.",
+    ombra: "Dipendenza affettiva, indecisione cronica, sottomissione mascherata da accondiscendenza. Risentimento covato in silenzio.",
+    coach: "Lavoro centrale: trasformare la sensibilità da ferita in strumento. Imparare a dire no senza colpa. La cura dell'altro funziona solo se passa anche per il proprio centro.",
+    relazione: "Cerca fusione, rischia di perdere i confini. Deve coltivare un «io» robusto prima di offrirsi. La codipendenza è la sua trappola.",
+    professione: "Mediatore, terapeuta, coach, diplomatico, partner di un leader. Eccelle dove serve sintonizzazione fine.",
+    pratica: "Pratica del confine quotidiano: ogni giorno una piccola scelta che riguarda solo me e che difendo, anche se delude qualcuno."
+  },
+  3: {
+    titolo: "Comunicatore · Il Sé che si esprime",
+    epigrafe: "La parola. Ciò che dà forma al sentito.",
+    luce: "Espressione gioiosa, creatività spontanea, talento per la comunicazione. Carisma sociale. Trasforma il dolore in narrazione.",
+    ombra: "Dispersione, superficialità, vanità. Fa rumore per coprire vuoto. Comincia mille progetti senza chiuderne uno.",
+    coach: "Lavoro centrale: scegliere una sola direzione e portarla a fondo. La creatività che non si compie diventa inquietudine. Espressione come terapia, non come fuga dal silenzio.",
+    relazione: "Brillante e leggero, può evitare la profondità con l'umorismo. Va invitato a fermarsi e sentire — non solo a raccontare.",
+    professione: "Artista, scrittore, comunicatore, performer, formatore. Fiorisce davanti a un pubblico, vero o immaginato.",
+    pratica: "Pratica del compimento: ogni mese un'opera piccola portata a termine. La gioia matura quando ciò che si è espresso prende forma stabile."
+  },
+  4: {
+    titolo: "Costruttore · Il Sé che radica",
+    epigrafe: "Il muro. Ciò che resta quando il vento smette.",
+    luce: "Stabilità, dedizione, ordine, lealtà. Costruisce per durare. Affidabile come la terra.",
+    ombra: "Rigidità, durezza, paura del cambiamento. Si chiude nelle abitudini. Confonde struttura e prigione.",
+    coach: "Lavoro centrale: la stabilità interna è la base — non la fine — del salto. Imparare a fluire senza perdere fondamenta. Il rituale serve quando libera, non quando opprime.",
+    relazione: "Affidabile, presente. Rischia di essere percepito come distante o controllore. Va aiutato a esprimere tenerezza, non solo a fornirla.",
+    professione: "Architetto, ingegnere, manager operativo, artigiano, custode di sistemi. Eccelle dove serve continuità.",
+    pratica: "Pratica della fluidità: ogni settimana, una piccola rottura volontaria della routine. Vedere cosa resta quando l'abitudine cade."
+  },
+  5: {
+    titolo: "Esploratore · Il Sé che cerca",
+    epigrafe: "La soglia. Ciò che chiede di essere attraversato.",
+    luce: "Libertà, curiosità, adattabilità, esperienza diretta. Capacità di reinventarsi. Magnetismo.",
+    ombra: "Caos, dipendenze (sostanze, sesso, viaggi compulsivi), irrequietezza, paura del legame come prigione.",
+    coach: "Lavoro centrale: trasformare il bisogno di evasione in ricerca consapevole. Distinguere tra fuga e cammino. La libertà autentica si nutre di radici scelte, non di radici evitate.",
+    relazione: "Difficile da contenere. Funziona con partner che gli danno spazio senza sparire. Il legame come forma di libertà condivisa, non rinuncia.",
+    professione: "Reporter, viaggiatore, venditore, performer itinerante, mestieri del cambiamento. Mal tollera scrivanie fisse.",
+    pratica: "Pratica dell'impegno breve ma totale: assumere una promessa di tre mesi e mantenerla. Sperimentare la libertà che nasce dalla parola data."
+  },
+  6: {
+    titolo: "Guaritore · Il Sé che si prende cura",
+    epigrafe: "La casa. Il luogo dove qualcuno torna.",
+    luce: "Cura, responsabilità, senso del bello, capacità di nutrire. Crea contesti accoglienti. Coscienza del bene comune.",
+    ombra: "Iper-protezione, controllo soft, martirio, complesso del salvatore. Si dimentica di sé. Risentimento dei sacrifici non riconosciuti.",
+    coach: "Lavoro centrale: amare senza salvare. Il limite come atto d'amore: dire no è anche darsi. Distinguere la cura (che lascia l'altro libero) dalla manipolazione affettuosa (che lo lega).",
+    relazione: "Tende a fare la madre/il padre del partner. Va aiutato a ricevere, non solo a dare. Il dono unilaterale crea debito invisibile.",
+    professione: "Insegnante, terapeuta, infermiere, designer di spazi accoglienti, ristoratore. Lavori di servizio che richiedono presenza emotiva.",
+    pratica: "Pratica del ricevere: ogni giorno accettare un piccolo dono — un complimento, un aiuto — senza restituire subito né minimizzare."
+  },
+  7: {
+    titolo: "Mistico · Il Sé che indaga",
+    epigrafe: "Il deserto. Lo spazio in cui le voci tacciono e una sola resta.",
+    luce: "Profondità, intuizione, capacità di solitudine, ricerca della verità. Mente analitica unita a percezione sottile.",
+    ombra: "Distacco emotivo, freddezza, paranoia, isolamento. Si rifugia nella mente per evitare il sentire. Cinismo intellettuale.",
+    coach: "Lavoro centrale: l'introversione come via, non come fuga. Imparare a tornare nel mondo dopo il ritiro. La conoscenza che non si incarna nel rapporto resta sterile.",
+    relazione: "Ha bisogno di tanto spazio. Funziona con chi rispetta la sua riserva senza prenderla come rifiuto. La fiducia, in lui, si conquista lentamente.",
+    professione: "Ricercatore, filosofo, analista, studioso esoterico, scrittore di profondità, contemplativo. Mal tollera ambienti rumorosi e politici.",
+    pratica: "Pratica del ritorno: dopo ogni periodo di ritiro, condividere con un'altra persona ciò che si è capito. Tradurre l'intuizione in parola."
+  },
+  8: {
+    titolo: "Architetto del Potere · Il Sé che incarna",
+    epigrafe: "La bilancia. Ciò che pesa, perché conta davvero.",
+    luce: "Capacità di gestione, autorità naturale, abbondanza, materializzazione delle visioni. Potere come servizio.",
+    ombra: "Ambizione cieca, durezza, abuso di posizione, ossessione per controllo e denaro. Confonde forza e potere (Hawkins).",
+    coach: "Lavoro centrale: trasmutare. La differenza tra forza (calibrata, etica, sostenibile) e potere (coercitivo, depredativo) è il cuore della sua iniziazione. Hawkins lo direbbe: salire dalla scala dell'orgoglio a quella del coraggio.",
+    relazione: "Magnetico ma può intimidire. Funziona quando lascia vedere la propria vulnerabilità. Il dominio è solitudine.",
+    professione: "Imprenditore, dirigente, finanziere, organizzatore di larga scala. Eccelle dove serve visione + esecuzione + responsabilità.",
+    pratica: "Pratica dell'umiltà efficace: ogni settimana un'azione di servizio dove non si è il leader — si è il braccio. Sentire la materia da un'altra postura."
+  },
+  9: {
+    titolo: "Saggio · Il Sé che lascia andare",
+    epigrafe: "Il tramonto. Ciò che si compie quando rilascia la forma.",
+    luce: "Compassione universale, visione, capacità di chiudere cicli, generosità senza calcolo. Maturità emotiva. Senso di servizio.",
+    ombra: "Rinuncia premature, vittimismo, malinconia cronica, complesso del martire spirituale. Confonde resa e abbandono.",
+    coach: "Lavoro centrale: lasciare andare per servire, non per fuggire. Distinguere tra rinuncia matura (saggia) e rinuncia preventiva (paura mascherata da saggezza). Chiudere ciò che è chiuso.",
+    relazione: "Compassionevole, può essere assorbito dai dolori altrui. Va aiutato a tenere centro. La pena per il mondo non sostituisce il proprio bisogno.",
+    professione: "Mentore, umanitario, artista visionario, terapeuta esperto, guida spirituale. La fase del passaggio del testimone.",
+    pratica: "Pratica del completamento: ogni mese chiudere ufficialmente qualcosa — una relazione che era già finita, un progetto in stallo, un'identità superata. Rilasciare la forma per liberare l'energia."
+  },
+  11: {
+    titolo: "Visionario · Il Canale",
+    epigrafe: "La cattedrale. Lo spazio che fa risuonare ciò che entra.",
+    luce: "Intuizione cristallina, ispirazione spirituale, sensibilità medianica, capacità di tradurre l'invisibile in visibile. Ponte tra dimensioni.",
+    ombra: "Iper-sensibilità che paralizza, ansia, dispersione, paura della propria potenza. Tendenza a fuggire la chiamata.",
+    coach: "Master Number. Lavoro centrale: accettare di essere canale e imparare a regolarlo (Dispenza, Grof). Il dono spirituale è lavoro: serve igiene mentale, pratiche di radicamento, scelta consapevole di ciò che si lascia entrare.",
+    relazione: "Spesso percepisce ciò che l'altro non dice. Va protetto dall'identificazione con i campi emotivi altrui. Ama chi lo aiuta a tornare in corpo.",
+    professione: "Insegnante spirituale, artista visionario, terapeuta intuitivo, guida. La materia gli pesa: serve un mestiere ancorato al servizio.",
+    pratica: "Pratica del radicamento: meditazione + corpo + suolo. Coerenza cardiaca quotidiana. La sensibilità si abita solo se il corpo è solido."
+  },
+  22: {
+    titolo: "Architetto Maestro · La visione manifestata",
+    epigrafe: "Il tempio. Ciò che la visione diventa quando smette di essere sogno.",
+    luce: "Capacità di costruire opere di portata storica, fondere visione e pragmatismo, lasciare segno. Master Builder.",
+    ombra: "Megalomania, paura della propria grandezza, paralisi davanti alla scala del compito, sabotaggi inconsci.",
+    coach: "Master Number. Lavoro centrale: portare il sogno nella materia (Zeland: dalla diapositiva al mondo). Riconoscere che la chiamata grande chiede una vita organizzata. Il 22 si ammala se non costruisce.",
+    relazione: "Ha bisogno di partner solidi che reggano la portata della sua vita pubblica. Tende a sacrificare l'intimo per l'opera — pericolo da disinnescare.",
+    professione: "Fondatore di istituzioni, architetto culturale, leader di movimenti, costruttore di sistemi che durano oltre se stesso.",
+    pratica: "Pratica del piano lungo: una visione decennale messa per iscritto, scomposta in cicli annuali e atti settimanali. La grandezza è quotidianità ripetuta."
+  },
+  33: {
+    titolo: "Maestro Guaritore · La presenza che cura",
+    epigrafe: "Il pozzo. Acqua che non si esaurisce perché non è propria.",
+    luce: "Servizio cristico, guarigione attraverso la presenza, insegnamento incarnato, compassione che agisce. Il guaritore ferito.",
+    ombra: "Sacrificio compulsivo, complesso del salvatore portato all'eroico, esaurimento, identificazione con il ruolo di colui che dà.",
+    coach: "Master Number. Lavoro centrale: il guaritore ferito (Hillman). Solo chi ha conosciuto la propria ferita guarisce — non chi la nega. Il 33 deve imparare a essere a sua volta accolto, altrimenti il suo dono diventa ferita riaperta.",
+    relazione: "Accoglie tutti. Va aiutato a chiedere e ricevere. Il rapporto vero, per lui, è quello in cui smette di essere il guaritore.",
+    professione: "Maestro spirituale, guaritore, terapeuta esperto, mediatore di gruppi profondi, mistico operativo. Pochi ruoli reggono questa portata — vanno costruiti.",
+    pratica: "Pratica della reciprocità: ogni mese, una relazione in cui si è solo riceventi. Lasciarsi vedere senza dover servire."
+  }
 };
 
-// Compound numbers caldei (10-52) — Cheiro
+// Compound numbers caldei (Cheiro)
 const COMPOUND = {
-  10: { nome: "Ruota della Fortuna", lettura: "Onore, fede, fiducia in sé. Nascita pubblica, in bene o male." },
-  11: { nome: "Pugno chiuso / Leone con museruola", lettura: "Pericoli nascosti, prove, tradimenti. Cautela." },
-  12: { nome: "Il Sacrificio", lettura: "Sofferenza, ansia. Vittima dei piani altrui." },
-  13: { nome: "Morte / Scheletro", lettura: "Sconvolgimento e rinnovamento. Potere se padroneggiato. Non sfortuna ma trasformazione." },
-  14: { nome: "Movimento e Pericolo", lettura: "Fortunato per denaro e speculazione, rischio da forze naturali o azzardo." },
-  15: { nome: "L'Occulto", lettura: "Eloquenza, arte, magnetismo. Favori, denaro. Rischio uso egoico del potere." },
-  16: { nome: "Torre colpita dal Fulmine", lettura: "Fatalità, incidenti, piani sconfitti. Richiede preveggenza." },
-  17: { nome: "Stella di Venere", lettura: "Spirituale, pace, immortalità del nome. Estremamente fortunato." },
-  18: { nome: "Luna sanguinante", lettura: "Materialismo che distrugge lo spirito. Conflitti, tradimenti." },
-  19: { nome: "Il Sole / Principe del Cielo", lettura: "Felicità, successo, onore. Tra i più favorevoli." },
-  20: { nome: "Il Risveglio / Giudizio", lettura: "Chiamata a uno scopo spirituale. Ritardi senza evoluzione." },
-  21: { nome: "L'Universo / Corona dei Magi", lettura: "Avanzamento, vittoria dopo iniziazione. Molto favorevole." },
-  22: { nome: "Buon Uomo Accecato", lettura: "Illusione, delusione. Sognatore in pericolo." },
-  23: { nome: "Stella Reale del Leone", lettura: "Successo, protezione dei superiori. Molto fortunato." },
-  24: { nome: "Numero Fortunato", lettura: "Aiuto da persone di rango. Favorevole." },
-  25: { nome: "Forza dall'Esperienza", lettura: "Successo per prova ed errore. Favorevole." },
-  26: { nome: "Avvertimento Grave", lettura: "Disastri da cattive associazioni e speculazioni." },
-  27: { nome: "Lo Scettro", lettura: "Autorità, comando, raccolto creativo. Favorevole." },
-  28: { nome: "Contraddizioni", lettura: "Promessa che si perde senza prudenza. Rischio legale." },
-  29: { nome: "Incertezze", lettura: "Tradimenti, false amicizie. Sfavorevole." },
-  30: { nome: "Deduzione riflessiva", lettura: "Né fortunato né sfortunato. Dipende dall'atteggiamento mentale." },
-  31: { nome: "Il Solitario", lettura: "Auto-contenuto, isolato. Non favorevole socialmente." },
-  32: { nome: "Potere Magico", lettura: "Come il 5 ma più potente, se la persona mantiene giudizio indipendente." },
-  33: { nome: "Come 24", lettura: "Aiuto da persone di rango. Favorevole." },
-  34: { nome: "Come 25", lettura: "Successo per prova ed errore." },
-  35: { nome: "Come 26", lettura: "Avvertimento da cattive associazioni." },
-  36: { nome: "Come 27", lettura: "Autorità, comando." },
-  37: { nome: "Buone amicizie e amori", lettura: "Partnership benefiche. Favorevole." },
-  38: { nome: "Come 29", lettura: "Tradimenti, false amicizie." },
-  39: { nome: "Come 30", lettura: "Né fortunato né sfortunato." },
-  40: { nome: "Come 31", lettura: "Auto-contenuto, isolato." },
+  10: { nome: "Ruota della Fortuna", lettura: "Onore, fede, fiducia in sé. Vita pubblica, in bene o male. Rischia ascese e cadute eclatanti." },
+  11: { nome: "Pugno chiuso · Leone con museruola", lettura: "Pericoli nascosti, prove, tradimenti. Il successo arriva ma viene strappato senza vigilanza." },
+  12: { nome: "Il Sacrificio", lettura: "Vittima dei piani altrui se non si auto-protegge. Sofferenza anticipa saggezza." },
+  13: { nome: "Morte che rinnova", lettura: "Sconvolgimento e potere. Non è sfortuna: è trasformazione richiesta. Padroneggiarla è alchimia." },
+  14: { nome: "Movimento e Pericolo", lettura: "Fortuna in denaro, rischio da forze naturali e azzardo. Cautela negli investimenti." },
+  15: { nome: "L'Occulto · La Magia", lettura: "Eloquenza, magnetismo, arti. Favori e denaro — purché non se ne abusi a fini egoici." },
+  16: { nome: "Torre colpita dal Fulmine", lettura: "Crollo improvviso necessario. Avvertimento: piani fondati sull'illusione cadranno." },
+  17: { nome: "Stella di Venere", lettura: "Tra i più favorevoli. Pace spirituale, immortalità del nome. Vittoria dopo prove." },
+  18: { nome: "Luna sanguinante", lettura: "Materialismo che divora lo spirito. Conflitti, tradimenti, false amicizie." },
+  19: { nome: "Sole · Principe del Cielo", lettura: "Felicità, successo riconosciuto, onore. Tra i più benevoli del sistema." },
+  20: { nome: "Risveglio · Giudizio", lettura: "Chiamata spirituale concreta. Senza evoluzione: stagnazione e ritardi." },
+  21: { nome: "Universo · Corona dei Magi", lettura: "Vittoria dopo iniziazione lunga. Realizzazione completa." },
+  22: { nome: "Buon Uomo Accecato", lettura: "Sognatore in pericolo. Illusione che porta a delusione. Servono occhi aperti." },
+  23: { nome: "Stella Reale del Leone", lettura: "Successo con protezione di superiori. Tra i numeri più potenti e benefici." },
+  24: { nome: "Aiuto dall'alto", lettura: "Persone di rango aiutano. Amore e ricchezza tendono a fluire." },
+  25: { nome: "Forza dall'Esperienza", lettura: "Successo dopo prove. Saggezza guadagnata sul campo." },
+  26: { nome: "Avvertimento Grave", lettura: "Disastri da cattive associazioni e speculazioni. Massima cautela in soci e investimenti." },
+  27: { nome: "Lo Scettro", lettura: "Autorità, comando creativo, raccolto. Chi lo riconosce ne usa il potere." },
+  28: { nome: "Contraddizioni", lettura: "Promessa che si dissolve senza prudenza. Rischio legale, errori dovuti a fiducia eccessiva." },
+  29: { nome: "Incertezze", lettura: "Tradimenti, false amicizie. Numero che richiede vigilanza relazionale." },
+  30: { nome: "Riflessione", lettura: "Né fortunato né sfortunato. Risultati dipendono dall'atteggiamento mentale." },
+  31: { nome: "Solitario", lettura: "Auto-contenuto, isolato. Non favorevole socialmente, ma può portare profondità." },
+  32: { nome: "Potere Magico", lettura: "Come 5 amplificato. Funziona se la persona resta indipendente nel giudizio." },
+  33: { nome: "Come 24", lettura: "Aiuto da figure di rango. Favorevole socialmente." },
+  34: { nome: "Come 25", lettura: "Successo per esperienza." },
+  35: { nome: "Come 26", lettura: "Avvertimento da cattive alleanze." },
+  36: { nome: "Come 27", lettura: "Autorità, scettro." },
+  37: { nome: "Buone amicizie e amori", lettura: "Partnership benefiche. Alleanze proficue." },
+  38: { nome: "Come 29", lettura: "Tradimenti, vigilanza relazionale." },
+  39: { nome: "Come 30", lettura: "Riflessione." },
+  40: { nome: "Come 31", lettura: "Solitario." },
   41: { nome: "Come 32", lettura: "Potere magico." },
-  42: { nome: "Come 24", lettura: "Aiuto da persone di rango." },
-  43: { nome: "Rivoluzione, conflitto", lettura: "Sconvolgimento, fallimento. Sfavorevole." },
+  42: { nome: "Come 24", lettura: "Aiuto dall'alto." },
+  43: { nome: "Rivoluzione · Conflitto", lettura: "Sconvolgimenti, instabilità. Sfavorevole se non si è chiamati a riformare." },
   44: { nome: "Come 26", lettura: "Avvertimento grave." },
   45: { nome: "Come 27", lettura: "Lo Scettro." },
   46: { nome: "Come 37", lettura: "Buone amicizie." },
   47: { nome: "Come 29", lettura: "Tradimenti." },
-  48: { nome: "Come 30", lettura: "Né fortunato né sfortunato." },
+  48: { nome: "Come 30", lettura: "Riflessione." },
   49: { nome: "Come 31", lettura: "Solitario." },
   50: { nome: "Come 32", lettura: "Potere magico." },
-  51: { nome: "Natura del Guerriero", lettura: "Avanzamento improvviso. Favorevole nei ruoli marziali, allerta nemici." },
+  51: { nome: "Natura del Guerriero", lettura: "Avanzamento improvviso. Forte nei ruoli marziali; allerta nemici." },
   52: { nome: "Come 43", lettura: "Rivoluzione, conflitto." }
 };
 
-// 22 lettere ebraiche → arcano + astrologia
 const HEBREW = [
-  { lettera: "א Aleph",   valore: 1,   arcano: "0 - Il Matto",        astro: "Aria" },
-  { lettera: "ב Beth",    valore: 2,   arcano: "I - Il Mago",         astro: "Mercurio" },
-  { lettera: "ג Gimel",   valore: 3,   arcano: "II - La Papessa",     astro: "Luna" },
-  { lettera: "ד Daleth",  valore: 4,   arcano: "III - L'Imperatrice", astro: "Venere" },
-  { lettera: "ה Heh",     valore: 5,   arcano: "IV - L'Imperatore",   astro: "Ariete" },
-  { lettera: "ו Vav",     valore: 6,   arcano: "V - Il Papa",         astro: "Toro" },
-  { lettera: "ז Zayin",   valore: 7,   arcano: "VI - Gli Amanti",     astro: "Gemelli" },
-  { lettera: "ח Cheth",   valore: 8,   arcano: "VII - Il Carro",      astro: "Cancro" },
-  { lettera: "ט Teth",    valore: 9,   arcano: "VIII - La Forza",     astro: "Leone" },
-  { lettera: "י Yod",     valore: 10,  arcano: "IX - L'Eremita",      astro: "Vergine" },
-  { lettera: "כ Kaph",    valore: 20,  arcano: "X - Ruota di Fortuna",astro: "Giove" },
-  { lettera: "ל Lamed",   valore: 30,  arcano: "XI - La Giustizia",   astro: "Bilancia" },
-  { lettera: "מ Mem",     valore: 40,  arcano: "XII - L'Appeso",      astro: "Acqua" },
-  { lettera: "נ Nun",     valore: 50,  arcano: "XIII - La Morte",     astro: "Scorpione" },
-  { lettera: "ס Samekh",  valore: 60,  arcano: "XIV - La Temperanza", astro: "Sagittario" },
-  { lettera: "ע Ayin",    valore: 70,  arcano: "XV - Il Diavolo",     astro: "Capricorno" },
-  { lettera: "פ Peh",     valore: 80,  arcano: "XVI - La Torre",      astro: "Marte" },
-  { lettera: "צ Tzaddi",  valore: 90,  arcano: "XVII - Le Stelle",    astro: "Acquario" },
-  { lettera: "ק Qoph",    valore: 100, arcano: "XVIII - La Luna",     astro: "Pesci" },
-  { lettera: "ר Resh",    valore: 200, arcano: "XIX - Il Sole",       astro: "Sole" },
-  { lettera: "ש Shin",    valore: 300, arcano: "XX - Il Giudizio",    astro: "Fuoco" },
-  { lettera: "ת Tau",     valore: 400, arcano: "XXI - Il Mondo",      astro: "Saturno" }
+  { lettera: "א Aleph",   valore: 1,   arcano: "0 - Il Matto",         astro: "Aria" },
+  { lettera: "ב Beth",    valore: 2,   arcano: "I - Il Mago",          astro: "Mercurio" },
+  { lettera: "ג Gimel",   valore: 3,   arcano: "II - La Papessa",      astro: "Luna" },
+  { lettera: "ד Daleth",  valore: 4,   arcano: "III - L'Imperatrice",  astro: "Venere" },
+  { lettera: "ה Heh",     valore: 5,   arcano: "IV - L'Imperatore",    astro: "Ariete" },
+  { lettera: "ו Vav",     valore: 6,   arcano: "V - Il Papa",          astro: "Toro" },
+  { lettera: "ז Zayin",   valore: 7,   arcano: "VI - Gli Amanti",      astro: "Gemelli" },
+  { lettera: "ח Cheth",   valore: 8,   arcano: "VII - Il Carro",       astro: "Cancro" },
+  { lettera: "ט Teth",    valore: 9,   arcano: "VIII - La Forza",      astro: "Leone" },
+  { lettera: "י Yod",     valore: 10,  arcano: "IX - L'Eremita",       astro: "Vergine" },
+  { lettera: "כ Kaph",    valore: 20,  arcano: "X - Ruota di Fortuna", astro: "Giove" },
+  { lettera: "ל Lamed",   valore: 30,  arcano: "XI - La Giustizia",    astro: "Bilancia" },
+  { lettera: "מ Mem",     valore: 40,  arcano: "XII - L'Appeso",       astro: "Acqua" },
+  { lettera: "נ Nun",     valore: 50,  arcano: "XIII - La Morte",      astro: "Scorpione" },
+  { lettera: "ס Samekh",  valore: 60,  arcano: "XIV - La Temperanza",  astro: "Sagittario" },
+  { lettera: "ע Ayin",    valore: 70,  arcano: "XV - Il Diavolo",      astro: "Capricorno" },
+  { lettera: "פ Peh",     valore: 80,  arcano: "XVI - La Torre",       astro: "Marte" },
+  { lettera: "צ Tzaddi",  valore: 90,  arcano: "XVII - Le Stelle",     astro: "Acquario" },
+  { lettera: "ק Qoph",    valore: 100, arcano: "XVIII - La Luna",      astro: "Pesci" },
+  { lettera: "ר Resh",    valore: 200, arcano: "XIX - Il Sole",        astro: "Sole" },
+  { lettera: "ש Shin",    valore: 300, arcano: "XX - Il Giudizio",     astro: "Fuoco" },
+  { lettera: "ת Tau",     valore: 400, arcano: "XXI - Il Mondo",       astro: "Saturno" }
 ];
 
-// 22 Arcani Maggiori (per Birth Cards)
 const ARCANI = [
-  { n: 0,  nome: "Il Matto",       chiave: "Inizio, fede, salto nel vuoto" },
-  { n: 1,  nome: "Il Mago",        chiave: "Volontà focalizzata, manifestazione" },
-  { n: 2,  nome: "La Papessa",     chiave: "Saggezza ricettiva, intuizione, mistero" },
-  { n: 3,  nome: "L'Imperatrice",  chiave: "Creatività, fertilità, abbondanza" },
-  { n: 4,  nome: "L'Imperatore",   chiave: "Struttura, autorità, padre" },
-  { n: 5,  nome: "Il Papa",        chiave: "Tradizione, insegnamento, valori" },
-  { n: 6,  nome: "Gli Amanti",     chiave: "Scelta, unione, integrazione" },
-  { n: 7,  nome: "Il Carro",       chiave: "Volontà, conquista, controllo" },
-  { n: 8,  nome: "La Forza",       chiave: "Coraggio gentile, padronanza dell'istinto" },
-  { n: 9,  nome: "L'Eremita",      chiave: "Ricerca interiore, saggezza solitaria" },
-  { n: 10, nome: "Ruota di Fortuna", chiave: "Cicli, destino, cambiamento" },
-  { n: 11, nome: "La Giustizia",   chiave: "Verità, equilibrio, conseguenze" },
-  { n: 12, nome: "L'Appeso",       chiave: "Resa, prospettiva invertita, sacrificio" },
-  { n: 13, nome: "La Morte",       chiave: "Trasformazione, fine, rinascita" },
-  { n: 14, nome: "La Temperanza",  chiave: "Alchimia, integrazione, moderazione" },
-  { n: 15, nome: "Il Diavolo",     chiave: "Ombra, attaccamenti, materia" },
-  { n: 16, nome: "La Torre",       chiave: "Crollo, illuminazione improvvisa, liberazione" },
-  { n: 17, nome: "Le Stelle",      chiave: "Speranza, ispirazione, guarigione" },
-  { n: 18, nome: "La Luna",        chiave: "Inconscio, illusione, sogni" },
-  { n: 19, nome: "Il Sole",        chiave: "Gioia, vitalità, successo" },
-  { n: 20, nome: "Il Giudizio",    chiave: "Risveglio, vocazione, rinascita" },
-  { n: 21, nome: "Il Mondo",       chiave: "Completezza, integrazione finale" }
+  { n: 0,  nome: "Il Matto",       chiave: "Inizio assoluto, fede senza prove, salto nel vuoto creativo." },
+  { n: 1,  nome: "Il Mago",        chiave: "Volontà focalizzata: pensare, dire, fare allineati." },
+  { n: 2,  nome: "La Papessa",     chiave: "Saggezza ricettiva, intuizione, ciò che si sa senza sapere come." },
+  { n: 3,  nome: "L'Imperatrice",  chiave: "Creatività fertile, abbondanza naturale, terra che produce." },
+  { n: 4,  nome: "L'Imperatore",   chiave: "Struttura, autorità, padre. La forma che protegge." },
+  { n: 5,  nome: "Il Papa",        chiave: "Insegnamento, tradizione, valori trasmessi. Mediazione tra cielo e terra." },
+  { n: 6,  nome: "Gli Amanti",     chiave: "Scelta che integra. Unione che richiede di lasciare." },
+  { n: 7,  nome: "Il Carro",       chiave: "Volontà di vincere. Conquista esterna che testa l'interno." },
+  { n: 8,  nome: "La Forza",       chiave: "Coraggio gentile. La leonessa addomesticata dalla mano nuda." },
+  { n: 9,  nome: "L'Eremita",      chiave: "Ricerca solitaria. La lampada che illumina solo un passo avanti." },
+  { n: 10, nome: "Ruota di Fortuna", chiave: "Cicli, destino, ciò che ritorna trasformato." },
+  { n: 11, nome: "La Giustizia",   chiave: "Verità, equilibrio, conseguenze giuste — non punitive, esatte." },
+  { n: 12, nome: "L'Appeso",       chiave: "Resa attiva. Cambio di prospettiva attraverso la rinuncia." },
+  { n: 13, nome: "La Morte",       chiave: "Trasformazione necessaria. Fine che libera energia." },
+  { n: 14, nome: "La Temperanza",  chiave: "Alchimia, integrazione degli opposti, misura sacra." },
+  { n: 15, nome: "Il Diavolo",     chiave: "Ombra, attaccamenti, materia. Ciò che lega — e da cui si impara." },
+  { n: 16, nome: "La Torre",       chiave: "Crollo improvviso. Liberazione attraverso la rottura del falso." },
+  { n: 17, nome: "Le Stelle",      chiave: "Speranza dopo la crisi. Guida silenziosa, ispirazione." },
+  { n: 18, nome: "La Luna",        chiave: "Inconscio, sogni, illusioni. Ciò che agisce sotto la soglia." },
+  { n: 19, nome: "Il Sole",        chiave: "Gioia incarnata, vitalità, riconoscimento. La luce che riscalda." },
+  { n: 20, nome: "Il Giudizio",    chiave: "Risveglio, vocazione, chiamata profonda. Rinascita consapevole." },
+  { n: 21, nome: "Il Mondo",       chiave: "Completezza, integrazione, danza finale. Il cerchio si chiude." }
 ];
 
-// 12 segni zodiacali tropicali (date approssimative)
 const ZODIAC = [
-  { sign: "Capricorno",  glyph: "♑", from: [12,22], to: [1,19],  el: "Terra",  mod: "Cardinale", pl: "Saturno" },
-  { sign: "Acquario",    glyph: "♒", from: [1,20],  to: [2,18],  el: "Aria",   mod: "Fissa",     pl: "Urano" },
-  { sign: "Pesci",       glyph: "♓", from: [2,19],  to: [3,20],  el: "Acqua",  mod: "Mutevole",  pl: "Nettuno" },
-  { sign: "Ariete",      glyph: "♈", from: [3,21],  to: [4,19],  el: "Fuoco",  mod: "Cardinale", pl: "Marte" },
-  { sign: "Toro",        glyph: "♉", from: [4,20],  to: [5,20],  el: "Terra",  mod: "Fissa",     pl: "Venere" },
-  { sign: "Gemelli",     glyph: "♊", from: [5,21],  to: [6,20],  el: "Aria",   mod: "Mutevole",  pl: "Mercurio" },
-  { sign: "Cancro",      glyph: "♋", from: [6,21],  to: [7,22],  el: "Acqua",  mod: "Cardinale", pl: "Luna" },
-  { sign: "Leone",       glyph: "♌", from: [7,23],  to: [8,22],  el: "Fuoco",  mod: "Fissa",     pl: "Sole" },
-  { sign: "Vergine",     glyph: "♍", from: [8,23],  to: [9,22],  el: "Terra",  mod: "Mutevole",  pl: "Mercurio" },
-  { sign: "Bilancia",    glyph: "♎", from: [9,23],  to: [10,22], el: "Aria",   mod: "Cardinale", pl: "Venere" },
-  { sign: "Scorpione",   glyph: "♏", from: [10,23], to: [11,21], el: "Acqua",  mod: "Fissa",     pl: "Plutone" },
-  { sign: "Sagittario",  glyph: "♐", from: [11,22], to: [12,21], el: "Fuoco",  mod: "Mutevole",  pl: "Giove" }
+  { sign: "Capricorno", glyph: "♑", from: [12,22], to: [1,19],  el: "Terra",  mod: "Cardinale", pl: "Saturno" },
+  { sign: "Acquario",   glyph: "♒", from: [1,20],  to: [2,18],  el: "Aria",   mod: "Fissa",     pl: "Urano" },
+  { sign: "Pesci",      glyph: "♓", from: [2,19],  to: [3,20],  el: "Acqua",  mod: "Mutevole",  pl: "Nettuno" },
+  { sign: "Ariete",     glyph: "♈", from: [3,21],  to: [4,19],  el: "Fuoco",  mod: "Cardinale", pl: "Marte" },
+  { sign: "Toro",       glyph: "♉", from: [4,20],  to: [5,20],  el: "Terra",  mod: "Fissa",     pl: "Venere" },
+  { sign: "Gemelli",    glyph: "♊", from: [5,21],  to: [6,20],  el: "Aria",   mod: "Mutevole",  pl: "Mercurio" },
+  { sign: "Cancro",     glyph: "♋", from: [6,21],  to: [7,22],  el: "Acqua",  mod: "Cardinale", pl: "Luna" },
+  { sign: "Leone",      glyph: "♌", from: [7,23],  to: [8,22],  el: "Fuoco",  mod: "Fissa",     pl: "Sole" },
+  { sign: "Vergine",    glyph: "♍", from: [8,23],  to: [9,22],  el: "Terra",  mod: "Mutevole",  pl: "Mercurio" },
+  { sign: "Bilancia",   glyph: "♎", from: [9,23],  to: [10,22], el: "Aria",   mod: "Cardinale", pl: "Venere" },
+  { sign: "Scorpione",  glyph: "♏", from: [10,23], to: [11,21], el: "Acqua",  mod: "Fissa",     pl: "Plutone" },
+  { sign: "Sagittario", glyph: "♐", from: [11,22], to: [12,21], el: "Fuoco",  mod: "Mutevole",  pl: "Giove" }
 ];
 
 const SIGN_INTERP = {
-  "Ariete":      "Fuoco cardinale. Inizia, rompe, apre. La sfida è il dopo: portare a termine quello che ha iniziato.",
-  "Toro":        "Terra fissa. Radica, gusta, conserva. La sfida è il movimento: cosa è chiamato a lasciare.",
-  "Gemelli":     "Aria mutevole. Collega, racconta, sperimenta. La sfida è la profondità: scegliere una sola cosa.",
-  "Cancro":      "Acqua cardinale. Custodisce, sente, ricorda. La sfida è il guscio: quando uscire allo scoperto.",
-  "Leone":       "Fuoco fisso. Brilla, crea, dona. La sfida è il riconoscimento: brillare anche senza pubblico.",
-  "Vergine":     "Terra mutevole. Affina, serve, distingue. La sfida è la perfezione: la fine del lavoro.",
-  "Bilancia":    "Aria cardinale. Bilancia, relaziona, armonizza. La sfida è la decisione: scegliere senza compiacere.",
-  "Scorpione":   "Acqua fissa. Penetra, trasforma, scava. La sfida è la fiducia: lasciare entrare l'altro.",
-  "Sagittario":  "Fuoco mutevole. Cerca, espande, insegna. La sfida è il radicamento: la verità nel quotidiano.",
-  "Capricorno":  "Terra cardinale. Costruisce, dura, organizza. La sfida è la gioia: cosa fa dopo aver costruito.",
-  "Acquario":    "Aria fissa. Vede oltre, riforma, libera. La sfida è la calore umano: scendere dal balcone.",
-  "Pesci":       "Acqua mutevole. Dissolve, intuisce, compatisce. La sfida è il confine: dove finisce lui, dove inizia l'altro."
+  "Ariete":      { breve: "Fuoco cardinale. Inizia, rompe, apre.", esteso: "Apre le porte ma fa fatica a chiuderle. La sua maestria è imparare a portare a termine ciò che ha iniziato. Lavoro d'ombra: la rabbia non riconosciuta che diventa impulsività.", stagione: "L'inizio. Il seme che spacca il guscio." },
+  "Toro":        { breve: "Terra fissa. Radica, gusta, conserva.", esteso: "Costruisce solidità ma rischia di chiudersi nelle abitudini. Maestria: distinguere stabilità da inerzia. Lavoro d'ombra: l'attaccamento al noto come compensazione di paure profonde.", stagione: "La maturazione. Il frutto che pesa sul ramo." },
+  "Gemelli":     { breve: "Aria mutevole. Collega, racconta, sperimenta.", esteso: "Intelligenza versatile, rischio di superficialità. Maestria: scegliere la profondità di una sola direzione. Lavoro d'ombra: la fuga dal sentire attraverso la parola.", stagione: "Il fiore che apre molti petali insieme." },
+  "Cancro":      { breve: "Acqua cardinale. Custodisce, sente, ricorda.", esteso: "Sensibilità altissima, rischio di chiusura nel guscio. Maestria: difendere senza isolarsi. Lavoro d'ombra: confondere il bisogno di sicurezza con la dipendenza dal passato.", stagione: "L'estate piena. La memoria che custodisce." },
+  "Leone":       { breve: "Fuoco fisso. Brilla, crea, dona.", esteso: "Generosità reale e bisogno di riconoscimento. Maestria: brillare anche senza pubblico. Lavoro d'ombra: l'orgoglio ferito che si ritira o si arrocca.", stagione: "Il sole alto. Lo splendore che chiede di essere visto." },
+  "Vergine":     { breve: "Terra mutevole. Affina, serve, distingue.", esteso: "Capacità diagnostica fine, rischio di iper-critica. Maestria: vedere il difetto senza colpevolizzare. Lavoro d'ombra: il perfezionismo come forma di controllo dell'ansia.", stagione: "Il raccolto. Ciò che si è coltivato si distingue dalla pula." },
+  "Bilancia":    { breve: "Aria cardinale. Bilancia, relaziona, armonizza.", esteso: "Talento per la mediazione, rischio di indecisione cronica. Maestria: scegliere senza compiacere. Lavoro d'ombra: il conflitto evitato che diventa risentimento.", stagione: "L'equinozio. Il momento in cui giorno e notte si pesano." },
+  "Scorpione":   { breve: "Acqua fissa. Penetra, trasforma, scava.", esteso: "Potenza emotiva e capacità di trasformazione. Rischio di possesso. Maestria: lasciare entrare l'altro nella propria profondità. Lavoro d'ombra: il controllo come reazione alla paura del tradimento.", stagione: "L'autunno profondo. La discesa nella radice." },
+  "Sagittario":  { breve: "Fuoco mutevole. Cerca, espande, insegna.", esteso: "Visione e fede, rischio di evasione filosofica. Maestria: la verità si misura nel quotidiano. Lavoro d'ombra: il dogmatismo travestito da apertura.", stagione: "Il fuoco lontano. La freccia che cerca l'orizzonte." },
+  "Capricorno":  { breve: "Terra cardinale. Costruisce, dura, organizza.", esteso: "Disciplina e visione lunga. Rischio di sacrificare la gioia per il dovere. Maestria: chiedersi cosa si fa dopo aver costruito. Lavoro d'ombra: la durezza come compensazione di una vulnerabilità antica.", stagione: "L'inverno solenne. La struttura che resiste al gelo." },
+  "Acquario":    { breve: "Aria fissa. Vede oltre, riforma, libera.", esteso: "Visione collettiva e originalità. Rischio di freddezza. Maestria: scendere dal balcone, abitare il calore umano. Lavoro d'ombra: l'idealismo come fuga dall'intimità.", stagione: "Il vento alto. L'aria che porta lontano." },
+  "Pesci":       { breve: "Acqua mutevole. Dissolve, intuisce, compatisce.", esteso: "Intuito mistico e empatia totale. Rischio di confusione tra sé e l'altro. Maestria: il confine come atto d'amore. Lavoro d'ombra: il salvifismo come modo per evitare il proprio dolore.", stagione: "Lo scioglimento. L'acqua che torna al mare." }
 };
 
-// Zodiaco cinese
 const CHINESE_ANIMALS = [
-  { it: "Topo",     en: "Rat",     elFix: "Acqua",   yy: "Yang", lettura: "Furbo, adattabile, ambizioso. Ombra: opportunismo, ansia da accumulo." },
-  { it: "Bue",      en: "Ox",      elFix: "Terra",   yy: "Yin",  lettura: "Costante, paziente, affidabile. Ombra: ostinazione, lentezza al cambiamento." },
-  { it: "Tigre",    en: "Tiger",   elFix: "Legno",   yy: "Yang", lettura: "Coraggio, autorità, magnetismo. Ombra: impulsività, autoritarismo." },
-  { it: "Coniglio", en: "Rabbit",  elFix: "Legno",   yy: "Yin",  lettura: "Eleganza, diplomazia, sensibilità. Ombra: evitamento, superficialità." },
-  { it: "Drago",    en: "Dragon",  elFix: "Terra",   yy: "Yang", lettura: "Carisma, visione, potere. Ombra: arroganza, distacco emotivo." },
-  { it: "Serpente", en: "Snake",   elFix: "Fuoco",   yy: "Yin",  lettura: "Saggezza, intuizione, profondità. Ombra: gelosia, manipolazione sottile." },
-  { it: "Cavallo",  en: "Horse",   elFix: "Fuoco",   yy: "Yang", lettura: "Energia, libertà, entusiasmo. Ombra: irrequietezza, fuga." },
-  { it: "Capra",    en: "Goat",    elFix: "Terra",   yy: "Yin",  lettura: "Empatia, arte, gentilezza. Ombra: dipendenza, lamento." },
-  { it: "Scimmia",  en: "Monkey",  elFix: "Metallo", yy: "Yang", lettura: "Intelligenza, ingegno, gioco. Ombra: trickster, scarsa lealtà." },
-  { it: "Gallo",    en: "Rooster", elFix: "Metallo", yy: "Yin",  lettura: "Precisione, coraggio, onestà. Ombra: critica, vanità." },
-  { it: "Cane",     en: "Dog",     elFix: "Terra",   yy: "Yang", lettura: "Lealtà, giustizia, protezione. Ombra: pessimismo, ipervigilanza." },
-  { it: "Maiale",   en: "Pig",     elFix: "Acqua",   yy: "Yin",  lettura: "Generosità, sincerità, godimento. Ombra: ingenuità, indulgenza." }
+  { it: "Topo",     en: "Rat",     elFix: "Acqua",   yy: "Yang", lettura: "Furbo, adattabile, ambizioso. Visione sottile, opportunismo positivo. Ombra: ansia da accumulo, calcolo eccessivo." },
+  { it: "Bue",      en: "Ox",      elFix: "Terra",   yy: "Yin",  lettura: "Costante, paziente, affidabile. Forza tranquilla, dedizione al dovere. Ombra: ostinazione, lentezza al cambiamento." },
+  { it: "Tigre",    en: "Tiger",   elFix: "Legno",   yy: "Yang", lettura: "Coraggio, autorità, magnetismo. Iniziativa naturale. Ombra: impulsività, autoritarismo, fatica all'ascolto." },
+  { it: "Coniglio", en: "Rabbit",  elFix: "Legno",   yy: "Yin",  lettura: "Eleganza, diplomazia, sensibilità. Talento per il bello e per la mediazione. Ombra: evitamento, superficialità protettiva." },
+  { it: "Drago",    en: "Dragon",  elFix: "Terra",   yy: "Yang", lettura: "Carisma, visione, potere innato. Capacità di portare gli altri. Ombra: arroganza, distacco emotivo, complesso di superiorità." },
+  { it: "Serpente", en: "Snake",   elFix: "Fuoco",   yy: "Yin",  lettura: "Saggezza, intuizione, profondità. Attratto dal mistero. Ombra: gelosia, manipolazione sottile, possessività silenziosa." },
+  { it: "Cavallo",  en: "Horse",   elFix: "Fuoco",   yy: "Yang", lettura: "Energia, libertà, entusiasmo, slancio. Ombra: irrequietezza, fuga, instabilità." },
+  { it: "Capra",    en: "Goat",    elFix: "Terra",   yy: "Yin",  lettura: "Empatia, arte, gentilezza. Sensibilità estetica. Ombra: dipendenza affettiva, lamento, vittimismo." },
+  { it: "Scimmia",  en: "Monkey",  elFix: "Metallo", yy: "Yang", lettura: "Intelligenza, ingegno, gioco. Capacità di soluzioni laterali. Ombra: trickster, scarsa lealtà, irrequietezza mentale." },
+  { it: "Gallo",    en: "Rooster", elFix: "Metallo", yy: "Yin",  lettura: "Precisione, coraggio, onestà. Senso del dovere. Ombra: critica eccessiva, vanità, perfezionismo." },
+  { it: "Cane",     en: "Dog",     elFix: "Terra",   yy: "Yang", lettura: "Lealtà, giustizia, protezione. Ombra: pessimismo, ipervigilanza, sfiducia di base." },
+  { it: "Maiale",   en: "Pig",     elFix: "Acqua",   yy: "Yin",  lettura: "Generosità, sincerità, godimento, edonismo sano. Ombra: ingenuità, indulgenza eccessiva, mancanza di disciplina." }
 ];
 
 const CHINESE_ELEMENTS = ["Metallo","Metallo","Acqua","Acqua","Legno","Legno","Fuoco","Fuoco","Terra","Terra"];
 
-// Capodanni cinesi 1900-2050 (mese, giorno)
 const CNY = {
   1900:[1,31],1901:[2,19],1902:[2,8],1903:[1,29],1904:[2,16],1905:[2,4],1906:[1,25],1907:[2,13],1908:[2,2],1909:[1,22],
   1910:[2,10],1911:[1,30],1912:[2,18],1913:[2,6],1914:[1,26],1915:[2,14],1916:[2,3],1917:[1,23],1918:[2,11],1919:[2,1],
@@ -510,7 +1067,6 @@ const CNY = {
   2050:[1,23]
 };
 
-// Maya Dreamspell — 20 sigilli + 13 toni
 const MAYA_SEALS = [
   { n: 1,  nome: "Drago Rosso",      keyword: "Nutrimento, origine, essere",          colore: "Rosso" },
   { n: 2,  nome: "Vento Bianco",     keyword: "Spirito, comunicazione",                colore: "Bianco" },
@@ -550,36 +1106,161 @@ const MAYA_TONES = [
   { n: 13, nome: "Cosmico",       funz: "Trascende",   domanda: "Come posso espandere la presenza?" }
 ];
 
-// 12 archetipi junghiani (Pearson)
 const ARCHETYPES = [
-  { nome: "Innocente",   motiv: "Felicità, sicurezza, paradiso",     ombra: "Negazione, ingenuità, dipendenza" },
-  { nome: "Uomo Comune", motiv: "Connessione, appartenenza",         ombra: "Conformismo, mediocrità" },
-  { nome: "Eroe",        motiv: "Maestria, coraggio",                ombra: "Arroganza, narcisismo" },
-  { nome: "Custode",     motiv: "Servizio, cura",                    ombra: "Martirio, sacrificio" },
-  { nome: "Esploratore", motiv: "Libertà, autenticità",              ombra: "Errare senza meta, alienazione" },
-  { nome: "Fuorilegge",  motiv: "Rivoluzione, liberazione",          ombra: "Distruzione, rabbia" },
-  { nome: "Amante",      motiv: "Intimità, bellezza",                ombra: "Dipendenza, gelosia" },
-  { nome: "Creatore",    motiv: "Visione, espressione",              ombra: "Perfezionismo, blocco" },
-  { nome: "Sovrano",     motiv: "Controllo, prosperità",             ombra: "Tirannia, rigidità" },
-  { nome: "Mago",        motiv: "Trasformazione, alchimia",          ombra: "Manipolazione, illusione" },
-  { nome: "Saggio",      motiv: "Verità, comprensione",              ombra: "Distacco, pedanteria" },
-  { nome: "Folle",       motiv: "Gioia, presenza",                   ombra: "Crudeltà, leggerezza" }
+  { nome: "Innocente",   motiv: "Felicità, sicurezza, paradiso",     ombra: "Negazione, ingenuità, dipendenza dal protettore" },
+  { nome: "Uomo Comune", motiv: "Connessione, appartenenza",         ombra: "Conformismo, mediocrità, paura di distinguersi" },
+  { nome: "Eroe",        motiv: "Maestria, coraggio, prova di sé",   ombra: "Arroganza, narcisismo, bisogno di nemico" },
+  { nome: "Custode",     motiv: "Servizio, cura, protezione",        ombra: "Martirio, sacrificio, controllo affettivo" },
+  { nome: "Esploratore", motiv: "Libertà, autenticità",              ombra: "Errare senza meta, alienazione, fuga" },
+  { nome: "Fuorilegge",  motiv: "Rivoluzione, liberazione",          ombra: "Distruzione, rabbia, nichilismo" },
+  { nome: "Amante",      motiv: "Intimità, bellezza, fusione",       ombra: "Dipendenza, gelosia, perdita dei confini" },
+  { nome: "Creatore",    motiv: "Visione, espressione, opera",       ombra: "Perfezionismo, blocco, isolamento creativo" },
+  { nome: "Sovrano",     motiv: "Controllo, prosperità, ordine",     ombra: "Tirannia, rigidità, distanza dal popolo" },
+  { nome: "Mago",        motiv: "Trasformazione, alchimia",          ombra: "Manipolazione, illusione, mancanza di etica" },
+  { nome: "Saggio",      motiv: "Verità, comprensione",              ombra: "Distacco, pedanteria, intellettualismo freddo" },
+  { nome: "Folle",       motiv: "Gioia, presenza, gioco",            ombra: "Crudeltà nascosta, leggerezza che ferisce" }
 ];
 
-// Mapping numero→archetipo dominante
 const NUM_TO_ARCH = {
-  1: ["Eroe","Sovrano"],
-  2: ["Amante","Custode"],
-  3: ["Folle","Creatore"],
-  4: ["Uomo Comune","Custode"],
-  5: ["Esploratore","Fuorilegge"],
-  6: ["Custode","Amante"],
-  7: ["Saggio"],
-  8: ["Sovrano"],
-  9: ["Saggio","Innocente"],
-  11: ["Mago","Saggio"],
-  22: ["Creatore","Sovrano"],
-  33: ["Custode","Mago"]
+  1: ["Eroe","Sovrano"], 2: ["Amante","Custode"], 3: ["Folle","Creatore"],
+  4: ["Uomo Comune","Custode"], 5: ["Esploratore","Fuorilegge"],
+  6: ["Custode","Amante"], 7: ["Saggio"], 8: ["Sovrano"],
+  9: ["Saggio","Innocente"], 11: ["Mago","Saggio"],
+  22: ["Creatore","Sovrano"], 33: ["Custode","Mago"]
+};
+
+// Anno Personale 1-9 (interpretazioni dettagliate)
+const PERSONAL_YEAR = {
+  1: { titolo: "Anno della Semina", energia: "Fuoco di partenza. Nuovo ciclo di nove anni.", fare: "Avviare. Decidere. Prendere posizione. Scegliere la direzione del decennio. Atto di volontà chiaro.", evitare: "Esitare per paura del nuovo. Rimanere ancorati a ciò che doveva chiudersi. Confondere la fame di novità con dispersione.", pratica: "Ogni mese una decisione che parte da te, non da reazione. Anche piccola. Mantenerla.", coach: "Anno di iniziazione. Quello che pianti ora darà frutto entro il 5° anno. Lavoro identitario." },
+  2: { titolo: "Anno della Pazienza", energia: "Acqua quieta. Consolidamento.", fare: "Coltivare relazioni, partnership, accordi. Ascoltare. Lasciare maturare. Negoziare. Affinare.", evitare: "Forzare. Pretendere risultati visibili. Confondere la pazienza con la passività rinunciataria.", pratica: "Pratica del «non ancora». Davanti a una pulsione, fermarsi 24 ore. Imparare il tempo dell'altro.", coach: "Anno di spazio relazionale. Le scelte importanti emergono dal dialogo, non dall'urgenza." },
+  3: { titolo: "Anno dell'Espressione", energia: "Aria gioiosa. Espansione sociale e creativa.", fare: "Comunicare, mostrarsi, scrivere, condividere. Nuove amicizie. Espressione artistica. Gioia.", evitare: "Disperdersi in mille direzioni. Confondere visibilità ed espressione autentica.", pratica: "Pratica della voce: ogni mese, un atto pubblico di espressione (post, intervento, opera). Coltivare il piacere del mostrarsi.", coach: "Anno di apertura. Pericolo: superficialità. Tenere un solo filo profondo dentro la varietà." },
+  4: { titolo: "Anno del Lavoro", energia: "Terra densa. Costruzione, fatica, fondamenta.", fare: "Mettere ordine. Strutturare. Lavorare con metodo. Saldare debiti, sistemare le carte, finire ciò che era pendente. Cura della salute.", evitare: "Aspettarsi grandi soddisfazioni emotive. Lamentarsi della fatica: è il senso dell'anno.", pratica: "Pratica del rigore: una disciplina quotidiana mantenuta per tutto l'anno. Senza eccezioni dolci.", coach: "Anno di terra battuta. Quello che si costruisce ora regge per anni. La fatica è benedizione." },
+  5: { titolo: "Anno del Cambiamento", energia: "Vento. Movimento, viaggi, libertà.", fare: "Cambiare. Viaggiare. Sperimentare. Aprire. Lasciare ciò che è esaurito. Nuove esperienze. Nuove relazioni.", evitare: "Rompere ciò che ancora ha valore solo per inquietudine. Distinguere il cambiamento maturo dalla fuga.", pratica: "Pratica del centro mobile: ogni cambiamento esterno è chiamata a interrogarsi sul nucleo che resta.", coach: "Anno di soglia. Il rischio è la dispersione. Il dono: ritrovare l'energia vitale." },
+  6: { titolo: "Anno della Casa", energia: "Acqua calda. Famiglia, amore, responsabilità.", fare: "Investire negli affetti. Casa, famiglia, partner. Servizio. Bellezza dello spazio. Salute. Decisioni di radicamento.", evitare: "Sovraccarico di responsabilità. Salvare gli altri a scapito di sé. Confondere cura e controllo.", pratica: "Pratica del confine amorevole: ogni settimana un no detto con dolcezza che protegge il proprio centro.", coach: "Anno di nidificazione. Tema: amare senza perdersi. Dare senza esigere." },
+  7: { titolo: "Anno del Ritiro", energia: "Acqua profonda. Introspezione, studio, mistero.", fare: "Studiare, meditare, scrivere, terapia, ritiri spirituali. Domande grandi. Sintesi di un ciclo.", evitare: "Forzare risultati esterni. Aspettarsi grandi successi materiali: non è il loro tempo. Forzare relazioni nuove.", pratica: "Pratica del silenzio: un giorno al mese di silenzio reale. Lettura lenta. Ascolto profondo.", coach: "Anno della sintesi. Tutto ciò che hai vissuto chiede di essere capito. Rallentare è l'opera." },
+  8: { titolo: "Anno del Raccolto", energia: "Terra/oro. Materializzazione, potere, riconoscimenti.", fare: "Investire, espandere, prendersi responsabilità grandi, monetizzare il proprio dono. Decisioni patrimoniali. Leadership.", evitare: "Confondere abbondanza e voracità. Sacrificare l'etica al risultato. Trascurare la cura del corpo.", pratica: "Pratica della giusta misura: ogni mese una scelta che integra abbondanza ed etica. Forza vs Potere (Hawkins).", coach: "Anno della maturità materiale. Il dono che hai coltivato chiede forma economica e sociale." },
+  9: { titolo: "Anno del Completamento", energia: "Fuoco che si placa. Chiusura del ciclo di nove anni.", fare: "Lasciare andare. Chiudere relazioni esaurite, progetti finiti, identità superate. Fare bilanci. Onorare. Donare.", evitare: "Iniziare cose importanti (rimanderle al prossimo anno 1). Aggrapparsi al passato per paura del vuoto.", pratica: "Pratica del rilascio: ogni mese ufficializzare la fine di qualcosa. Ringraziare prima di lasciare.", coach: "Anno della chiusura. Il vuoto creato ora è la matrice del decennio nuovo. Confidare." }
+};
+
+// Anno universale
+const UNIVERSAL_YEAR_INTERP = {
+  1: "Anno collettivo di inizio. Energia di rottura, fondazione, decisioni epocali. Si apre un decennio.",
+  2: "Anno collettivo di partnership e diplomazia. Mediazione, alleanze, negoziati delicati. Lentezza fertile.",
+  3: "Anno collettivo creativo e comunicativo. Espressione di massa, nuove voci, narrazione collettiva.",
+  4: "Anno collettivo di lavoro e struttura. Riforme operative, tematiche economiche concrete, fondamenta.",
+  5: "Anno collettivo di cambiamento, turbolenza, libertà. Movimenti sociali, viaggi, mutamenti rapidi.",
+  6: "Anno collettivo di responsabilità, cura, comunità. Famiglia, casa, salute pubblica, valori condivisi.",
+  7: "Anno collettivo di ricerca, spiritualità, introspezione collettiva. Domande di senso, scienza profonda.",
+  8: "Anno collettivo di potere, economia, materializzazione. Dinamiche di forza globale, capitali, riconoscimenti.",
+  9: "Anno collettivo di chiusura, compimento, fine cicli. Lasciare andare ciò che è stato per fare spazio."
+};
+
+// Sfide della Vita 0-8
+const CHALLENGE_INTERP = {
+  0: { titolo: "Sfida zero · La Sintesi", testo: "Sfida rara, dominata da chi ha già fatto il lavoro nelle vite precedenti (lettura tradizionale). In termini operativi: assenza di tensione strutturale forte, rischio di sottovalutazione. La sfida diventa: scegliere la propria battaglia, non avendone una imposta." },
+  1: { titolo: "Sfida 1 · Affermare il sé", testo: "Imparare a esistere come individuo distinto. Dire io. Difendere lo spazio proprio. Spesso nasce da un'infanzia in cui l'autonomia è stata scoraggiata o punita." },
+  2: { titolo: "Sfida 2 · Co-esistere senza scomparire", testo: "Imparare a stare con l'altro senza fondersi. Sviluppare confini emotivi. Trasformare la sensibilità in strumento. Spesso nasce da contesti dove il bisogno dell'altro contava più del proprio." },
+  3: { titolo: "Sfida 3 · Esprimere senza disperdersi", testo: "Imparare a portare a termine ciò che si comincia. Dare forma stabile alla creatività. Vincere la paura del giudizio che frena la voce. Spesso nasce da svalutazioni dell'espressione spontanea." },
+  4: { titolo: "Sfida 4 · Costruire senza irrigidire", testo: "Imparare la disciplina che non è prigione. Strutturare senza mortificare la spontaneità. Spesso nasce da un'infanzia caotica o da un'eccessiva rigidità imposta." },
+  5: { titolo: "Sfida 5 · Libertà che non è fuga", testo: "Imparare a stare. Distinguere libertà autentica da evitamento. Padroneggiare le dipendenze (sostanze, viaggi, sensazioni). Spesso nasce da contesti soffocanti o da abbandoni." },
+  6: { titolo: "Sfida 6 · Amare senza salvare", testo: "Imparare il limite della propria responsabilità. Non farsi carico dell'altro come se fosse proprio compito. Distinguere cura e controllo. Spesso nasce da ruoli familiari di salvatore precoce." },
+  7: { titolo: "Sfida 7 · Fede dopo la ferita", testo: "Imparare a fidarsi della vita dopo prove dure. Non chiudersi nell'analisi cinica. Tornare al sentire dopo l'ustione. Spesso nasce da delusioni profonde dell'infanzia o adolescenza." },
+  8: { titolo: "Sfida 8 · Potere etico", testo: "Imparare a gestire denaro, autorità, riconoscimenti senza diventare ciò che si è temuto. Trasmutare orgoglio in coraggio (Hawkins). Spesso nasce da contesti familiari in cui il potere era abusato o assente." }
+};
+
+const PINNACLE_INTERP = {
+  1: "Pinnacolo dell'individuazione. Iniziativa, coraggio, leadership. Periodo in cui la persona impara ad agire da sé.",
+  2: "Pinnacolo della relazione. Cooperazione, mediazione, partnership. Lavoro sull'altro come specchio.",
+  3: "Pinnacolo dell'espressione. Creatività, socialità, gioia, comunicazione. Periodo di apertura al mondo.",
+  4: "Pinnacolo del lavoro. Struttura, fondamenta, dovere. Costruzione di solide basi materiali.",
+  5: "Pinnacolo della trasformazione. Movimento, cambiamento, libertà. Esperienze diverse, viaggi.",
+  6: "Pinnacolo dell'amore e della casa. Responsabilità, famiglia, cura, bellezza dello spazio.",
+  7: "Pinnacolo dell'introspezione. Studio, ricerca, spiritualità. Periodo contemplativo, ritiri scelti.",
+  8: "Pinnacolo del potere. Materializzazione, riconoscimenti, economia, leadership matura.",
+  9: "Pinnacolo del compimento. Servizio universale, lasciare andare, generosità, chiusura di un grande ciclo.",
+  11: "Pinnacolo del visionario. Intuizione potente, missione spirituale, sensibilità altissima da maneggiare.",
+  22: "Pinnacolo dell'opera. Possibilità di costruire qualcosa di portata storica. Pretende disciplina."
+};
+
+/* ---------- HUMAN DESIGN ---------- */
+
+// Rave wheel: gates in tropical zodiac order, starting at Aries 3°52'30" (3.875°)
+// Each gate spans 5.625° (360/64)
+const HD_GATES_WHEEL = [
+  25, 17, 21, 51, 42, 3, 27, 24, 2, 23, 8, 20,
+  16, 35, 45, 12, 15, 52, 39, 53, 62, 56, 31, 33,
+  7, 4, 29, 59, 40, 64, 47, 6, 46, 18, 48, 57,
+  32, 50, 28, 44, 1, 43, 14, 34, 9, 5, 26, 11,
+  10, 58, 38, 54, 61, 60, 41, 19, 13, 49, 30, 55,
+  37, 63, 22, 36
+];
+
+// Significato sintetico delle 64 porte HD
+const HD_GATE_NAMES = {
+  1: { nome: "L'Auto-Espressione Creativa", chiave: "Il Creativo. Il dono di sé al mondo attraverso l'arte unica." },
+  2: { nome: "Il Ricevitivo · Direzione del Sé", chiave: "Sapere cosa è giusto per sé. La bussola interna." },
+  3: { nome: "L'Ordinamento", chiave: "Trasformare il caos in nuovo ordine. Difficoltà al principio." },
+  4: { nome: "Le Risposte (Formulazione)", chiave: "Dare risposte concettuali. Logica giovane." },
+  5: { nome: "I Ritmi Fissi (Attesa)", chiave: "Pattern, abitudini, attesa del momento giusto." },
+  6: { nome: "L'Attrito (Conflitto)", chiave: "Intimità attraverso il conflitto e la riconciliazione." },
+  7: { nome: "L'Esercito (Il Ruolo)", chiave: "La leadership al servizio del collettivo." },
+  8: { nome: "Il Contributo (Tenere Insieme)", chiave: "Stile unico al servizio del gruppo." },
+  9: { nome: "Il Focus (Determinazione)", chiave: "Concentrarsi sul dettaglio che conta." },
+  10: { nome: "Il Comportamento del Sé (Amore di sé)", chiave: "Essere autentico. Camminare il proprio modo." },
+  11: { nome: "Le Idee", chiave: "Concettualizzazione, idee da condividere." },
+  12: { nome: "La Cautela (Chiarezza)", chiave: "Espressione che attende il momento giusto." },
+  13: { nome: "Il Narratore (Ascoltatore)", chiave: "Custode di storie. Memoria collettiva." },
+  14: { nome: "Il Potere · Ricchezza Acquisita", chiave: "Lavoro di cuore che porta abbondanza." },
+  15: { nome: "L'Estremismo (Ritmi)", chiave: "Modulazione tra estremi. Amore per l'umanità." },
+  16: { nome: "L'Entusiasmo · Talenti", chiave: "Maestria attraverso la pratica e la sperimentazione." },
+  17: { nome: "L'Opinione (Idee Logiche)", chiave: "Vedere pattern, formulare opinioni logiche." },
+  18: { nome: "La Correzione (Giudizio)", chiave: "Correggere ciò che non funziona. Critica costruttiva." },
+  19: { nome: "L'Approccio (Il Bisogno)", chiave: "Sensibilità ai bisogni — propri e collettivi." },
+  20: { nome: "L'Ora · Adesso", chiave: "Presenza nel qui ed ora. Consapevolezza." },
+  21: { nome: "Il Cacciatore (Controllo)", chiave: "Controllo del proprio dominio. Manager." },
+  22: { nome: "L'Apertura (Grazia)", chiave: "Grazia emotiva. Ascolto sociale." },
+  23: { nome: "L'Assimilazione (Conoscenza)", chiave: "Articolare conoscenze al momento giusto." },
+  24: { nome: "Ritornare (Razionalizzazione)", chiave: "Visite e ritorni dell'ispirazione mentale." },
+  25: { nome: "L'Innocenza (Spirito del Sé)", chiave: "Amore universale. Innocenza spirituale." },
+  26: { nome: "L'Egoista (Domatore)", chiave: "Trasmettitore di verità con destrezza." },
+  27: { nome: "La Cura (Nutrizione)", chiave: "Nutrire e sostenere. Responsabilità verso gli altri." },
+  28: { nome: "Il Gioco (Il Lottatore)", chiave: "Lotta per dare senso alla vita. Rischio calcolato." },
+  29: { nome: "L'Abbraccio (Perseveranza)", chiave: "Dire sì all'esperienza giusta — non a tutto." },
+  30: { nome: "Il Fuoco (I Sentimenti)", chiave: "Desideri, fuoco, intensità del sentire." },
+  31: { nome: "L'Influenza (Leadership)", chiave: "Guidare attraverso l'influenza, non la forza." },
+  32: { nome: "La Continuità (Conservazione)", chiave: "Valore di ciò che dura. Adattabilità intuitiva." },
+  33: { nome: "Il Riposo (Privacy)", chiave: "Ritirarsi per assimilare. Memoria privata." },
+  34: { nome: "Il Potere (Il Gigante)", chiave: "Forza pura, potenza centrata e operativa." },
+  35: { nome: "Il Cambiamento · Progresso", chiave: "Movimento, novità, esperienze diverse." },
+  36: { nome: "La Crisi (Esplorazione)", chiave: "Crisi emotiva come motore di esperienza." },
+  37: { nome: "La Famiglia (Amicizia)", chiave: "Comunità, affetti, relazioni di sangue scelto." },
+  38: { nome: "Il Combattente (Opposizione)", chiave: "Lottare per ciò in cui si crede. Senso del valore." },
+  39: { nome: "La Provocazione (Liberazione)", chiave: "Provocare per liberare il sentimento autentico." },
+  40: { nome: "Il Solitario (Liberazione)", chiave: "Lavoro per la propria libertà, fine di obblighi." },
+  41: { nome: "Il Decremento (Fantasia)", chiave: "Anticipazione, fantasia di nuove esperienze." },
+  42: { nome: "L'Aumento (Crescita)", chiave: "Completare cicli per crescere maturamente." },
+  43: { nome: "L'Intuizione · Insight", chiave: "Sapere unico, intuizione individuale." },
+  44: { nome: "L'Allerta (Attenzione)", chiave: "Memoria istintiva. Riconoscere pattern di pericolo." },
+  45: { nome: "Il Re/La Regina · Raccoglitore", chiave: "Leadership di possesso. Educatore di risorse." },
+  46: { nome: "Il Determinato (L'Amore del Corpo)", chiave: "Successo attraverso il corpo, fortuna terrena." },
+  47: { nome: "L'Oppressione (Realizzazione)", chiave: "Ispirazione mentale, comprendere il senso." },
+  48: { nome: "Il Pozzo · Profondità", chiave: "Profondità del sapere, fonte profonda." },
+  49: { nome: "La Rivoluzione (Rifiuto)", chiave: "Trasformazione necessaria, principi fissi." },
+  50: { nome: "I Valori (Custode)", chiave: "Custode dei valori comunitari. Etica." },
+  51: { nome: "Lo Shock (L'Audacia)", chiave: "Scossa che risveglia. Iniziazione attraverso lo shock." },
+  52: { nome: "L'Immobilità (La Concentrazione)", chiave: "Stillness fertile. Concentrarsi senza muoversi." },
+  53: { nome: "L'Inizio (Sviluppo)", chiave: "Iniziare nuovi cicli, energia di partenza." },
+  54: { nome: "L'Ambizione (Aspirazione)", chiave: "Aspirazione spirituale e materiale, scalata." },
+  55: { nome: "Lo Spirito (Abbondanza)", chiave: "Abbondanza spirituale, fede emotiva, frequenza emotiva." },
+  56: { nome: "Lo Stimolatore (Narratore)", chiave: "Tradurre esperienze in storie stimolanti." },
+  57: { nome: "L'Intuizione · Acuità", chiave: "Acuità intuitiva, percezione del momento." },
+  58: { nome: "La Vitalità · Gioia di Vivere", chiave: "Gioia incarnata. Vitalità." },
+  59: { nome: "La Sessualità (Penetrazione)", chiave: "Intimità, fertilità, capacità di entrare nell'altro." },
+  60: { nome: "L'Accettazione (Limitazione)", chiave: "Accettare il limite per trasformarlo." },
+  61: { nome: "Il Mistero (Verità Interiore)", chiave: "Pressione del sapere il perché. Conoscenza intuitiva." },
+  62: { nome: "L'Espressione del Dettaglio", chiave: "Articolare i dettagli logici." },
+  63: { nome: "Il Dubbio (Dopo il Compimento)", chiave: "Dubbio salutare, domande logiche." },
+  64: { nome: "La Confusione (Prima del Compimento)", chiave: "Pressione mentale di dare senso, riflessione confusa." }
 };
 
 /* =====================================================================
@@ -587,58 +1268,43 @@ const NUM_TO_ARCH = {
    ===================================================================== */
 
 function normalize(s) {
-  return s.toUpperCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^A-Z]/g, "");
+  return s.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Z]/g, "");
 }
-
+function digitSum(n) { return String(n).split("").reduce((a,d)=>a+Number(d),0); }
 function reduceToOne(n, preserveMaster = true) {
   while (n > 9) {
     if (preserveMaster && (n === 11 || n === 22 || n === 33)) return n;
-    n = String(n).split("").reduce((a,d) => a + Number(d), 0);
+    n = digitSum(n);
   }
   return n;
 }
-
-function reduceToRange(n, min, max) {
-  while (n > max) {
-    n = String(n).split("").reduce((a,d) => a + Number(d), 0);
-  }
+function reduceToRange(n, max) {
+  while (n > max) n = digitSum(n);
   return n;
 }
-
 function isMaster(n) { return n === 11 || n === 22 || n === 33; }
 
 /* =====================================================================
-   3. NUMEROLOGIA PITAGORICA
+   3. NUMEROLOGIA
    ===================================================================== */
 
-function pythagoreanFor(name, yAsVowel) {
+function pythagoreanSums(name, yAsVowel) {
   const norm = normalize(name);
-  let total = 0, vowelTotal = 0, consTotal = 0;
-  const vowelSet = new Set(VOWELS);
-  if (yAsVowel) vowelSet.add("Y");
-
+  let total = 0, vowel = 0, cons = 0;
+  const vs = new Set(VOWELS); if (yAsVowel) vs.add("Y");
   for (const ch of norm) {
-    const v = PYTH[ch];
-    if (!v) continue;
+    const v = PYTH[ch]; if (!v) continue;
     total += v;
-    if (vowelSet.has(ch)) vowelTotal += v;
-    else consTotal += v;
+    if (vs.has(ch)) vowel += v; else cons += v;
   }
   return {
-    expression: reduceToOne(total),
-    expressionRaw: total,
-    soulUrge: reduceToOne(vowelTotal),
-    soulUrgeRaw: vowelTotal,
-    personality: reduceToOne(consTotal),
-    personalityRaw: consTotal
+    expression: reduceToOne(total), expressionRaw: total,
+    soulUrge: reduceToOne(vowel), soulUrgeRaw: vowel,
+    personality: reduceToOne(cons), personalityRaw: cons
   };
 }
 
 function lifePath(d, m, y) {
-  // Best practice: ridurre giorno, mese, anno separatamente preservando master
   const dRed = reduceToOne(d);
   const mRed = reduceToOne(m);
   const yRed = reduceToOne(y);
@@ -646,39 +1312,20 @@ function lifePath(d, m, y) {
   return { value: reduceToOne(total), raw: total, dRed, mRed, yRed };
 }
 
-function birthdayNumber(d) {
-  return reduceToOne(d);
-}
-
-/* =====================================================================
-   4. NUMEROLOGIA CALDEA
-   ===================================================================== */
-
-function chaldeanFor(name) {
+function chaldeanSum(name) {
   const norm = normalize(name);
   let total = 0;
-  for (const ch of norm) {
-    const v = CHALDEAN[ch];
-    if (!v) continue;
-    total += v;
-  }
+  for (const ch of norm) { const v = CHALDEAN[ch]; if (v) total += v; }
   let compound = total;
-  while (compound > 52) {
-    compound = String(compound).split("").reduce((a,d) => a + Number(d), 0);
-  }
+  while (compound > 52) compound = digitSum(compound);
   return { single: reduceToOne(total, false), compound, raw: total };
 }
 
-/* =====================================================================
-   5. KABBALISTICA / GEMATRIA
-   ===================================================================== */
-
-function kabbalisticFor(name) {
-  // Mappa ordinale ciclica: posizione lettera in alfabeto latino mod 22 → indice ebraico
+function kabbalisticSum(name) {
   const norm = normalize(name);
   let total = 0;
   for (const ch of norm) {
-    const pos = ch.charCodeAt(0) - 64; // A=1
+    const pos = ch.charCodeAt(0) - 64;
     const idx = (pos - 1) % 22;
     total += HEBREW[idx].valore;
   }
@@ -686,15 +1333,59 @@ function kabbalisticFor(name) {
   return { total, arcano: HEBREW[arcanoIdx], arcanoIdx };
 }
 
+function personalYearCalc(d, m, currentYear) {
+  const total = reduceToOne(d, false) + reduceToOne(m, false) + reduceToOne(currentYear, false);
+  return reduceToOne(total, false);
+}
+
+function universalYearCalc(year) {
+  return reduceToOne(year, false);
+}
+
+function personalMonthCalc(py, currentMonth) {
+  return reduceToOne(py + reduceToOne(currentMonth, false), false);
+}
+
+function personalDayCalc(pm, currentDay) {
+  return reduceToOne(pm + reduceToOne(currentDay, false), false);
+}
+
+function challengesCalc(d, m, y) {
+  const dR = reduceToOne(d, false);
+  const mR = reduceToOne(m, false);
+  const yR = reduceToOne(y, false);
+  const c1 = Math.abs(mR - dR);
+  const c2 = Math.abs(dR - yR);
+  const c3 = Math.abs(c1 - c2);
+  const c4 = Math.abs(mR - yR);
+  return { c1, c2, c3, c4 };
+}
+
+function pinnaclesCalc(d, m, y, lp) {
+  const dR = reduceToOne(d);
+  const mR = reduceToOne(m);
+  const yR = reduceToOne(y);
+  const p1 = reduceToOne(mR + dR);
+  const p2 = reduceToOne(dR + yR);
+  const p3 = reduceToOne(p1 + p2);
+  const p4 = reduceToOne(mR + yR);
+  const firstEnd = 36 - lp;
+  return {
+    p1: { value: p1, ageFrom: 0, ageTo: firstEnd },
+    p2: { value: p2, ageFrom: firstEnd + 1, ageTo: firstEnd + 9 },
+    p3: { value: p3, ageFrom: firstEnd + 10, ageTo: firstEnd + 18 },
+    p4: { value: p4, ageFrom: firstEnd + 19, ageTo: 99 }
+  };
+}
+
 /* =====================================================================
-   6. ASTROLOGIA — SEGNO SOLARE
+   4. ASTROLOGIA
    ===================================================================== */
 
 function sunSign(month, day) {
   for (const z of ZODIAC) {
     const [fm, fd] = z.from, [tm, td] = z.to;
     if (fm > tm) {
-      // attraversa fine anno (Capricorno)
       if ((month === fm && day >= fd) || (month === tm && day <= td)) return z;
     } else {
       if ((month === fm && day >= fd) || (month === tm && day <= td) || (month > fm && month < tm)) return z;
@@ -703,70 +1394,55 @@ function sunSign(month, day) {
   return null;
 }
 
+// Sun longitude (tropical) using simplified formula. Accurate to ~0.01°
+function sunLongitudeAt(date) {
+  const J2000 = Date.UTC(2000, 0, 1, 12);
+  const n = (date.getTime() - J2000) / 86400000;
+  const L = (280.460 + 0.9856474 * n) % 360;
+  const g = ((357.528 + 0.9856003 * n) % 360) * Math.PI / 180;
+  let lambda = L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g);
+  lambda = ((lambda % 360) + 360) % 360;
+  return lambda;
+}
+
 /* =====================================================================
-   7. ZODIACO CINESE
+   5. CINESE
    ===================================================================== */
 
-function chineseZodiac(year, month, day) {
-  let chineseYear = year;
+function chineseZodiacCalc(year, month, day) {
+  let cy = year;
   const cny = CNY[year];
   if (cny) {
     const [cm, cd] = cny;
-    if (month < cm || (month === cm && day < cd)) chineseYear = year - 1;
+    if (month < cm || (month === cm && day < cd)) cy = year - 1;
   }
-  const animalIdx = (chineseYear - 1900 + 0) % 12; // 1900 = Topo
-  // 1900 era Metallo (gengzi). Mapping ultima cifra anno: 0,1=Metallo, 2,3=Acqua, 4,5=Legno, 6,7=Fuoco, 8,9=Terra
-  const lastDigit = ((chineseYear % 10) + 10) % 10;
+  const animalIdx = ((cy - 1900) % 12 + 12) % 12;
+  const lastDigit = ((cy % 10) + 10) % 10;
   const element = CHINESE_ELEMENTS[lastDigit];
-  // Yin/Yang da indice anno (anni pari Yang, dispari Yin nel calendario tradizionale stem-branch)
-  const yy = (chineseYear % 2 === 0) ? "Yang" : "Yin";
-
-  return {
-    year: chineseYear,
-    animal: CHINESE_ANIMALS[animalIdx],
-    element,
-    yy,
-    pillar: `${element} ${CHINESE_ANIMALS[animalIdx].it} (${yy})`
-  };
+  const yy = (cy % 2 === 0) ? "Yang" : "Yin";
+  return { year: cy, animal: CHINESE_ANIMALS[animalIdx], element, yy };
 }
 
 /* =====================================================================
-   8. MAYA / DREAMSPELL
+   6. MAYA DREAMSPELL
    ===================================================================== */
 
-function julianDay(y, m, d) {
-  // Fliegel-Van Flandern
-  const a = Math.floor((14 - m) / 12);
-  const yr = y + 4800 - a;
-  const mo = m + 12 * a - 3;
-  return d + Math.floor((153 * mo + 2) / 5) + 365 * yr
-       + Math.floor(yr / 4) - Math.floor(yr / 100) + Math.floor(yr / 400) - 32045;
-}
-
 function dreamspellKin(y, m, d) {
-  // Dreamspell salta il 29 febbraio: si conta come se non esistesse
-  // Algoritmo standard: kin basato su data di nascita riferito al ciclo 260
-  // Usiamo correlazione: 26 luglio = inizio anno Dreamspell, ma per semplicità
-  // partiamo da data di riferimento nota (verificata su starroot.com).
-  // Riferimento: 1 gen 2000 = Kin 11 (Scimmia Spettrale) — verificato.
-  // Calcoliamo giorni dal riferimento, escludendo i 29/2.
-
   function isLeapDay(yy, mm, dd) { return mm === 2 && dd === 29; }
-  function daysFromRef(targetY, targetM, targetD) {
+  function daysFromRef(ty, tm, td) {
     const ref = new Date(Date.UTC(2000, 0, 1));
-    const tgt = new Date(Date.UTC(targetY, targetM - 1, targetD));
+    const tgt = new Date(Date.UTC(ty, tm - 1, td));
     let diff = Math.round((tgt - ref) / 86400000);
-    // Sottrai i 29 febbraio inclusi nel range
     let leapDays = 0;
     if (diff >= 0) {
-      for (let yr = 2000; yr <= targetY; yr++) {
+      for (let yr = 2000; yr <= ty; yr++) {
         if (((yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0))) {
           const leap = new Date(Date.UTC(yr, 1, 29));
           if (leap >= ref && leap <= tgt) leapDays++;
         }
       }
     } else {
-      for (let yr = targetY; yr <= 2000; yr++) {
+      for (let yr = ty; yr <= 2000; yr++) {
         if (((yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0))) {
           const leap = new Date(Date.UTC(yr, 1, 29));
           if (leap >= tgt && leap <= ref) leapDays++;
@@ -776,74 +1452,71 @@ function dreamspellKin(y, m, d) {
     }
     return diff - leapDays;
   }
-
-  if (isLeapDay(y, m, d)) {
-    // Dreamspell: 29 feb è "giorno fuori dal tempo" — usiamo 28 feb
-    d = 28;
-  }
-
-  const REF_KIN = 11; // 1 gen 2000 = Kin 11
+  if (isLeapDay(y, m, d)) d = 28;
+  const REF_KIN = 11;
   const diff = daysFromRef(y, m, d);
-  let kin = ((REF_KIN - 1 + diff) % 260 + 260) % 260 + 1;
-
-  // Sigillo (1-20) e Tono (1-13) dal kin
-  const sealIdx = ((kin - 1) % 20);
-  const toneIdx = ((kin - 1) % 13);
-
-  return {
-    kin,
-    seal: MAYA_SEALS[sealIdx],
-    tone: MAYA_TONES[toneIdx]
-  };
+  const kin = ((REF_KIN - 1 + diff) % 260 + 260) % 260 + 1;
+  return { kin, seal: MAYA_SEALS[(kin - 1) % 20], tone: MAYA_TONES[(kin - 1) % 13] };
 }
 
 /* =====================================================================
-   9. BIRTH CARDS (Arrien/Greer)
+   7. BIRTH CARDS
    ===================================================================== */
 
-function birthCards(d, m, y) {
+function birthCardsCalc(d, m, y) {
   const total = d + m + y;
-  let personality = total;
-  while (personality > 22) {
-    personality = String(personality).split("").reduce((a,c) => a + Number(c), 0);
+  let p = total;
+  while (p > 22) p = digitSum(p);
+  let s = p;
+  if (s > 9) s = digitSum(s);
+  if (total === 19 || p === 19) {
+    return { total, personality: ARCANI[19], soul: ARCANI[1] };
   }
-  let soul = personality;
-  if (soul > 9) {
-    soul = String(soul).split("").reduce((a,c) => a + Number(c), 0);
-  }
-  // Eccezione 19: Soul = 1 (Mago), Personality = 19 (Sole)
-  if (total === 19 || personality === 19) {
-    return {
-      total,
-      personality: ARCANI[19],
-      soul: ARCANI[1],
-      hidden: ARCANI[10]
-    };
-  }
+  return { total, personality: ARCANI[p], soul: ARCANI[s] };
+}
+
+function yearCardCalc(d, m, currentYear) {
+  let total = d + m + currentYear;
+  while (total > 22) total = digitSum(total);
+  return ARCANI[total];
+}
+
+/* =====================================================================
+   8. HUMAN DESIGN — Sun gates + Incarnation Cross approximation
+   ===================================================================== */
+
+function gateFromLongitude(lon) {
+  const startDeg = 3.875; // Aries 3°52'30"
+  const span = 360 / 64; // 5.625°
+  const idx = Math.floor((((lon - startDeg) % 360) + 360) % 360 / span);
+  return HD_GATES_WHEEL[idx];
+}
+
+function lineFromLongitude(lon) {
+  const startDeg = 3.875;
+  const span = 360 / 64;
+  const within = (((lon - startDeg) % 360) + 360) % 360 % span;
+  const lineSpan = span / 6;
+  return Math.floor(within / lineSpan) + 1; // 1-6
+}
+
+function humanDesignSun(date) {
+  const personalitySun = sunLongitudeAt(date);
+  const personalityEarth = (personalitySun + 180) % 360;
+  // Design = 88° solar before birth = ~88 days
+  const designDate = new Date(date.getTime() - 88 * 86400000);
+  const designSun = sunLongitudeAt(designDate);
+  const designEarth = (designSun + 180) % 360;
   return {
-    total,
-    personality: ARCANI[personality],
-    soul: ARCANI[soul]
+    personalitySun: { gate: gateFromLongitude(personalitySun), line: lineFromLongitude(personalitySun), lon: personalitySun },
+    personalityEarth: { gate: gateFromLongitude(personalityEarth), line: lineFromLongitude(personalityEarth), lon: personalityEarth },
+    designSun: { gate: gateFromLongitude(designSun), line: lineFromLongitude(designSun), lon: designSun },
+    designEarth: { gate: gateFromLongitude(designEarth), line: lineFromLongitude(designEarth), lon: designEarth }
   };
 }
 
-function yearCard(d, m, currentYear) {
-  const total = d + m + currentYear;
-  let n = total;
-  while (n > 22) n = String(n).split("").reduce((a,c) => a + Number(c), 0);
-  return ARCANI[n];
-}
-
 /* =====================================================================
-   10. ARCHETIPI JUNGHIANI
-   ===================================================================== */
-
-function archetypeFor(num) {
-  return NUM_TO_ARCH[num] || ["Eroe"];
-}
-
-/* =====================================================================
-   11. RENDERING
+   9. RENDERING
    ===================================================================== */
 
 function el(tag, attrs = {}, children = []) {
@@ -858,202 +1531,345 @@ function el(tag, attrs = {}, children = []) {
   return e;
 }
 
-function statBox(label, value, meta) {
+function statBox(label, value, meta, smallVal = false) {
   return el("div", { class: "stat" }, [
     el("div", { class: "label" }, label),
-    el("div", { class: "value" }, value),
+    el("div", { class: "value" + (smallVal ? " small" : "") }, value),
     meta ? el("div", { class: "meta" }, meta) : null
   ]);
 }
 
-function renderPythagorean(parent, fullName, lifeP, birth, expr, soul, pers, maturity, yAsVowel) {
+function detailRow(key, val) {
+  return el("div", { class: "interp-row" }, [
+    el("div", { class: "key" }, key),
+    el("div", { class: "val", html: val })
+  ]);
+}
+
+function sectionMarker(num, label) {
+  return el("div", { class: "section-marker" }, [
+    el("span", { class: "num" }, num),
+    document.createTextNode(label)
+  ]);
+}
+
+function renderHeader(parent, fullName, dateStr, time, place) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Numerologia Pitagorica"));
-  card.appendChild(el("div", { class: "subtitle" }, "Tradizione occidentale moderna · Hans Decoz"));
+  card.style.borderLeft = "4px solid var(--gold)";
+  card.appendChild(el("h2", {}, fullName));
+  const d = new Date(dateStr);
+  const months = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+  const dateLabel = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}${time ? " · " + time : ""}${place ? " · " + place : ""}`;
+  card.appendChild(el("div", { class: "subtitle" }, dateLabel));
+  card.appendChild(el("p", {}, "Profilo elaborato a partire dai dati di nascita. Le interpretazioni che seguono sono frame archetipici, non sentenze."));
+  parent.appendChild(card);
+}
+
+function renderNumerologyMain(parent, lp, exp, soul, pers, birth, maturity, yAsVowel) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("Numerologia "), el("em", {}, "pitagorica")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Tradizione occidentale moderna · sistema di Hans Decoz"));
 
   const row = el("div", { class: "row" }, [
-    statBox("Sentiero di Vita", String(lifeP.value), `${lifeP.dRed} + ${lifeP.mRed} + ${lifeP.yRed}${isMaster(lifeP.value) ? " · Master Number" : ""}`),
-    statBox("Espressione", String(expr.expression), `Da ${expr.expressionRaw}${isMaster(expr.expression) ? " · Master" : ""}`),
-    statBox("Anima", String(soul.soulUrge), "Vocali del nome"),
-    statBox("Personalità", String(pers.personality), "Consonanti del nome"),
-    statBox("Compleanno", String(birth), null),
-    statBox("Maturità", String(maturity), "Attivo dai ~35 anni")
+    statBox("Sentiero di Vita", String(lp.value), `${lp.dRed} + ${lp.mRed} + ${lp.yRed}${isMaster(lp.value) ? " · Master" : ""}`),
+    statBox("Espressione", String(exp.expression), `Da ${exp.expressionRaw}${isMaster(exp.expression) ? " · Master" : ""}`),
+    statBox("Anima", String(soul.soulUrge), "Vocali"),
+    statBox("Personalità", String(pers.personality), "Consonanti"),
+    statBox("Compleanno", String(birth)),
+    statBox("Maturità", String(maturity), "Dai ~35 anni")
   ]);
   card.appendChild(row);
 
-  // Interpretazione del sentiero di vita
-  const lp = NUM_MEANINGS[lifeP.value];
-  if (lp) {
-    const interpBox = el("div", { class: "compound-box" });
-    interpBox.appendChild(el("div", { class: "num" }, `Sentiero di Vita ${lifeP.value} — ${lp.titolo}`));
-    interpBox.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, "Luce. "), document.createTextNode(lp.luce)
-    ]));
-    interpBox.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, "Ombra. "), document.createTextNode(lp.ombra)
-    ]));
-    interpBox.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, "Domanda coach. "), document.createTextNode(lp.coach)
-    ]));
-    card.appendChild(interpBox);
+  // Interpretazione del Sentiero di Vita (la più importante)
+  const lpDet = NUM_DETAIL[lp.value];
+  if (lpDet) {
+    card.appendChild(el("h3", {}, `Sentiero di Vita ${lp.value} — ${lpDet.titolo}`));
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "epigraph" }, lpDet.epigrafe));
+    box.appendChild(detailRow("Luce", lpDet.luce));
+    box.appendChild(detailRow("Ombra", lpDet.ombra));
+    box.appendChild(detailRow("Coach", lpDet.coach));
+    box.appendChild(detailRow("Relazione", lpDet.relazione));
+    box.appendChild(detailRow("Professione", lpDet.professione));
+    box.appendChild(detailRow("Pratica", lpDet.pratica));
+    card.appendChild(box);
   }
 
-  // Interpretazione espressione
-  const ex = NUM_MEANINGS[expr.expression];
-  if (ex && expr.expression !== lifeP.value) {
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, `Espressione ${expr.expression} — ${ex.titolo}`));
-    b.appendChild(el("div", { class: "interp" }, ex.luce));
-    b.appendChild(el("div", { class: "interp" }, [el("strong",{},"Ombra. "), document.createTextNode(ex.ombra)]));
-    card.appendChild(b);
+  // Espressione
+  const expDet = NUM_DETAIL[exp.expression];
+  if (expDet && exp.expression !== lp.value) {
+    card.appendChild(el("h3", {}, `Espressione ${exp.expression} — ${expDet.titolo}`));
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("p", {}, [
+      el("strong", {}, "Cosa porta nel mondo. "),
+      document.createTextNode(expDet.luce + " ")
+    ]));
+    box.appendChild(el("p", {}, [
+      el("strong", {}, "Ombra. "),
+      document.createTextNode(expDet.ombra)
+    ]));
+    box.appendChild(el("p", {}, [
+      el("strong", {}, "Pratica. "),
+      document.createTextNode(expDet.pratica)
+    ]));
+    card.appendChild(box);
   }
 
-  // Anima e personalità in breve
-  const sm = NUM_MEANINGS[soul.soulUrge], pm = NUM_MEANINGS[pers.personality];
-  if (sm) {
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, `Anima ${soul.soulUrge} — ${sm.titolo}`));
-    b.appendChild(el("div", { class: "interp" }, "Cosa desidera nel profondo: " + sm.luce.toLowerCase()));
-    card.appendChild(b);
-  }
-  if (pm) {
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, `Personalità ${pers.personality} — ${pm.titolo}`));
-    b.appendChild(el("div", { class: "interp" }, "Come appare agli altri: " + pm.luce.toLowerCase()));
-    card.appendChild(b);
+  // Anima
+  const soulDet = NUM_DETAIL[soul.soulUrge];
+  if (soulDet) {
+    card.appendChild(el("h3", {}, `Anima ${soul.soulUrge} — ${soulDet.titolo}`));
+    card.appendChild(el("p", {}, [
+      el("strong", {}, "Cosa desidera nel profondo. "),
+      document.createTextNode(soulDet.luce.split(".")[0] + ". " + soulDet.coach.split(".")[0] + ".")
+    ]));
   }
 
-  const opt = el("details");
-  opt.appendChild(el("summary", {}, "Dettagli calcolo"));
-  const tbl = el("table");
-  tbl.innerHTML = `<tr><th>Componente</th><th>Somma grezza</th><th>Ridotto</th></tr>
-    <tr><td>Espressione (tutto il nome)</td><td>${expr.expressionRaw}</td><td>${expr.expression}</td></tr>
-    <tr><td>Anima (vocali${yAsVowel ? " incl. Y" : ""})</td><td>${expr.soulUrgeRaw||soul.soulUrgeRaw}</td><td>${soul.soulUrge}</td></tr>
-    <tr><td>Personalità (consonanti)</td><td>${expr.personalityRaw||pers.personalityRaw}</td><td>${pers.personality}</td></tr>`;
-  opt.appendChild(tbl);
-  card.appendChild(opt);
+  // Personalità
+  const persDet = NUM_DETAIL[pers.personality];
+  if (persDet) {
+    card.appendChild(el("h3", {}, `Personalità ${pers.personality} — ${persDet.titolo}`));
+    card.appendChild(el("p", {}, [
+      el("strong", {}, "Come appare agli altri. "),
+      document.createTextNode("Maschera percepita: " + persDet.luce.split(".")[0].toLowerCase() + ".")
+    ]));
+  }
+
+  // Maturità
+  const matDet = NUM_DETAIL[maturity];
+  if (matDet) {
+    card.appendChild(el("h3", {}, `Maturità ${maturity} — ${matDet.titolo}`));
+    card.appendChild(el("p", {}, [
+      el("strong", {}, "Energia che emerge dopo i 35 anni. "),
+      document.createTextNode("Diventa il filo dominante della seconda parte della vita: " + matDet.luce.split(".")[0].toLowerCase() + ".")
+    ]));
+  }
 
   parent.appendChild(card);
 }
 
-function renderChaldean(parent, fullName, chald) {
+function renderChallenges(parent, ch) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Numerologia Caldea"));
-  card.appendChild(el("div", { class: "subtitle" }, "Tradizione mistica antica · Cheiro"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Le quattro "), el("em", {}, "sfide della vita")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Tensioni strutturali · numerologia evolutiva"));
+  card.appendChild(el("p", {}, "Le quattro sfide rivelano i nodi karmici principali — i temi che la vita riproporrà finché non vengono integrati. La terza sfida, quella centrale, accompagna tutto il percorso."));
+
+  const grid = el("div", { class: "timeline" });
+  const stages = [
+    { label: "1ª · Giovinezza", num: ch.c1, when: "0 - 35 anni circa" },
+    { label: "2ª · Maturità I", num: ch.c2, when: "circa 35 - 45" },
+    { label: "3ª · Centrale (vita intera)", num: ch.c3, when: "tutta la vita" },
+    { label: "4ª · Maturità II", num: ch.c4, when: "dai ~45 in poi" }
+  ];
+  for (const s of stages) {
+    const stage = el("div", { class: "stage" });
+    stage.appendChild(el("div", { class: "age" }, s.when));
+    stage.appendChild(el("div", { class: "num-big" }, String(s.num)));
+    stage.appendChild(el("div", { class: "label-name" }, s.label));
+    grid.appendChild(stage);
+  }
+  card.appendChild(grid);
+
+  for (const s of stages) {
+    const interp = CHALLENGE_INTERP[s.num];
+    if (!interp) continue;
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "heading" }, [
+      el("span", { class: "num" }, s.label),
+      document.createTextNode(interp.titolo)
+    ]));
+    box.appendChild(el("p", {}, interp.testo));
+    card.appendChild(box);
+  }
+
+  parent.appendChild(card);
+}
+
+function renderPinnacles(parent, p) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("I quattro "), el("em", {}, "pinnacoli")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Cicli evolutivi · numerologia delle stagioni"));
+  card.appendChild(el("p", {}, "I pinnacoli sono i grandi cicli di apprendimento. Ognuno chiede di sviluppare una qualità specifica, e crea il terreno del successivo."));
+
+  const grid = el("div", { class: "timeline" });
+  const stages = [
+    { label: "I Pinnacolo", num: p.p1.value, when: `0 - ${p.p1.ageTo}` },
+    { label: "II Pinnacolo", num: p.p2.value, when: `${p.p2.ageFrom} - ${p.p2.ageTo}` },
+    { label: "III Pinnacolo", num: p.p3.value, when: `${p.p3.ageFrom} - ${p.p3.ageTo}` },
+    { label: "IV Pinnacolo", num: p.p4.value, when: `${p.p4.ageFrom}+` }
+  ];
+  for (const s of stages) {
+    const stage = el("div", { class: "stage" });
+    stage.appendChild(el("div", { class: "age" }, s.when));
+    stage.appendChild(el("div", { class: "num-big" }, String(s.num)));
+    stage.appendChild(el("div", { class: "label-name" }, s.label));
+    grid.appendChild(stage);
+  }
+  card.appendChild(grid);
+
+  for (const s of stages) {
+    const interp = PINNACLE_INTERP[s.num];
+    if (!interp) continue;
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "heading" }, [
+      el("span", { class: "num" }, s.label + " · " + s.when),
+      document.createTextNode("Numero " + s.num)
+    ]));
+    box.appendChild(el("p", {}, interp));
+    card.appendChild(box);
+  }
+
+  parent.appendChild(card);
+}
+
+function renderPersonalYear(parent, py, uy, pm, pd, currentYear) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("Il momento attuale · "), el("em", {}, "anno personale e collettivo")]));
+  card.appendChild(el("div", { class: "subtitle" }, `Cicli temporali · ${currentYear}`));
 
   const row = el("div", { class: "row" }, [
-    statBox("Numero singolo", String(chald.single), null),
-    statBox("Numero compound", String(chald.compound), "Significato profondo"),
-    statBox("Somma grezza", String(chald.raw), null)
+    statBox(`Anno personale ${currentYear}`, String(py), "Tema dell'anno"),
+    statBox(`Anno universale ${currentYear}`, String(uy), "Energia collettiva"),
+    statBox("Mese personale corrente", String(pm), "Sotto-tema mensile"),
+    statBox("Giorno personale", String(pd), "Energia di oggi", true)
   ]);
   card.appendChild(row);
 
-  const cm = COMPOUND[chald.compound];
-  if (cm) {
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, `Compound ${chald.compound} — ${cm.nome}`));
-    b.appendChild(el("div", { class: "interp" }, cm.lettura));
-    card.appendChild(b);
+  const pyData = PERSONAL_YEAR[py];
+  if (pyData) {
+    card.appendChild(el("h3", {}, `Anno ${py} — ${pyData.titolo}`));
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(detailRow("Energia", pyData.energia));
+    box.appendChild(detailRow("Cosa fare", pyData.fare));
+    box.appendChild(detailRow("Cosa evitare", pyData.evitare));
+    box.appendChild(detailRow("Pratica", pyData.pratica));
+    box.appendChild(detailRow("Coach", pyData.coach));
+    card.appendChild(box);
   }
 
-  const sm = NUM_MEANINGS[chald.single];
+  card.appendChild(el("h3", {}, `Anno universale ${currentYear} — vibrazione ${uy}`));
+  card.appendChild(el("p", {}, UNIVERSAL_YEAR_INTERP[uy] || ""));
+  card.appendChild(el("div", { class: "quote-block" }, `Calcolo: somma cifre di ${currentYear} = ${digitSum(currentYear)} → ridotto a ${uy}.`));
+
+  card.appendChild(el("div", { class: "disclaimer" }, "L'anno personale cambia al compleanno (alcune scuole lo calcolano dal 1° gennaio). Qui usiamo la versione classica: anno calendario in corso. Il mese e giorno personale aiutano a calibrare le giornate."));
+
+  parent.appendChild(card);
+}
+
+function renderChaldean(parent, ch) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("Numerologia "), el("em", {}, "caldea")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Sistema antico · scuola di Cheiro"));
+
+  const row = el("div", { class: "row" }, [
+    statBox("Singolo", String(ch.single), "Energia esterna"),
+    statBox("Compound", String(ch.compound), "Destino karmico"),
+    statBox("Somma grezza", String(ch.raw))
+  ]);
+  card.appendChild(row);
+
+  const cm = COMPOUND[ch.compound];
+  if (cm) {
+    card.appendChild(el("h3", {}, `Compound ${ch.compound} — ${cm.nome}`));
+    card.appendChild(el("p", {}, cm.lettura));
+  }
+
+  const sm = NUM_DETAIL[ch.single];
   if (sm) {
-    card.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, `Vibrazione ${chald.single} (${sm.titolo}). `),
+    card.appendChild(el("h3", {}, `Vibrazione ${ch.single} — ${sm.titolo}`));
+    card.appendChild(el("p", {}, [
+      el("strong", {}, "Energia esterna percepita. "),
       document.createTextNode(sm.coach)
     ]));
   }
 
-  const note = el("div", { class: "disclaimer" });
-  note.textContent = "Nella tradizione caldea il compound (somma non ridotta) ha priorità sul singolo. Il singolo descrive l'energia esterna, il compound il destino karmico.";
-  card.appendChild(note);
+  card.appendChild(el("div", { class: "disclaimer" }, "Nella tradizione caldea il compound (somma non ridotta) ha priorità sul singolo. Il singolo è la facciata; il compound è il destino sottostante che plasma l'incontro col mondo."));
 
   parent.appendChild(card);
 }
 
-function renderKabbalistic(parent, fullName, kab) {
+function renderKabbalistic(parent, kab) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Numerologia Kabbalistica"));
-  card.appendChild(el("div", { class: "subtitle" }, "Gematria adattata · Golden Dawn"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Numerologia "), el("em", {}, "kabbalistica")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Gematria adattata · 22 lettere ebraiche · scuola Golden Dawn"));
 
   const row = el("div", { class: "row" }, [
-    statBox("Valore gematriale", String(kab.total), null),
-    statBox("Arcano risonante", `${kab.arcano.lettera.split(" ")[0]}`, kab.arcano.arcano),
-    statBox("Astrologia associata", kab.arcano.astro, null)
+    statBox("Valore gematriale", String(kab.total)),
+    statBox("Lettera ebraica", kab.arcano.lettera.split(" ")[0], kab.arcano.lettera.split(" ")[1] || "", true),
+    statBox("Arcano associato", kab.arcano.arcano, kab.arcano.astro, true)
   ]);
   card.appendChild(row);
 
-  const b = el("div", { class: "compound-box" });
-  b.appendChild(el("div", { class: "num" }, kab.arcano.arcano));
-  b.appendChild(el("div", { class: "name" }, `Lettera: ${kab.arcano.lettera} · Valore: ${kab.arcano.valore} · Corrispondenza: ${kab.arcano.astro}`));
+  card.appendChild(el("h3", {}, kab.arcano.arcano));
   const arc = ARCANI.find(a => kab.arcano.arcano.includes(a.nome));
-  if (arc) b.appendChild(el("div", { class: "interp" }, arc.chiave));
-  card.appendChild(b);
+  if (arc) card.appendChild(el("p", {}, [
+    el("strong", {}, arc.nome + ". "),
+    document.createTextNode(arc.chiave)
+  ]));
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "Corrispondenza astrologica: "),
+    document.createTextNode(kab.arcano.astro + ". Questo è il pianeta o segno che agisce come sigillo del nome.")
+  ]));
 
-  const note = el("div", { class: "disclaimer" });
-  note.textContent = "La mappatura latino→ebraico usa l'adattamento ordinale ciclico (mod 22). Sistema simbolico, non gematria ebraica rigorosa.";
-  card.appendChild(note);
+  card.appendChild(el("div", { class: "disclaimer" }, "La mappatura latino→ebraico usa l'adattamento ordinale ciclico (modulo 22). Sistema simbolico, non gematria ebraica rigorosa — utile come lente di lettura archetipica."));
 
   parent.appendChild(card);
 }
 
 function renderAstrology(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Astrologia Occidentale"));
-  card.appendChild(el("div", { class: "subtitle" }, "Tropicale · segno solare"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Astrologia "), el("em", {}, "occidentale")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Tropicale · segno solare e archetipo stagionale"));
 
   const z = sunSign(dateObj.getMonth() + 1, dateObj.getDate());
-  if (!z) { card.appendChild(el("div", {}, "Errore: segno non determinato.")); parent.appendChild(card); return; }
+  if (!z) { card.appendChild(el("p", {}, "Errore: segno non determinato.")); parent.appendChild(card); return; }
 
   const row = el("div", { class: "row" }, [
-    statBox("Segno solare", `${z.glyph} ${z.sign}`, null),
-    statBox("Elemento", z.el, null),
-    statBox("Modalità", z.mod, null),
-    statBox("Pianeta", z.pl, null)
+    statBox("Segno solare", `${z.glyph} ${z.sign}`, null, true),
+    statBox("Elemento", z.el),
+    statBox("Modalità", z.mod),
+    statBox("Pianeta reggente", z.pl)
   ]);
   card.appendChild(row);
 
   const interp = SIGN_INTERP[z.sign];
   if (interp) {
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, `${z.glyph} ${z.sign}`));
-    b.appendChild(el("div", { class: "interp" }, interp));
-    card.appendChild(b);
+    card.appendChild(el("h3", {}, `${z.glyph} ${z.sign}`));
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "epigraph" }, interp.breve));
+    box.appendChild(el("p", {}, interp.esteso));
+    box.appendChild(detailRow("Stagione", interp.stagione));
+    card.appendChild(box);
   }
 
-  const note = el("div", { class: "disclaimer" });
-  note.textContent = "Tema natale completo (Luna, Ascendente, pianeti, case, aspetti) richiede effemeridi astronomiche e luogo di nascita preciso. Implementazione successiva con libreria Moshier o Swiss Ephemeris.";
-  card.appendChild(note);
+  card.appendChild(el("div", { class: "disclaimer" }, "Tema natale completo (Luna, Ascendente, pianeti, case, aspetti) richiede effemeridi astronomiche e luogo di nascita preciso. Implementazione successiva."));
 
   parent.appendChild(card);
 }
 
 function renderChinese(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Zodiaco Cinese"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Zodiaco "), el("em", {}, "cinese")]));
   card.appendChild(el("div", { class: "subtitle" }, "Ciclo sessagesimale · pilastro dell'anno"));
 
-  const c = chineseZodiac(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
+  const c = chineseZodiacCalc(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
   const row = el("div", { class: "row" }, [
-    statBox("Animale", c.animal.it, c.animal.en),
-    statBox("Elemento dell'anno", c.element, null),
-    statBox("Polarità", c.yy, null),
-    statBox("Anno cinese", String(c.year), null)
+    statBox("Animale", c.animal.it, c.animal.en, true),
+    statBox("Elemento dell'anno", c.element),
+    statBox("Polarità", c.yy),
+    statBox("Anno cinese", String(c.year))
   ]);
   card.appendChild(row);
 
-  const b = el("div", { class: "compound-box" });
-  b.appendChild(el("div", { class: "num" }, `${c.element} ${c.animal.it}`));
-  b.appendChild(el("div", { class: "interp" }, c.animal.lettura));
-  b.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Elemento fisso (animale): "), document.createTextNode(c.animal.elFix + ". ")
+  card.appendChild(el("h3", {}, `${c.element} ${c.animal.it} (${c.yy})`));
+  card.appendChild(el("p", {}, c.animal.lettura));
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "Elemento fisso (animale): "),
+    document.createTextNode(c.animal.elFix + ". Modula la lettura dell'animale stesso, indipendente dall'elemento dell'anno.")
   ]));
-  card.appendChild(b);
 
   if (c.year !== dateObj.getFullYear()) {
-    const note = el("div", { class: "disclaimer" });
-    note.textContent = `Nato/a prima del Capodanno cinese ${dateObj.getFullYear()}: anno cinese conteggiato come ${c.year}.`;
-    card.appendChild(note);
+    card.appendChild(el("div", { class: "disclaimer" }, `Nato/a prima del Capodanno cinese ${dateObj.getFullYear()}: anno cinese calcolato come ${c.year}.`));
   }
 
   parent.appendChild(card);
@@ -1061,90 +1877,122 @@ function renderChinese(parent, dateObj) {
 
 function renderMaya(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Maya · Dreamspell"));
-  card.appendChild(el("div", { class: "subtitle" }, "20 sigilli × 13 toni · José Argüelles"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Maya · "), el("em", {}, "Dreamspell")]));
+  card.appendChild(el("div", { class: "subtitle" }, "20 sigilli × 13 toni · sistema di José Argüelles"));
 
   const m = dreamspellKin(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
   const row = el("div", { class: "row" }, [
-    statBox("Kin", String(m.kin), `Su 260`),
-    statBox("Sigillo", m.seal.nome, m.seal.colore),
-    statBox("Tono galattico", `${m.tone.n} · ${m.tone.nome}`, m.tone.funz)
+    statBox("Kin", String(m.kin), "Su 260", true),
+    statBox("Sigillo", m.seal.nome, m.seal.colore, true),
+    statBox("Tono", m.tone.nome, `${m.tone.n} · ${m.tone.funz}`, true)
   ]);
   card.appendChild(row);
 
-  const b = el("div", { class: "compound-box" });
-  b.appendChild(el("div", { class: "num" }, `Firma: ${m.tone.nome} ${m.seal.nome}`));
-  b.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Sigillo. "), document.createTextNode(m.seal.keyword)
-  ]));
-  b.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, `Tono ${m.tone.nome}. `), document.createTextNode(`Funzione: ${m.tone.funz.toLowerCase()}.`)
-  ]));
-  b.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Domanda di vita. "), document.createTextNode(m.tone.domanda)
-  ]));
-  card.appendChild(b);
+  card.appendChild(el("h3", {}, `Firma galattica: ${m.tone.nome} ${m.seal.nome}`));
+  const box = el("div", { class: "interp-box" });
+  box.appendChild(detailRow("Sigillo", m.seal.keyword));
+  box.appendChild(detailRow("Tono", `Funzione: ${m.tone.funz.toLowerCase()}.`));
+  box.appendChild(detailRow("Domanda", `«${m.tone.domanda}»`));
+  card.appendChild(box);
 
-  const note = el("div", { class: "disclaimer" });
-  note.textContent = "Sistema Dreamspell di Argüelles: salta il 29 febbraio. Diverso dal Tzolkin tradizionale Maya. Verifica incrociata su starroot.com/cgi/daycalc.pl.";
-  card.appendChild(note);
+  card.appendChild(el("div", { class: "disclaimer" }, "Sistema Dreamspell di Argüelles: salta il 29 febbraio (giorno fuori dal tempo). Diverso dal Tzolkin tradizionale Maya."));
 
   parent.appendChild(card);
 }
 
 function renderTarot(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Arcani Maggiori · Birth Cards"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Arcani Maggiori · "), el("em", {}, "Birth Cards")]));
   card.appendChild(el("div", { class: "subtitle" }, "Metodo Angeles Arrien / Mary K. Greer"));
 
-  const bc = birthCards(dateObj.getDate(), dateObj.getMonth() + 1, dateObj.getFullYear());
-  const yc = yearCard(dateObj.getDate(), dateObj.getMonth() + 1, new Date().getFullYear());
+  const bc = birthCardsCalc(dateObj.getDate(), dateObj.getMonth() + 1, dateObj.getFullYear());
+  const yc = yearCardCalc(dateObj.getDate(), dateObj.getMonth() + 1, new Date().getFullYear());
 
   const row = el("div", { class: "row" }, [
-    statBox("Personalità", bc.personality.nome, `Arcano ${bc.personality.n}`),
-    statBox("Anima", bc.soul.nome, `Arcano ${bc.soul.n}`),
-    statBox("Anno corrente", yc.nome, `Arcano ${yc.n}`)
+    statBox("Personalità", bc.personality.nome, `Arcano ${bc.personality.n}`, true),
+    statBox("Anima", bc.soul.nome, `Arcano ${bc.soul.n}`, true),
+    statBox("Anno corrente", yc.nome, `Arcano ${yc.n}`, true)
   ]);
   card.appendChild(row);
 
-  const b1 = el("div", { class: "compound-box" });
-  b1.appendChild(el("div", { class: "num" }, `Carta di Personalità · ${bc.personality.nome}`));
-  b1.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Maschera/lezione di vita. "), document.createTextNode(bc.personality.chiave)
-  ]));
-  card.appendChild(b1);
-
-  const b2 = el("div", { class: "compound-box" });
-  b2.appendChild(el("div", { class: "num" }, `Carta dell'Anima · ${bc.soul.nome}`));
-  b2.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Dono profondo. "), document.createTextNode(bc.soul.chiave)
-  ]));
-  card.appendChild(b2);
-
-  const b3 = el("div", { class: "compound-box" });
-  b3.appendChild(el("div", { class: "num" }, `Carta dell'Anno · ${yc.nome}`));
-  b3.appendChild(el("div", { class: "interp" }, [
-    el("strong", {}, "Tema attivo dal compleanno. "), document.createTextNode(yc.chiave)
-  ]));
-  card.appendChild(b3);
+  for (const [titolo, sub, card_] of [
+    ["Carta di Personalità", "Maschera e lezione di vita", bc.personality],
+    ["Carta dell'Anima", "Dono profondo, missione interiore", bc.soul],
+    ["Carta dell'Anno", "Tema attivo dal compleanno", yc]
+  ]) {
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "heading" }, [
+      el("span", { class: "num" }, `Arcano ${card_.n}`),
+      document.createTextNode(card_.nome)
+    ]));
+    box.appendChild(el("div", { class: "epigraph" }, sub));
+    box.appendChild(el("p", {}, card_.chiave));
+    card.appendChild(box);
+  }
 
   parent.appendChild(card);
 }
 
-function renderArchetypes(parent, lifeP, expr) {
+function renderHumanDesign(parent, dateObj) {
   const card = el("div", { class: "card" });
-  card.appendChild(el("h2", {}, "Archetipi Junghiani"));
-  card.appendChild(el("div", { class: "subtitle" }, "12 archetipi · Pearson/Mark · sintesi coach"));
+  card.appendChild(el("h2", {}, [document.createTextNode("Human Design · "), el("em", {}, "Croce di Personalità")]));
+  card.appendChild(el("div", { class: "subtitle" }, "Sistema di Ra Uru Hu · 64 porte dell'I-Ching"));
 
-  const fromLP = archetypeFor(lifeP);
-  const fromEX = archetypeFor(expr);
+  card.appendChild(el("p", {}, "L'Human Design integra astrologia, I-Ching, kabbalah e chakra. La firma più forte è la Croce di Personalità: quattro porte (Sole e Terra di nascita + Sole e Terra del momento del Design, 88° solari prima della nascita) che definiscono il tema centrale dell'incarnazione."));
+
+  const hd = humanDesignSun(dateObj);
+  const grid = el("div", { class: "gate-grid" });
+
+  for (const [role, sub, key] of [
+    ["Sole di Personalità", "Coscienza · ciò che vivi consapevolmente", "personalitySun"],
+    ["Terra di Personalità", "Equilibrio della coscienza · ciò che ti tiene radicato", "personalityEarth"],
+    ["Sole di Design", "Inconscio · genetica corporea, ciò che sei senza saperlo", "designSun"],
+    ["Terra di Design", "Equilibrio dell'inconscio · radicamento corporeo", "designEarth"]
+  ]) {
+    const g = hd[key];
+    const info = HD_GATE_NAMES[g.gate] || { nome: "—", chiave: "—" };
+    const c = el("div", { class: "gate-card-hd" });
+    c.appendChild(el("div", { class: "role" }, role));
+    c.appendChild(el("div", { class: "gate-num" }, `Porta ${g.gate}.${g.line}`));
+    c.appendChild(el("div", { class: "gate-name" }, info.nome));
+    c.appendChild(el("div", { class: "epigraph" }, sub));
+    c.appendChild(el("div", { class: "gate-key" }, info.chiave));
+    grid.appendChild(c);
+  }
+  card.appendChild(grid);
+
+  card.appendChild(el("h3", {}, "Come leggere"));
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "Sole di Personalità: "),
+    document.createTextNode("è la porta più importante. Rappresenta il 70% dell'energia che porti consapevolmente nel mondo. Quando vivi allineato a questo dono, ti senti vivo.")
+  ]));
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "Sole di Design: "),
+    document.createTextNode("è il tuo corpo, la tua genetica energetica. Lavora 88° solari prima della nascita perché il sistema neurologico inconscio si forma in quel momento. Lo riconosci come «come funzioni» quando smetti di pensare.")
+  ]));
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "La linea (1-6): "),
+    document.createTextNode("aggiunge sfumatura. 1=ricerca, 2=ritiro, 3=esperimento, 4=relazione, 5=guarigione, 6=ruolo modello.")
+  ]));
+
+  card.appendChild(el("div", { class: "disclaimer" }, "Calcolo della Croce di Personalità basato su effemeridi solari semplificate (precisione ±0,01°). Per chart completo (Tipo, Strategia, Autorità, Profilo, centri definiti, canali, Croce di Incarnazione) servono effemeridi di tutti i pianeti. Strumenti di riferimento: jovianarchive.com, mybodygraph.com, humdes.info."));
+
+  parent.appendChild(card);
+}
+
+function renderArchetypes(parent, lpVal, expVal) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, [document.createTextNode("Archetipi "), el("em", {}, "junghiani")]));
+  card.appendChild(el("div", { class: "subtitle" }, "12 archetipi · sintesi Pearson · lente coach"));
+
+  const fromLP = NUM_TO_ARCH[lpVal] || ["Eroe"];
+  const fromEX = NUM_TO_ARCH[expVal] || ["Eroe"];
   const active = new Set([...fromLP, ...fromEX]);
 
-  const intro = el("div", { class: "interp" }, [
-    el("strong", {}, "Archetipi attivi (dal Sentiero di Vita e dall'Espressione): "),
-    document.createTextNode([...active].join(", "))
-  ]);
-  card.appendChild(intro);
+  card.appendChild(el("p", {}, [
+    el("strong", {}, "Archetipi attivi: "),
+    document.createTextNode([...active].join(" · ") + ". Emergono dall'incrocio Sentiero di Vita ed Espressione.")
+  ]));
 
   const chips = el("div", { class: "archetypes" });
   for (const a of ARCHETYPES) {
@@ -1153,42 +2001,23 @@ function renderArchetypes(parent, lifeP, expr) {
   }
   card.appendChild(chips);
 
-  // Dettagli archetipi attivi
   for (const name of active) {
     const a = ARCHETYPES.find(x => x.nome === name);
     if (!a) continue;
-    const b = el("div", { class: "compound-box" });
-    b.appendChild(el("div", { class: "num" }, a.nome));
-    b.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, "Motivazione. "), document.createTextNode(a.motiv)
-    ]));
-    b.appendChild(el("div", { class: "interp" }, [
-      el("strong", {}, "Ombra. "), document.createTextNode(a.ombra)
-    ]));
-    card.appendChild(b);
+    const box = el("div", { class: "interp-box" });
+    box.appendChild(el("div", { class: "heading" }, a.nome));
+    box.appendChild(el("p", {}, [el("strong", {}, "Motivazione. "), document.createTextNode(a.motiv)]));
+    box.appendChild(el("p", {}, [el("strong", {}, "Ombra. "), document.createTextNode(a.ombra)]));
+    card.appendChild(box);
   }
 
-  const note = el("div", { class: "disclaimer" });
-  note.textContent = "Mappatura numero→archetipo basata su tradizioni junghiane integrate (Pearson, Liz Greene, Caroline Myss). Per uso clinico: incrociare con narrazione del cliente, non assumere come diagnosi.";
-  card.appendChild(note);
+  card.appendChild(el("div", { class: "disclaimer" }, "Mappatura indicativa. Per uso clinico, incrociare con narrazione del cliente — non assumere come diagnosi."));
 
   parent.appendChild(card);
 }
 
-function renderHeader(parent, fullName, dateStr, time, place) {
-  const h = el("div", { class: "card" });
-  h.style.background = "var(--bg-card-2)";
-  h.style.borderLeft = "4px solid var(--accent)";
-  h.appendChild(el("h2", {}, fullName));
-  const d = new Date(dateStr);
-  const months = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
-  const dateLabel = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}${time ? " · " + time : ""}${place ? " · " + place : ""}`;
-  h.appendChild(el("div", { class: "subtitle" }, dateLabel));
-  parent.appendChild(h);
-}
-
 /* =====================================================================
-   12. FORM HANDLER
+   10. FORM HANDLER
    ===================================================================== */
 
 document.getElementById("birth-form").addEventListener("submit", (e) => {
@@ -1215,39 +2044,64 @@ document.getElementById("birth-form").addEventListener("submit", (e) => {
 
   // Calcoli
   const lp = lifePath(d, m, y);
-  const birth = birthdayNumber(d);
-  const pyth = pythagoreanFor(fullName, yAsVowel);
-  // Soul Urge / Personality calcolati con yAsVowel toggle
-  const soulSep = (function() {
-    const norm = normalize(fullName);
-    let v = 0, c = 0;
-    const vs = new Set(VOWELS); if (yAsVowel) vs.add("Y");
-    for (const ch of norm) {
-      const val = PYTH[ch]; if (!val) continue;
-      if (vs.has(ch)) v += val; else c += val;
-    }
-    return { soulUrge: reduceToOne(v), soulUrgeRaw: v, personality: reduceToOne(c), personalityRaw: c };
-  })();
-  const maturity = reduceToOne(lp.value + pyth.expression);
+  const birth = reduceToOne(d);
+  const sums = pythagoreanSums(fullName, yAsVowel);
+  const expr = { expression: sums.expression, expressionRaw: sums.expressionRaw };
+  const soul = { soulUrge: sums.soulUrge, soulUrgeRaw: sums.soulUrgeRaw };
+  const pers = { personality: sums.personality, personalityRaw: sums.personalityRaw };
+  const maturity = reduceToOne(lp.value + sums.expression);
 
-  const chald = chaldeanFor(fullName);
-  const kab = kabbalisticFor(fullName);
+  const chald = chaldeanSum(fullName);
+  const kab = kabbalisticSum(fullName);
 
-  // Render
+  const now = new Date();
+  const py = personalYearCalc(d, m, now.getFullYear());
+  const uy = universalYearCalc(now.getFullYear());
+  const pm = personalMonthCalc(py, now.getMonth() + 1);
+  const pd = personalDayCalc(pm, now.getDate());
+
+  const challenges = challengesCalc(d, m, y);
+  const pinnacles = pinnaclesCalc(d, m, y, lp.value);
+
   const results = document.getElementById("results");
   results.innerHTML = "";
 
   renderHeader(results, fullName, birthDate, birthTime, birthPlace);
-  renderPythagorean(results, fullName, lp, birth, pyth, soulSep, soulSep, maturity, yAsVowel);
-  renderChaldean(results, fullName, chald);
-  renderKabbalistic(results, fullName, kab);
-  renderAstrology(results, dateObj);
-  renderChinese(results, dateObj);
-  renderMaya(results, dateObj);
-  renderTarot(results, dateObj);
-  renderArchetypes(results, lp.value, pyth.expression);
 
-  // Scroll to results
+  results.appendChild(sectionMarker("01", "Numerologia · sentiero, espressione, anima"));
+  renderNumerologyMain(results, lp, expr, soul, pers, birth, maturity, yAsVowel);
+
+  results.appendChild(sectionMarker("02", "Numerologia · sfide e pinnacoli"));
+  renderChallenges(results, challenges);
+  renderPinnacles(results, pinnacles);
+
+  results.appendChild(sectionMarker("03", "Numerologia · cicli temporali"));
+  renderPersonalYear(results, py, uy, pm, pd, now.getFullYear());
+
+  results.appendChild(sectionMarker("04", "Numerologia · sistema caldeo"));
+  renderChaldean(results, chald);
+
+  results.appendChild(sectionMarker("05", "Numerologia · gematria kabbalistica"));
+  renderKabbalistic(results, kab);
+
+  results.appendChild(sectionMarker("06", "Astrologia · segno solare"));
+  renderAstrology(results, dateObj);
+
+  results.appendChild(sectionMarker("07", "Zodiaco cinese"));
+  renderChinese(results, dateObj);
+
+  results.appendChild(sectionMarker("08", "Maya · Dreamspell"));
+  renderMaya(results, dateObj);
+
+  results.appendChild(sectionMarker("09", "Tarocchi · arcani maggiori"));
+  renderTarot(results, dateObj);
+
+  results.appendChild(sectionMarker("10", "Human Design · croce di personalità"));
+  renderHumanDesign(results, dateObj);
+
+  results.appendChild(sectionMarker("11", "Archetipi junghiani"));
+  renderArchetypes(results, lp.value, sums.expression);
+
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 </script>
