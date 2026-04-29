@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profilo Esoterico-Archetipico · Davil</title>
+<style>
+  :root {
+    --bg: #0e0f1a;
+    --bg-card: #161827;
+    --bg-card-2: #1d2034;
+    --border: #2a2e47;
+    --text: #e8e6df;
+    --text-dim: #9d9aa8;
+    --accent: #c9a44c;
+    --accent-dim: #8a6f30;
+    --warn: #b85c5c;
+    --good: #6b9b7a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  header { margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+  header h1 {
+    font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    letter-spacing: 0.3px;
+  }
+  header p { margin: 0; color: var(--text-dim); font-size: 14px; max-width: 640px; }
+
+  form#birth-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+  input, button {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+  }
+  input:focus { outline: none; border-color: var(--accent); }
+  button {
+    background: var(--accent);
+    color: #1a1410;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 16px;
+    transition: background 0.2s;
+  }
+  button:hover { background: #d8b25a; }
+  button:disabled { background: var(--accent-dim); cursor: not-allowed; }
+
+  .toggle-row { display: flex; gap: 16px; margin-top: 12px; font-size: 13px; color: var(--text-dim); }
+  .toggle-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; }
+  .toggle-row input[type=checkbox] { width: auto; }
+
+  #results { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .card h2 {
+    font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--accent);
+    letter-spacing: 0.3px;
+  }
+  .card .subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--bg-card-2);
+    border-left: 3px solid var(--accent);
+    padding: 12px 14px;
+    border-radius: 4px;
+  }
+  .stat .label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .stat .value {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .stat .meta {
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 2px;
+  }
+  .interp { font-size: 14px; color: var(--text); margin: 6px 0; }
+  .interp strong { color: var(--accent); }
+  .compound-box {
+    background: var(--bg-card-2);
+    border-radius: 4px;
+    padding: 14px;
+    margin-top: 12px;
+    border-left: 3px solid var(--accent-dim);
+  }
+  .compound-box .num { font-family: "Playfair Display", Georgia, serif; font-size: 18px; color: var(--accent); }
+  .compound-box .name { font-style: italic; color: var(--text-dim); margin-bottom: 6px; }
+  .archetypes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .chip.active { background: var(--accent); color: #1a1410; border-color: var(--accent); font-weight: 600; }
+  .footer-note {
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .footer-note strong { color: var(--text); }
+  .glyph { font-size: 18px; vertical-align: middle; margin-right: 4px; }
+  .hidden { display: none; }
+  .error { color: var(--warn); margin-top: 8px; font-size: 13px; }
+  .loading { color: var(--text-dim); font-style: italic; }
+  details { margin-top: 12px; }
+  details summary { cursor: pointer; color: var(--text-dim); font-size: 13px; padding: 6px 0; }
+  details[open] summary { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-dim); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .disclaimer {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(184, 92, 92, 0.08);
+    border-left: 3px solid var(--warn);
+    border-radius: 4px;
+  }
+  #gate {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  }
+  #gate .gate-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+  }
+  #gate h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    color: var(--accent);
+    margin: 0 0 8px;
+    font-size: 22px;
+  }
+  #gate p { color: var(--text-dim); font-size: 13px; margin: 0 0 20px; }
+  #gate input { margin-bottom: 12px; text-align: center; letter-spacing: 4px; font-size: 16px; }
+  #gate-error { color: var(--warn); font-size: 13px; min-height: 18px; margin-top: 8px; }
+  body.locked { overflow: hidden; }
+  body.locked .container { display: none; }
+</style>
+</head>
+<body class="locked">
+
+<div id="gate">
+  <form class="gate-card" id="gate-form">
+    <h2>Accesso riservato</h2>
+    <p>Strumento privato. Inserisci la password per continuare.</p>
+    <input type="password" id="gate-pwd" autocomplete="current-password" autofocus required>
+    <button type="submit">Entra</button>
+    <div id="gate-error"></div>
+  </form>
+</div>
+
+<div class="container">
+
+  <header>
+    <h1>Profilo Esoterico-Archetipico</h1>
+    <p>Lente integrata su numerologia (pitagorica, caldea, kabbalistica), astrologia, sistemi maya e cinesi, arcani maggiori e archetipi junghiani. Strumento di riflessione per il lavoro di coaching, non oracolo.</p>
+  </header>
+
+  <form id="birth-form">
+    <div class="grid">
+      <div>
+        <label for="firstName">Nome (di nascita)</label>
+        <input type="text" id="firstName" required placeholder="Mario" autocomplete="off">
+      </div>
+      <div>
+        <label for="lastName">Cognome (di nascita)</label>
+        <input type="text" id="lastName" required placeholder="Rossi" autocomplete="off">
+      </div>
+      <div>
+        <label for="birthDate">Data di nascita</label>
+        <input type="date" id="birthDate" required>
+      </div>
+      <div>
+        <label for="birthTime">Ora di nascita (opzionale)</label>
+        <input type="time" id="birthTime" placeholder="HH:MM">
+      </div>
+      <div style="grid-column: 1 / -1;">
+        <label for="birthPlace">Luogo di nascita (opzionale, per Ascendente)</label>
+        <input type="text" id="birthPlace" placeholder="Roma, Italia" autocomplete="off">
+      </div>
+    </div>
+    <div class="toggle-row">
+      <label><input type="checkbox" id="yAsVowel"> Tratta la Y come vocale</label>
+      <label><input type="checkbox" id="useFullName"> Usa nome+cognome attuali se diversi da quelli di nascita</label>
+    </div>
+    <button type="submit">Calcola profilo</button>
+    <div id="form-error" class="error hidden"></div>
+  </form>
+
+  <div id="results"></div>
+
+  <div class="footer-note">
+    <strong>Nota di metodo.</strong> Questo strumento incrocia letture archetipiche di tradizioni diverse — pitagorica, caldea, kabbalistica, astrologia tropicale, cinese, maya/dreamspell, tarocchi, archetipi junghiani. Le interpretazioni sono frame, non sentenze. Coerentemente con il principio per cui il sintomo è messaggero, ogni numero o segno qui è un'apertura a domande, non una diagnosi. Tutti i calcoli avvengono nel browser: nessun dato lascia la macchina.
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* =====================================================================
+   0. PASSWORD GATE (soft client-side)
+   ===================================================================== */
+const PWD_HASH = "b2a5d230ec8460d99e57183ef0f9900ec43abae0b4593179d5b92f4de3cadba0";
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function unlock() {
+  document.body.classList.remove("locked");
+  document.getElementById("gate").style.display = "none";
+  sessionStorage.setItem("davil_unlocked", "1");
+}
+
+if (sessionStorage.getItem("davil_unlocked") === "1") unlock();
+
+document.getElementById("gate-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const pwd = document.getElementById("gate-pwd").value;
+  const err = document.getElementById("gate-error");
+  err.textContent = "";
+  const h = await sha256(pwd);
+  if (h === PWD_HASH) {
+    unlock();
+  } else {
+    err.textContent = "Password errata.";
+    document.getElementById("gate-pwd").value = "";
+  }
+});
+
+/* =====================================================================
+   1. TAVOLE DI MAPPATURA
+   ===================================================================== */
+
+// Pitagorica: A=1...I=9, J=1...R=9, S=1...Z=8
+const PYTH = {
+  A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,
+  J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,
+  S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8
+};
+
+// Caldea: niente 9 (sacro)
+const CHALDEAN = {
+  A:1,I:1,J:1,Q:1,Y:1,
+  B:2,K:2,R:2,
+  C:3,G:3,L:3,S:3,
+  D:4,M:4,T:4,
+  E:5,H:5,N:5,X:5,
+  U:6,V:6,W:6,
+  O:7,Z:7,
+  F:8,P:8
+};
+
+const VOWELS = new Set(["A","E","I","O","U"]);
+
+// Significati archetipici dei numeri
+const NUM_MEANINGS = {
+  1: { titolo: "Pioniere", luce: "Iniziativa, leadership, individualità che si afferma.", ombra: "Egotismo, isolamento, aggressività difensiva.", coach: "Imparare ad agire da sé senza schiacciare l'altro." },
+  2: { titolo: "Diplomatico", luce: "Mediazione, sensibilità, partenariato.", ombra: "Dipendenza, indecisione, sottomissione.", coach: "La sensibilità come strumento, non come ferita." },
+  3: { titolo: "Comunicatore", luce: "Espressione, gioia, creatività.", ombra: "Dispersione, superficialità, vanità.", coach: "Espressione come terapia: dare forma è guarire." },
+  4: { titolo: "Costruttore", luce: "Stabilità, lavoro, ordine.", ombra: "Rigidità, durezza, blocco.", coach: "Stabilità interna come base per il salto." },
+  5: { titolo: "Esploratore", luce: "Libertà, cambiamento, esperienza.", ombra: "Caos, dipendenze, irrequietezza.", coach: "Trasformare il bisogno di evasione in ricerca." },
+  6: { titolo: "Guaritore", luce: "Cura, responsabilità, famiglia.", ombra: "Iper-protezione, controllo, martirio.", coach: "Amare senza salvare. Il limite come atto d'amore." },
+  7: { titolo: "Mistico", luce: "Ricerca, analisi, profondità.", ombra: "Distacco, paranoia, isolamento.", coach: "L'introversione come via, non come fuga." },
+  8: { titolo: "Manager", luce: "Potere, materia, organizzazione.", ombra: "Ambizione cieca, durezza, abuso.", coach: "Forza vs Potere (Hawkins): trasmutare." },
+  9: { titolo: "Saggio", luce: "Visione, completamento, compassione.", ombra: "Rinuncia, vittimismo, malinconia.", coach: "Lasciare andare per servire. Chiusura del ciclo." },
+  11: { titolo: "Visionario", luce: "Intuizione, ispirazione, canale.", ombra: "Iper-sensibilità, ansia, paralisi.", coach: "Master Number: canale tra invisibile e visibile (Dispenza, Grof)." },
+  22: { titolo: "Architetto", luce: "Visione manifestata, costruzione monumentale.", ombra: "Megalomania, paura della grandezza.", coach: "Master Number: portare il sogno nella materia (Zeland)." },
+  33: { titolo: "Maestro", luce: "Servizio cristico, guarigione, insegnamento.", ombra: "Sacrificio compulsivo, complesso del salvatore.", coach: "Master Number: il guaritore ferito (Hillman)." }
+};
+
+// Compound numbers caldei (10-52) — Cheiro
+const COMPOUND = {
+  10: { nome: "Ruota della Fortuna", lettura: "Onore, fede, fiducia in sé. Nascita pubblica, in bene o male." },
+  11: { nome: "Pugno chiuso / Leone con museruola", lettura: "Pericoli nascosti, prove, tradimenti. Cautela." },
+  12: { nome: "Il Sacrificio", lettura: "Sofferenza, ansia. Vittima dei piani altrui." },
+  13: { nome: "Morte / Scheletro", lettura: "Sconvolgimento e rinnovamento. Potere se padroneggiato. Non sfortuna ma trasformazione." },
+  14: { nome: "Movimento e Pericolo", lettura: "Fortunato per denaro e speculazione, rischio da forze naturali o azzardo." },
+  15: { nome: "L'Occulto", lettura: "Eloquenza, arte, magnetismo. Favori, denaro. Rischio uso egoico del potere." },
+  16: { nome: "Torre colpita dal Fulmine", lettura: "Fatalità, incidenti, piani sconfitti. Richiede preveggenza." },
+  17: { nome: "Stella di Venere", lettura: "Spirituale, pace, immortalità del nome. Estremamente fortunato." },
+  18: { nome: "Luna sanguinante", lettura: "Materialismo che distrugge lo spirito. Conflitti, tradimenti." },
+  19: { nome: "Il Sole / Principe del Cielo", lettura: "Felicità, successo, onore. Tra i più favorevoli." },
+  20: { nome: "Il Risveglio / Giudizio", lettura: "Chiamata a uno scopo spirituale. Ritardi senza evoluzione." },
+  21: { nome: "L'Universo / Corona dei Magi", lettura: "Avanzamento, vittoria dopo iniziazione. Molto favorevole." },
+  22: { nome: "Buon Uomo Accecato", lettura: "Illusione, delusione. Sognatore in pericolo." },
+  23: { nome: "Stella Reale del Leone", lettura: "Successo, protezione dei superiori. Molto fortunato." },
+  24: { nome: "Numero Fortunato", lettura: "Aiuto da persone di rango. Favorevole." },
+  25: { nome: "Forza dall'Esperienza", lettura: "Successo per prova ed errore. Favorevole." },
+  26: { nome: "Avvertimento Grave", lettura: "Disastri da cattive associazioni e speculazioni." },
+  27: { nome: "Lo Scettro", lettura: "Autorità, comando, raccolto creativo. Favorevole." },
+  28: { nome: "Contraddizioni", lettura: "Promessa che si perde senza prudenza. Rischio legale." },
+  29: { nome: "Incertezze", lettura: "Tradimenti, false amicizie. Sfavorevole." },
+  30: { nome: "Deduzione riflessiva", lettura: "Né fortunato né sfortunato. Dipende dall'atteggiamento mentale." },
+  31: { nome: "Il Solitario", lettura: "Auto-contenuto, isolato. Non favorevole socialmente." },
+  32: { nome: "Potere Magico", lettura: "Come il 5 ma più potente, se la persona mantiene giudizio indipendente." },
+  33: { nome: "Come 24", lettura: "Aiuto da persone di rango. Favorevole." },
+  34: { nome: "Come 25", lettura: "Successo per prova ed errore." },
+  35: { nome: "Come 26", lettura: "Avvertimento da cattive associazioni." },
+  36: { nome: "Come 27", lettura: "Autorità, comando." },
+  37: { nome: "Buone amicizie e amori", lettura: "Partnership benefiche. Favorevole." },
+  38: { nome: "Come 29", lettura: "Tradimenti, false amicizie." },
+  39: { nome: "Come 30", lettura: "Né fortunato né sfortunato." },
+  40: { nome: "Come 31", lettura: "Auto-contenuto, isolato." },
+  41: { nome: "Come 32", lettura: "Potere magico." },
+  42: { nome: "Come 24", lettura: "Aiuto da persone di rango." },
+  43: { nome: "Rivoluzione, conflitto", lettura: "Sconvolgimento, fallimento. Sfavorevole." },
+  44: { nome: "Come 26", lettura: "Avvertimento grave." },
+  45: { nome: "Come 27", lettura: "Lo Scettro." },
+  46: { nome: "Come 37", lettura: "Buone amicizie." },
+  47: { nome: "Come 29", lettura: "Tradimenti." },
+  48: { nome: "Come 30", lettura: "Né fortunato né sfortunato." },
+  49: { nome: "Come 31", lettura: "Solitario." },
+  50: { nome: "Come 32", lettura: "Potere magico." },
+  51: { nome: "Natura del Guerriero", lettura: "Avanzamento improvviso. Favorevole nei ruoli marziali, allerta nemici." },
+  52: { nome: "Come 43", lettura: "Rivoluzione, conflitto." }
+};
+
+// 22 lettere ebraiche → arcano + astrologia
+const HEBREW = [
+  { lettera: "א Aleph",   valore: 1,   arcano: "0 - Il Matto",        astro: "Aria" },
+  { lettera: "ב Beth",    valore: 2,   arcano: "I - Il Mago",         astro: "Mercurio" },
+  { lettera: "ג Gimel",   valore: 3,   arcano: "II - La Papessa",     astro: "Luna" },
+  { lettera: "ד Daleth",  valore: 4,   arcano: "III - L'Imperatrice", astro: "Venere" },
+  { lettera: "ה Heh",     valore: 5,   arcano: "IV - L'Imperatore",   astro: "Ariete" },
+  { lettera: "ו Vav",     valore: 6,   arcano: "V - Il Papa",         astro: "Toro" },
+  { lettera: "ז Zayin",   valore: 7,   arcano: "VI - Gli Amanti",     astro: "Gemelli" },
+  { lettera: "ח Cheth",   valore: 8,   arcano: "VII - Il Carro",      astro: "Cancro" },
+  { lettera: "ט Teth",    valore: 9,   arcano: "VIII - La Forza",     astro: "Leone" },
+  { lettera: "י Yod",     valore: 10,  arcano: "IX - L'Eremita",      astro: "Vergine" },
+  { lettera: "כ Kaph",    valore: 20,  arcano: "X - Ruota di Fortuna",astro: "Giove" },
+  { lettera: "ל Lamed",   valore: 30,  arcano: "XI - La Giustizia",   astro: "Bilancia" },
+  { lettera: "מ Mem",     valore: 40,  arcano: "XII - L'Appeso",      astro: "Acqua" },
+  { lettera: "נ Nun",     valore: 50,  arcano: "XIII - La Morte",     astro: "Scorpione" },
+  { lettera: "ס Samekh",  valore: 60,  arcano: "XIV - La Temperanza", astro: "Sagittario" },
+  { lettera: "ע Ayin",    valore: 70,  arcano: "XV - Il Diavolo",     astro: "Capricorno" },
+  { lettera: "פ Peh",     valore: 80,  arcano: "XVI - La Torre",      astro: "Marte" },
+  { lettera: "צ Tzaddi",  valore: 90,  arcano: "XVII - Le Stelle",    astro: "Acquario" },
+  { lettera: "ק Qoph",    valore: 100, arcano: "XVIII - La Luna",     astro: "Pesci" },
+  { lettera: "ר Resh",    valore: 200, arcano: "XIX - Il Sole",       astro: "Sole" },
+  { lettera: "ש Shin",    valore: 300, arcano: "XX - Il Giudizio",    astro: "Fuoco" },
+  { lettera: "ת Tau",     valore: 400, arcano: "XXI - Il Mondo",      astro: "Saturno" }
+];
+
+// 22 Arcani Maggiori (per Birth Cards)
+const ARCANI = [
+  { n: 0,  nome: "Il Matto",       chiave: "Inizio, fede, salto nel vuoto" },
+  { n: 1,  nome: "Il Mago",        chiave: "Volontà focalizzata, manifestazione" },
+  { n: 2,  nome: "La Papessa",     chiave: "Saggezza ricettiva, intuizione, mistero" },
+  { n: 3,  nome: "L'Imperatrice",  chiave: "Creatività, fertilità, abbondanza" },
+  { n: 4,  nome: "L'Imperatore",   chiave: "Struttura, autorità, padre" },
+  { n: 5,  nome: "Il Papa",        chiave: "Tradizione, insegnamento, valori" },
+  { n: 6,  nome: "Gli Amanti",     chiave: "Scelta, unione, integrazione" },
+  { n: 7,  nome: "Il Carro",       chiave: "Volontà, conquista, controllo" },
+  { n: 8,  nome: "La Forza",       chiave: "Coraggio gentile, padronanza dell'istinto" },
+  { n: 9,  nome: "L'Eremita",      chiave: "Ricerca interiore, saggezza solitaria" },
+  { n: 10, nome: "Ruota di Fortuna", chiave: "Cicli, destino, cambiamento" },
+  { n: 11, nome: "La Giustizia",   chiave: "Verità, equilibrio, conseguenze" },
+  { n: 12, nome: "L'Appeso",       chiave: "Resa, prospettiva invertita, sacrificio" },
+  { n: 13, nome: "La Morte",       chiave: "Trasformazione, fine, rinascita" },
+  { n: 14, nome: "La Temperanza",  chiave: "Alchimia, integrazione, moderazione" },
+  { n: 15, nome: "Il Diavolo",     chiave: "Ombra, attaccamenti, materia" },
+  { n: 16, nome: "La Torre",       chiave: "Crollo, illuminazione improvvisa, liberazione" },
+  { n: 17, nome: "Le Stelle",      chiave: "Speranza, ispirazione, guarigione" },
+  { n: 18, nome: "La Luna",        chiave: "Inconscio, illusione, sogni" },
+  { n: 19, nome: "Il Sole",        chiave: "Gioia, vitalità, successo" },
+  { n: 20, nome: "Il Giudizio",    chiave: "Risveglio, vocazione, rinascita" },
+  { n: 21, nome: "Il Mondo",       chiave: "Completezza, integrazione finale" }
+];
+
+// 12 segni zodiacali tropicali (date approssimative)
+const ZODIAC = [
+  { sign: "Capricorno",  glyph: "♑", from: [12,22], to: [1,19],  el: "Terra",  mod: "Cardinale", pl: "Saturno" },
+  { sign: "Acquario",    glyph: "♒", from: [1,20],  to: [2,18],  el: "Aria",   mod: "Fissa",     pl: "Urano" },
+  { sign: "Pesci",       glyph: "♓", from: [2,19],  to: [3,20],  el: "Acqua",  mod: "Mutevole",  pl: "Nettuno" },
+  { sign: "Ariete",      glyph: "♈", from: [3,21],  to: [4,19],  el: "Fuoco",  mod: "Cardinale", pl: "Marte" },
+  { sign: "Toro",        glyph: "♉", from: [4,20],  to: [5,20],  el: "Terra",  mod: "Fissa",     pl: "Venere" },
+  { sign: "Gemelli",     glyph: "♊", from: [5,21],  to: [6,20],  el: "Aria",   mod: "Mutevole",  pl: "Mercurio" },
+  { sign: "Cancro",      glyph: "♋", from: [6,21],  to: [7,22],  el: "Acqua",  mod: "Cardinale", pl: "Luna" },
+  { sign: "Leone",       glyph: "♌", from: [7,23],  to: [8,22],  el: "Fuoco",  mod: "Fissa",     pl: "Sole" },
+  { sign: "Vergine",     glyph: "♍", from: [8,23],  to: [9,22],  el: "Terra",  mod: "Mutevole",  pl: "Mercurio" },
+  { sign: "Bilancia",    glyph: "♎", from: [9,23],  to: [10,22], el: "Aria",   mod: "Cardinale", pl: "Venere" },
+  { sign: "Scorpione",   glyph: "♏", from: [10,23], to: [11,21], el: "Acqua",  mod: "Fissa",     pl: "Plutone" },
+  { sign: "Sagittario",  glyph: "♐", from: [11,22], to: [12,21], el: "Fuoco",  mod: "Mutevole",  pl: "Giove" }
+];
+
+const SIGN_INTERP = {
+  "Ariete":      "Fuoco cardinale. Inizia, rompe, apre. La sfida è il dopo: portare a termine quello che ha iniziato.",
+  "Toro":        "Terra fissa. Radica, gusta, conserva. La sfida è il movimento: cosa è chiamato a lasciare.",
+  "Gemelli":     "Aria mutevole. Collega, racconta, sperimenta. La sfida è la profondità: scegliere una sola cosa.",
+  "Cancro":      "Acqua cardinale. Custodisce, sente, ricorda. La sfida è il guscio: quando uscire allo scoperto.",
+  "Leone":       "Fuoco fisso. Brilla, crea, dona. La sfida è il riconoscimento: brillare anche senza pubblico.",
+  "Vergine":     "Terra mutevole. Affina, serve, distingue. La sfida è la perfezione: la fine del lavoro.",
+  "Bilancia":    "Aria cardinale. Bilancia, relaziona, armonizza. La sfida è la decisione: scegliere senza compiacere.",
+  "Scorpione":   "Acqua fissa. Penetra, trasforma, scava. La sfida è la fiducia: lasciare entrare l'altro.",
+  "Sagittario":  "Fuoco mutevole. Cerca, espande, insegna. La sfida è il radicamento: la verità nel quotidiano.",
+  "Capricorno":  "Terra cardinale. Costruisce, dura, organizza. La sfida è la gioia: cosa fa dopo aver costruito.",
+  "Acquario":    "Aria fissa. Vede oltre, riforma, libera. La sfida è la calore umano: scendere dal balcone.",
+  "Pesci":       "Acqua mutevole. Dissolve, intuisce, compatisce. La sfida è il confine: dove finisce lui, dove inizia l'altro."
+};
+
+// Zodiaco cinese
+const CHINESE_ANIMALS = [
+  { it: "Topo",     en: "Rat",     elFix: "Acqua",   yy: "Yang", lettura: "Furbo, adattabile, ambizioso. Ombra: opportunismo, ansia da accumulo." },
+  { it: "Bue",      en: "Ox",      elFix: "Terra",   yy: "Yin",  lettura: "Costante, paziente, affidabile. Ombra: ostinazione, lentezza al cambiamento." },
+  { it: "Tigre",    en: "Tiger",   elFix: "Legno",   yy: "Yang", lettura: "Coraggio, autorità, magnetismo. Ombra: impulsività, autoritarismo." },
+  { it: "Coniglio", en: "Rabbit",  elFix: "Legno",   yy: "Yin",  lettura: "Eleganza, diplomazia, sensibilità. Ombra: evitamento, superficialità." },
+  { it: "Drago",    en: "Dragon",  elFix: "Terra",   yy: "Yang", lettura: "Carisma, visione, potere. Ombra: arroganza, distacco emotivo." },
+  { it: "Serpente", en: "Snake",   elFix: "Fuoco",   yy: "Yin",  lettura: "Saggezza, intuizione, profondità. Ombra: gelosia, manipolazione sottile." },
+  { it: "Cavallo",  en: "Horse",   elFix: "Fuoco",   yy: "Yang", lettura: "Energia, libertà, entusiasmo. Ombra: irrequietezza, fuga." },
+  { it: "Capra",    en: "Goat",    elFix: "Terra",   yy: "Yin",  lettura: "Empatia, arte, gentilezza. Ombra: dipendenza, lamento." },
+  { it: "Scimmia",  en: "Monkey",  elFix: "Metallo", yy: "Yang", lettura: "Intelligenza, ingegno, gioco. Ombra: trickster, scarsa lealtà." },
+  { it: "Gallo",    en: "Rooster", elFix: "Metallo", yy: "Yin",  lettura: "Precisione, coraggio, onestà. Ombra: critica, vanità." },
+  { it: "Cane",     en: "Dog",     elFix: "Terra",   yy: "Yang", lettura: "Lealtà, giustizia, protezione. Ombra: pessimismo, ipervigilanza." },
+  { it: "Maiale",   en: "Pig",     elFix: "Acqua",   yy: "Yin",  lettura: "Generosità, sincerità, godimento. Ombra: ingenuità, indulgenza." }
+];
+
+const CHINESE_ELEMENTS = ["Metallo","Metallo","Acqua","Acqua","Legno","Legno","Fuoco","Fuoco","Terra","Terra"];
+
+// Capodanni cinesi 1900-2050 (mese, giorno)
+const CNY = {
+  1900:[1,31],1901:[2,19],1902:[2,8],1903:[1,29],1904:[2,16],1905:[2,4],1906:[1,25],1907:[2,13],1908:[2,2],1909:[1,22],
+  1910:[2,10],1911:[1,30],1912:[2,18],1913:[2,6],1914:[1,26],1915:[2,14],1916:[2,3],1917:[1,23],1918:[2,11],1919:[2,1],
+  1920:[2,20],1921:[2,8],1922:[1,28],1923:[2,16],1924:[2,5],1925:[1,24],1926:[2,13],1927:[2,2],1928:[1,23],1929:[2,10],
+  1930:[1,30],1931:[2,17],1932:[2,6],1933:[1,26],1934:[2,14],1935:[2,4],1936:[1,24],1937:[2,11],1938:[1,31],1939:[2,19],
+  1940:[2,8],1941:[1,27],1942:[2,15],1943:[2,5],1944:[1,25],1945:[2,13],1946:[2,2],1947:[1,22],1948:[2,10],1949:[1,29],
+  1950:[2,17],1951:[2,6],1952:[1,27],1953:[2,14],1954:[2,3],1955:[1,24],1956:[2,12],1957:[1,31],1958:[2,18],1959:[2,8],
+  1960:[1,28],1961:[2,15],1962:[2,5],1963:[1,25],1964:[2,13],1965:[2,2],1966:[1,21],1967:[2,9],1968:[1,30],1969:[2,17],
+  1970:[2,6],1971:[1,27],1972:[2,15],1973:[2,3],1974:[1,23],1975:[2,11],1976:[1,31],1977:[2,18],1978:[2,7],1979:[1,28],
+  1980:[2,16],1981:[2,5],1982:[1,25],1983:[2,13],1984:[2,2],1985:[2,20],1986:[2,9],1987:[1,29],1988:[2,17],1989:[2,6],
+  1990:[1,27],1991:[2,15],1992:[2,4],1993:[1,23],1994:[2,10],1995:[1,31],1996:[2,19],1997:[2,7],1998:[1,28],1999:[2,16],
+  2000:[2,5],2001:[1,24],2002:[2,12],2003:[2,1],2004:[1,22],2005:[2,9],2006:[1,29],2007:[2,18],2008:[2,7],2009:[1,26],
+  2010:[2,14],2011:[2,3],2012:[1,23],2013:[2,10],2014:[1,31],2015:[2,19],2016:[2,8],2017:[1,28],2018:[2,16],2019:[2,5],
+  2020:[1,25],2021:[2,12],2022:[2,1],2023:[1,22],2024:[2,10],2025:[1,29],2026:[2,17],2027:[2,6],2028:[1,26],2029:[2,13],
+  2030:[2,3],2031:[1,23],2032:[2,11],2033:[1,31],2034:[2,19],2035:[2,8],2036:[1,28],2037:[2,15],2038:[2,4],2039:[1,24],
+  2040:[2,12],2041:[2,1],2042:[1,22],2043:[2,10],2044:[1,30],2045:[2,17],2046:[2,6],2047:[1,26],2048:[2,14],2049:[2,2],
+  2050:[1,23]
+};
+
+// Maya Dreamspell — 20 sigilli + 13 toni
+const MAYA_SEALS = [
+  { n: 1,  nome: "Drago Rosso",      keyword: "Nutrimento, origine, essere",          colore: "Rosso" },
+  { n: 2,  nome: "Vento Bianco",     keyword: "Spirito, comunicazione",                colore: "Bianco" },
+  { n: 3,  nome: "Notte Blu",        keyword: "Abbondanza, sogno, intuizione",         colore: "Blu" },
+  { n: 4,  nome: "Seme Giallo",      keyword: "Bersaglio, fioritura, consapevolezza",  colore: "Giallo" },
+  { n: 5,  nome: "Serpente Rosso",   keyword: "Forza vitale, istinto, sopravvivenza",  colore: "Rosso" },
+  { n: 6,  nome: "Allacciamondi Bianco", keyword: "Morte, ponte, equanimità",          colore: "Bianco" },
+  { n: 7,  nome: "Mano Blu",         keyword: "Compimento, guarigione, conoscenza",    colore: "Blu" },
+  { n: 8,  nome: "Stella Gialla",    keyword: "Eleganza, arte, armonia",                colore: "Giallo" },
+  { n: 9,  nome: "Luna Rossa",       keyword: "Acqua universale, flusso, purificazione", colore: "Rosso" },
+  { n: 10, nome: "Cane Bianco",      keyword: "Cuore, amore, lealtà",                   colore: "Bianco" },
+  { n: 11, nome: "Scimmia Blu",      keyword: "Magia, gioco, illusione",                colore: "Blu" },
+  { n: 12, nome: "Umano Giallo",     keyword: "Libero arbitrio, saggezza, influenza",   colore: "Giallo" },
+  { n: 13, nome: "Camminatore del Cielo Rosso", keyword: "Spazio, esplorazione, profezia", colore: "Rosso" },
+  { n: 14, nome: "Mago Bianco",      keyword: "Atemporalità, ricettività, sciamano",    colore: "Bianco" },
+  { n: 15, nome: "Aquila Blu",       keyword: "Visione, mente, creatività",             colore: "Blu" },
+  { n: 16, nome: "Guerriero Giallo", keyword: "Intelligenza, coraggio, domande",        colore: "Giallo" },
+  { n: 17, nome: "Terra Rossa",      keyword: "Navigazione, sincronicità, evoluzione",  colore: "Rosso" },
+  { n: 18, nome: "Specchio Bianco",  keyword: "Riflessione, ordine, eternità",          colore: "Bianco" },
+  { n: 19, nome: "Tempesta Blu",     keyword: "Catalisi, auto-generazione, energia",    colore: "Blu" },
+  { n: 20, nome: "Sole Giallo",      keyword: "Illuminazione, vita universale",         colore: "Giallo" }
+];
+
+const MAYA_TONES = [
+  { n: 1,  nome: "Magnetico",     funz: "Unifica",     domanda: "Qual è il mio scopo?" },
+  { n: 2,  nome: "Lunare",        funz: "Polarizza",   domanda: "Qual è la mia sfida?" },
+  { n: 3,  nome: "Elettrico",     funz: "Attiva",      domanda: "Come posso servire?" },
+  { n: 4,  nome: "Auto-esistente",funz: "Definisce",   domanda: "Quale forma prende?" },
+  { n: 5,  nome: "Armonico",      funz: "Comanda",     domanda: "Come potenzio me stesso?" },
+  { n: 6,  nome: "Ritmico",       funz: "Equilibra",   domanda: "Come organizzo l'uguaglianza?" },
+  { n: 7,  nome: "Risonante",     funz: "Si sintonizza", domanda: "Come metto in canale il mio servizio?" },
+  { n: 8,  nome: "Galattico",     funz: "Armonizza",   domanda: "Vivo ciò in cui credo?" },
+  { n: 9,  nome: "Solare",        funz: "Pulsa",       domanda: "Come compio la mia intenzione?" },
+  { n: 10, nome: "Planetario",    funz: "Perfeziona",  domanda: "Come manifesto?" },
+  { n: 11, nome: "Spettrale",     funz: "Dissolve",    domanda: "Come libero e lascio andare?" },
+  { n: 12, nome: "Cristallo",     funz: "Coopera",     domanda: "Come dedico me stesso a tutta la vita?" },
+  { n: 13, nome: "Cosmico",       funz: "Trascende",   domanda: "Come posso espandere la presenza?" }
+];
+
+// 12 archetipi junghiani (Pearson)
+const ARCHETYPES = [
+  { nome: "Innocente",   motiv: "Felicità, sicurezza, paradiso",     ombra: "Negazione, ingenuità, dipendenza" },
+  { nome: "Uomo Comune", motiv: "Connessione, appartenenza",         ombra: "Conformismo, mediocrità" },
+  { nome: "Eroe",        motiv: "Maestria, coraggio",                ombra: "Arroganza, narcisismo" },
+  { nome: "Custode",     motiv: "Servizio, cura",                    ombra: "Martirio, sacrificio" },
+  { nome: "Esploratore", motiv: "Libertà, autenticità",              ombra: "Errare senza meta, alienazione" },
+  { nome: "Fuorilegge",  motiv: "Rivoluzione, liberazione",          ombra: "Distruzione, rabbia" },
+  { nome: "Amante",      motiv: "Intimità, bellezza",                ombra: "Dipendenza, gelosia" },
+  { nome: "Creatore",    motiv: "Visione, espressione",              ombra: "Perfezionismo, blocco" },
+  { nome: "Sovrano",     motiv: "Controllo, prosperità",             ombra: "Tirannia, rigidità" },
+  { nome: "Mago",        motiv: "Trasformazione, alchimia",          ombra: "Manipolazione, illusione" },
+  { nome: "Saggio",      motiv: "Verità, comprensione",              ombra: "Distacco, pedanteria" },
+  { nome: "Folle",       motiv: "Gioia, presenza",                   ombra: "Crudeltà, leggerezza" }
+];
+
+// Mapping numero→archetipo dominante
+const NUM_TO_ARCH = {
+  1: ["Eroe","Sovrano"],
+  2: ["Amante","Custode"],
+  3: ["Folle","Creatore"],
+  4: ["Uomo Comune","Custode"],
+  5: ["Esploratore","Fuorilegge"],
+  6: ["Custode","Amante"],
+  7: ["Saggio"],
+  8: ["Sovrano"],
+  9: ["Saggio","Innocente"],
+  11: ["Mago","Saggio"],
+  22: ["Creatore","Sovrano"],
+  33: ["Custode","Mago"]
+};
+
+/* =====================================================================
+   2. UTILITIES
+   ===================================================================== */
+
+function normalize(s) {
+  return s.toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z]/g, "");
+}
+
+function reduceToOne(n, preserveMaster = true) {
+  while (n > 9) {
+    if (preserveMaster && (n === 11 || n === 22 || n === 33)) return n;
+    n = String(n).split("").reduce((a,d) => a + Number(d), 0);
+  }
+  return n;
+}
+
+function reduceToRange(n, min, max) {
+  while (n > max) {
+    n = String(n).split("").reduce((a,d) => a + Number(d), 0);
+  }
+  return n;
+}
+
+function isMaster(n) { return n === 11 || n === 22 || n === 33; }
+
+/* =====================================================================
+   3. NUMEROLOGIA PITAGORICA
+   ===================================================================== */
+
+function pythagoreanFor(name, yAsVowel) {
+  const norm = normalize(name);
+  let total = 0, vowelTotal = 0, consTotal = 0;
+  const vowelSet = new Set(VOWELS);
+  if (yAsVowel) vowelSet.add("Y");
+
+  for (const ch of norm) {
+    const v = PYTH[ch];
+    if (!v) continue;
+    total += v;
+    if (vowelSet.has(ch)) vowelTotal += v;
+    else consTotal += v;
+  }
+  return {
+    expression: reduceToOne(total),
+    expressionRaw: total,
+    soulUrge: reduceToOne(vowelTotal),
+    soulUrgeRaw: vowelTotal,
+    personality: reduceToOne(consTotal),
+    personalityRaw: consTotal
+  };
+}
+
+function lifePath(d, m, y) {
+  // Best practice: ridurre giorno, mese, anno separatamente preservando master
+  const dRed = reduceToOne(d);
+  const mRed = reduceToOne(m);
+  const yRed = reduceToOne(y);
+  const total = dRed + mRed + yRed;
+  return { value: reduceToOne(total), raw: total, dRed, mRed, yRed };
+}
+
+function birthdayNumber(d) {
+  return reduceToOne(d);
+}
+
+/* =====================================================================
+   4. NUMEROLOGIA CALDEA
+   ===================================================================== */
+
+function chaldeanFor(name) {
+  const norm = normalize(name);
+  let total = 0;
+  for (const ch of norm) {
+    const v = CHALDEAN[ch];
+    if (!v) continue;
+    total += v;
+  }
+  let compound = total;
+  while (compound > 52) {
+    compound = String(compound).split("").reduce((a,d) => a + Number(d), 0);
+  }
+  return { single: reduceToOne(total, false), compound, raw: total };
+}
+
+/* =====================================================================
+   5. KABBALISTICA / GEMATRIA
+   ===================================================================== */
+
+function kabbalisticFor(name) {
+  // Mappa ordinale ciclica: posizione lettera in alfabeto latino mod 22 → indice ebraico
+  const norm = normalize(name);
+  let total = 0;
+  for (const ch of norm) {
+    const pos = ch.charCodeAt(0) - 64; // A=1
+    const idx = (pos - 1) % 22;
+    total += HEBREW[idx].valore;
+  }
+  const arcanoIdx = total % 22;
+  return { total, arcano: HEBREW[arcanoIdx], arcanoIdx };
+}
+
+/* =====================================================================
+   6. ASTROLOGIA — SEGNO SOLARE
+   ===================================================================== */
+
+function sunSign(month, day) {
+  for (const z of ZODIAC) {
+    const [fm, fd] = z.from, [tm, td] = z.to;
+    if (fm > tm) {
+      // attraversa fine anno (Capricorno)
+      if ((month === fm && day >= fd) || (month === tm && day <= td)) return z;
+    } else {
+      if ((month === fm && day >= fd) || (month === tm && day <= td) || (month > fm && month < tm)) return z;
+    }
+  }
+  return null;
+}
+
+/* =====================================================================
+   7. ZODIACO CINESE
+   ===================================================================== */
+
+function chineseZodiac(year, month, day) {
+  let chineseYear = year;
+  const cny = CNY[year];
+  if (cny) {
+    const [cm, cd] = cny;
+    if (month < cm || (month === cm && day < cd)) chineseYear = year - 1;
+  }
+  const animalIdx = (chineseYear - 1900 + 0) % 12; // 1900 = Topo
+  // 1900 era Metallo (gengzi). Mapping ultima cifra anno: 0,1=Metallo, 2,3=Acqua, 4,5=Legno, 6,7=Fuoco, 8,9=Terra
+  const lastDigit = ((chineseYear % 10) + 10) % 10;
+  const element = CHINESE_ELEMENTS[lastDigit];
+  // Yin/Yang da indice anno (anni pari Yang, dispari Yin nel calendario tradizionale stem-branch)
+  const yy = (chineseYear % 2 === 0) ? "Yang" : "Yin";
+
+  return {
+    year: chineseYear,
+    animal: CHINESE_ANIMALS[animalIdx],
+    element,
+    yy,
+    pillar: `${element} ${CHINESE_ANIMALS[animalIdx].it} (${yy})`
+  };
+}
+
+/* =====================================================================
+   8. MAYA / DREAMSPELL
+   ===================================================================== */
+
+function julianDay(y, m, d) {
+  // Fliegel-Van Flandern
+  const a = Math.floor((14 - m) / 12);
+  const yr = y + 4800 - a;
+  const mo = m + 12 * a - 3;
+  return d + Math.floor((153 * mo + 2) / 5) + 365 * yr
+       + Math.floor(yr / 4) - Math.floor(yr / 100) + Math.floor(yr / 400) - 32045;
+}
+
+function dreamspellKin(y, m, d) {
+  // Dreamspell salta il 29 febbraio: si conta come se non esistesse
+  // Algoritmo standard: kin basato su data di nascita riferito al ciclo 260
+  // Usiamo correlazione: 26 luglio = inizio anno Dreamspell, ma per semplicità
+  // partiamo da data di riferimento nota (verificata su starroot.com).
+  // Riferimento: 1 gen 2000 = Kin 11 (Scimmia Spettrale) — verificato.
+  // Calcoliamo giorni dal riferimento, escludendo i 29/2.
+
+  function isLeapDay(yy, mm, dd) { return mm === 2 && dd === 29; }
+  function daysFromRef(targetY, targetM, targetD) {
+    const ref = new Date(Date.UTC(2000, 0, 1));
+    const tgt = new Date(Date.UTC(targetY, targetM - 1, targetD));
+    let diff = Math.round((tgt - ref) / 86400000);
+    // Sottrai i 29 febbraio inclusi nel range
+    let leapDays = 0;
+    if (diff >= 0) {
+      for (let yr = 2000; yr <= targetY; yr++) {
+        if (((yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0))) {
+          const leap = new Date(Date.UTC(yr, 1, 29));
+          if (leap >= ref && leap <= tgt) leapDays++;
+        }
+      }
+    } else {
+      for (let yr = targetY; yr <= 2000; yr++) {
+        if (((yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0))) {
+          const leap = new Date(Date.UTC(yr, 1, 29));
+          if (leap >= tgt && leap <= ref) leapDays++;
+        }
+      }
+      leapDays = -leapDays;
+    }
+    return diff - leapDays;
+  }
+
+  if (isLeapDay(y, m, d)) {
+    // Dreamspell: 29 feb è "giorno fuori dal tempo" — usiamo 28 feb
+    d = 28;
+  }
+
+  const REF_KIN = 11; // 1 gen 2000 = Kin 11
+  const diff = daysFromRef(y, m, d);
+  let kin = ((REF_KIN - 1 + diff) % 260 + 260) % 260 + 1;
+
+  // Sigillo (1-20) e Tono (1-13) dal kin
+  const sealIdx = ((kin - 1) % 20);
+  const toneIdx = ((kin - 1) % 13);
+
+  return {
+    kin,
+    seal: MAYA_SEALS[sealIdx],
+    tone: MAYA_TONES[toneIdx]
+  };
+}
+
+/* =====================================================================
+   9. BIRTH CARDS (Arrien/Greer)
+   ===================================================================== */
+
+function birthCards(d, m, y) {
+  const total = d + m + y;
+  let personality = total;
+  while (personality > 22) {
+    personality = String(personality).split("").reduce((a,c) => a + Number(c), 0);
+  }
+  let soul = personality;
+  if (soul > 9) {
+    soul = String(soul).split("").reduce((a,c) => a + Number(c), 0);
+  }
+  // Eccezione 19: Soul = 1 (Mago), Personality = 19 (Sole)
+  if (total === 19 || personality === 19) {
+    return {
+      total,
+      personality: ARCANI[19],
+      soul: ARCANI[1],
+      hidden: ARCANI[10]
+    };
+  }
+  return {
+    total,
+    personality: ARCANI[personality],
+    soul: ARCANI[soul]
+  };
+}
+
+function yearCard(d, m, currentYear) {
+  const total = d + m + currentYear;
+  let n = total;
+  while (n > 22) n = String(n).split("").reduce((a,c) => a + Number(c), 0);
+  return ARCANI[n];
+}
+
+/* =====================================================================
+   10. ARCHETIPI JUNGHIANI
+   ===================================================================== */
+
+function archetypeFor(num) {
+  return NUM_TO_ARCH[num] || ["Eroe"];
+}
+
+/* =====================================================================
+   11. RENDERING
+   ===================================================================== */
+
+function el(tag, attrs = {}, children = []) {
+  const e = document.createElement(tag);
+  for (const k in attrs) {
+    if (k === "class") e.className = attrs[k];
+    else if (k === "html") e.innerHTML = attrs[k];
+    else e.setAttribute(k, attrs[k]);
+  }
+  if (typeof children === "string") e.textContent = children;
+  else children.forEach(c => c && e.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+  return e;
+}
+
+function statBox(label, value, meta) {
+  return el("div", { class: "stat" }, [
+    el("div", { class: "label" }, label),
+    el("div", { class: "value" }, value),
+    meta ? el("div", { class: "meta" }, meta) : null
+  ]);
+}
+
+function renderPythagorean(parent, fullName, lifeP, birth, expr, soul, pers, maturity, yAsVowel) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Numerologia Pitagorica"));
+  card.appendChild(el("div", { class: "subtitle" }, "Tradizione occidentale moderna · Hans Decoz"));
+
+  const row = el("div", { class: "row" }, [
+    statBox("Sentiero di Vita", String(lifeP.value), `${lifeP.dRed} + ${lifeP.mRed} + ${lifeP.yRed}${isMaster(lifeP.value) ? " · Master Number" : ""}`),
+    statBox("Espressione", String(expr.expression), `Da ${expr.expressionRaw}${isMaster(expr.expression) ? " · Master" : ""}`),
+    statBox("Anima", String(soul.soulUrge), "Vocali del nome"),
+    statBox("Personalità", String(pers.personality), "Consonanti del nome"),
+    statBox("Compleanno", String(birth), null),
+    statBox("Maturità", String(maturity), "Attivo dai ~35 anni")
+  ]);
+  card.appendChild(row);
+
+  // Interpretazione del sentiero di vita
+  const lp = NUM_MEANINGS[lifeP.value];
+  if (lp) {
+    const interpBox = el("div", { class: "compound-box" });
+    interpBox.appendChild(el("div", { class: "num" }, `Sentiero di Vita ${lifeP.value} — ${lp.titolo}`));
+    interpBox.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, "Luce. "), document.createTextNode(lp.luce)
+    ]));
+    interpBox.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, "Ombra. "), document.createTextNode(lp.ombra)
+    ]));
+    interpBox.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, "Domanda coach. "), document.createTextNode(lp.coach)
+    ]));
+    card.appendChild(interpBox);
+  }
+
+  // Interpretazione espressione
+  const ex = NUM_MEANINGS[expr.expression];
+  if (ex && expr.expression !== lifeP.value) {
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, `Espressione ${expr.expression} — ${ex.titolo}`));
+    b.appendChild(el("div", { class: "interp" }, ex.luce));
+    b.appendChild(el("div", { class: "interp" }, [el("strong",{},"Ombra. "), document.createTextNode(ex.ombra)]));
+    card.appendChild(b);
+  }
+
+  // Anima e personalità in breve
+  const sm = NUM_MEANINGS[soul.soulUrge], pm = NUM_MEANINGS[pers.personality];
+  if (sm) {
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, `Anima ${soul.soulUrge} — ${sm.titolo}`));
+    b.appendChild(el("div", { class: "interp" }, "Cosa desidera nel profondo: " + sm.luce.toLowerCase()));
+    card.appendChild(b);
+  }
+  if (pm) {
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, `Personalità ${pers.personality} — ${pm.titolo}`));
+    b.appendChild(el("div", { class: "interp" }, "Come appare agli altri: " + pm.luce.toLowerCase()));
+    card.appendChild(b);
+  }
+
+  const opt = el("details");
+  opt.appendChild(el("summary", {}, "Dettagli calcolo"));
+  const tbl = el("table");
+  tbl.innerHTML = `<tr><th>Componente</th><th>Somma grezza</th><th>Ridotto</th></tr>
+    <tr><td>Espressione (tutto il nome)</td><td>${expr.expressionRaw}</td><td>${expr.expression}</td></tr>
+    <tr><td>Anima (vocali${yAsVowel ? " incl. Y" : ""})</td><td>${expr.soulUrgeRaw||soul.soulUrgeRaw}</td><td>${soul.soulUrge}</td></tr>
+    <tr><td>Personalità (consonanti)</td><td>${expr.personalityRaw||pers.personalityRaw}</td><td>${pers.personality}</td></tr>`;
+  opt.appendChild(tbl);
+  card.appendChild(opt);
+
+  parent.appendChild(card);
+}
+
+function renderChaldean(parent, fullName, chald) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Numerologia Caldea"));
+  card.appendChild(el("div", { class: "subtitle" }, "Tradizione mistica antica · Cheiro"));
+
+  const row = el("div", { class: "row" }, [
+    statBox("Numero singolo", String(chald.single), null),
+    statBox("Numero compound", String(chald.compound), "Significato profondo"),
+    statBox("Somma grezza", String(chald.raw), null)
+  ]);
+  card.appendChild(row);
+
+  const cm = COMPOUND[chald.compound];
+  if (cm) {
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, `Compound ${chald.compound} — ${cm.nome}`));
+    b.appendChild(el("div", { class: "interp" }, cm.lettura));
+    card.appendChild(b);
+  }
+
+  const sm = NUM_MEANINGS[chald.single];
+  if (sm) {
+    card.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, `Vibrazione ${chald.single} (${sm.titolo}). `),
+      document.createTextNode(sm.coach)
+    ]));
+  }
+
+  const note = el("div", { class: "disclaimer" });
+  note.textContent = "Nella tradizione caldea il compound (somma non ridotta) ha priorità sul singolo. Il singolo descrive l'energia esterna, il compound il destino karmico.";
+  card.appendChild(note);
+
+  parent.appendChild(card);
+}
+
+function renderKabbalistic(parent, fullName, kab) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Numerologia Kabbalistica"));
+  card.appendChild(el("div", { class: "subtitle" }, "Gematria adattata · Golden Dawn"));
+
+  const row = el("div", { class: "row" }, [
+    statBox("Valore gematriale", String(kab.total), null),
+    statBox("Arcano risonante", `${kab.arcano.lettera.split(" ")[0]}`, kab.arcano.arcano),
+    statBox("Astrologia associata", kab.arcano.astro, null)
+  ]);
+  card.appendChild(row);
+
+  const b = el("div", { class: "compound-box" });
+  b.appendChild(el("div", { class: "num" }, kab.arcano.arcano));
+  b.appendChild(el("div", { class: "name" }, `Lettera: ${kab.arcano.lettera} · Valore: ${kab.arcano.valore} · Corrispondenza: ${kab.arcano.astro}`));
+  const arc = ARCANI.find(a => kab.arcano.arcano.includes(a.nome));
+  if (arc) b.appendChild(el("div", { class: "interp" }, arc.chiave));
+  card.appendChild(b);
+
+  const note = el("div", { class: "disclaimer" });
+  note.textContent = "La mappatura latino→ebraico usa l'adattamento ordinale ciclico (mod 22). Sistema simbolico, non gematria ebraica rigorosa.";
+  card.appendChild(note);
+
+  parent.appendChild(card);
+}
+
+function renderAstrology(parent, dateObj) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Astrologia Occidentale"));
+  card.appendChild(el("div", { class: "subtitle" }, "Tropicale · segno solare"));
+
+  const z = sunSign(dateObj.getMonth() + 1, dateObj.getDate());
+  if (!z) { card.appendChild(el("div", {}, "Errore: segno non determinato.")); parent.appendChild(card); return; }
+
+  const row = el("div", { class: "row" }, [
+    statBox("Segno solare", `${z.glyph} ${z.sign}`, null),
+    statBox("Elemento", z.el, null),
+    statBox("Modalità", z.mod, null),
+    statBox("Pianeta", z.pl, null)
+  ]);
+  card.appendChild(row);
+
+  const interp = SIGN_INTERP[z.sign];
+  if (interp) {
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, `${z.glyph} ${z.sign}`));
+    b.appendChild(el("div", { class: "interp" }, interp));
+    card.appendChild(b);
+  }
+
+  const note = el("div", { class: "disclaimer" });
+  note.textContent = "Tema natale completo (Luna, Ascendente, pianeti, case, aspetti) richiede effemeridi astronomiche e luogo di nascita preciso. Implementazione successiva con libreria Moshier o Swiss Ephemeris.";
+  card.appendChild(note);
+
+  parent.appendChild(card);
+}
+
+function renderChinese(parent, dateObj) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Zodiaco Cinese"));
+  card.appendChild(el("div", { class: "subtitle" }, "Ciclo sessagesimale · pilastro dell'anno"));
+
+  const c = chineseZodiac(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
+  const row = el("div", { class: "row" }, [
+    statBox("Animale", c.animal.it, c.animal.en),
+    statBox("Elemento dell'anno", c.element, null),
+    statBox("Polarità", c.yy, null),
+    statBox("Anno cinese", String(c.year), null)
+  ]);
+  card.appendChild(row);
+
+  const b = el("div", { class: "compound-box" });
+  b.appendChild(el("div", { class: "num" }, `${c.element} ${c.animal.it}`));
+  b.appendChild(el("div", { class: "interp" }, c.animal.lettura));
+  b.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Elemento fisso (animale): "), document.createTextNode(c.animal.elFix + ". ")
+  ]));
+  card.appendChild(b);
+
+  if (c.year !== dateObj.getFullYear()) {
+    const note = el("div", { class: "disclaimer" });
+    note.textContent = `Nato/a prima del Capodanno cinese ${dateObj.getFullYear()}: anno cinese conteggiato come ${c.year}.`;
+    card.appendChild(note);
+  }
+
+  parent.appendChild(card);
+}
+
+function renderMaya(parent, dateObj) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Maya · Dreamspell"));
+  card.appendChild(el("div", { class: "subtitle" }, "20 sigilli × 13 toni · José Argüelles"));
+
+  const m = dreamspellKin(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
+  const row = el("div", { class: "row" }, [
+    statBox("Kin", String(m.kin), `Su 260`),
+    statBox("Sigillo", m.seal.nome, m.seal.colore),
+    statBox("Tono galattico", `${m.tone.n} · ${m.tone.nome}`, m.tone.funz)
+  ]);
+  card.appendChild(row);
+
+  const b = el("div", { class: "compound-box" });
+  b.appendChild(el("div", { class: "num" }, `Firma: ${m.tone.nome} ${m.seal.nome}`));
+  b.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Sigillo. "), document.createTextNode(m.seal.keyword)
+  ]));
+  b.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, `Tono ${m.tone.nome}. `), document.createTextNode(`Funzione: ${m.tone.funz.toLowerCase()}.`)
+  ]));
+  b.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Domanda di vita. "), document.createTextNode(m.tone.domanda)
+  ]));
+  card.appendChild(b);
+
+  const note = el("div", { class: "disclaimer" });
+  note.textContent = "Sistema Dreamspell di Argüelles: salta il 29 febbraio. Diverso dal Tzolkin tradizionale Maya. Verifica incrociata su starroot.com/cgi/daycalc.pl.";
+  card.appendChild(note);
+
+  parent.appendChild(card);
+}
+
+function renderTarot(parent, dateObj) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Arcani Maggiori · Birth Cards"));
+  card.appendChild(el("div", { class: "subtitle" }, "Metodo Angeles Arrien / Mary K. Greer"));
+
+  const bc = birthCards(dateObj.getDate(), dateObj.getMonth() + 1, dateObj.getFullYear());
+  const yc = yearCard(dateObj.getDate(), dateObj.getMonth() + 1, new Date().getFullYear());
+
+  const row = el("div", { class: "row" }, [
+    statBox("Personalità", bc.personality.nome, `Arcano ${bc.personality.n}`),
+    statBox("Anima", bc.soul.nome, `Arcano ${bc.soul.n}`),
+    statBox("Anno corrente", yc.nome, `Arcano ${yc.n}`)
+  ]);
+  card.appendChild(row);
+
+  const b1 = el("div", { class: "compound-box" });
+  b1.appendChild(el("div", { class: "num" }, `Carta di Personalità · ${bc.personality.nome}`));
+  b1.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Maschera/lezione di vita. "), document.createTextNode(bc.personality.chiave)
+  ]));
+  card.appendChild(b1);
+
+  const b2 = el("div", { class: "compound-box" });
+  b2.appendChild(el("div", { class: "num" }, `Carta dell'Anima · ${bc.soul.nome}`));
+  b2.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Dono profondo. "), document.createTextNode(bc.soul.chiave)
+  ]));
+  card.appendChild(b2);
+
+  const b3 = el("div", { class: "compound-box" });
+  b3.appendChild(el("div", { class: "num" }, `Carta dell'Anno · ${yc.nome}`));
+  b3.appendChild(el("div", { class: "interp" }, [
+    el("strong", {}, "Tema attivo dal compleanno. "), document.createTextNode(yc.chiave)
+  ]));
+  card.appendChild(b3);
+
+  parent.appendChild(card);
+}
+
+function renderArchetypes(parent, lifeP, expr) {
+  const card = el("div", { class: "card" });
+  card.appendChild(el("h2", {}, "Archetipi Junghiani"));
+  card.appendChild(el("div", { class: "subtitle" }, "12 archetipi · Pearson/Mark · sintesi coach"));
+
+  const fromLP = archetypeFor(lifeP);
+  const fromEX = archetypeFor(expr);
+  const active = new Set([...fromLP, ...fromEX]);
+
+  const intro = el("div", { class: "interp" }, [
+    el("strong", {}, "Archetipi attivi (dal Sentiero di Vita e dall'Espressione): "),
+    document.createTextNode([...active].join(", "))
+  ]);
+  card.appendChild(intro);
+
+  const chips = el("div", { class: "archetypes" });
+  for (const a of ARCHETYPES) {
+    const c = el("span", { class: "chip" + (active.has(a.nome) ? " active" : "") }, a.nome);
+    chips.appendChild(c);
+  }
+  card.appendChild(chips);
+
+  // Dettagli archetipi attivi
+  for (const name of active) {
+    const a = ARCHETYPES.find(x => x.nome === name);
+    if (!a) continue;
+    const b = el("div", { class: "compound-box" });
+    b.appendChild(el("div", { class: "num" }, a.nome));
+    b.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, "Motivazione. "), document.createTextNode(a.motiv)
+    ]));
+    b.appendChild(el("div", { class: "interp" }, [
+      el("strong", {}, "Ombra. "), document.createTextNode(a.ombra)
+    ]));
+    card.appendChild(b);
+  }
+
+  const note = el("div", { class: "disclaimer" });
+  note.textContent = "Mappatura numero→archetipo basata su tradizioni junghiane integrate (Pearson, Liz Greene, Caroline Myss). Per uso clinico: incrociare con narrazione del cliente, non assumere come diagnosi.";
+  card.appendChild(note);
+
+  parent.appendChild(card);
+}
+
+function renderHeader(parent, fullName, dateStr, time, place) {
+  const h = el("div", { class: "card" });
+  h.style.background = "var(--bg-card-2)";
+  h.style.borderLeft = "4px solid var(--accent)";
+  h.appendChild(el("h2", {}, fullName));
+  const d = new Date(dateStr);
+  const months = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+  const dateLabel = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}${time ? " · " + time : ""}${place ? " · " + place : ""}`;
+  h.appendChild(el("div", { class: "subtitle" }, dateLabel));
+  parent.appendChild(h);
+}
+
+/* =====================================================================
+   12. FORM HANDLER
+   ===================================================================== */
+
+document.getElementById("birth-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const errBox = document.getElementById("form-error");
+  errBox.classList.add("hidden");
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const birthDate = document.getElementById("birthDate").value;
+  const birthTime = document.getElementById("birthTime").value;
+  const birthPlace = document.getElementById("birthPlace").value.trim();
+  const yAsVowel = document.getElementById("yAsVowel").checked;
+
+  if (!firstName || !lastName || !birthDate) {
+    errBox.textContent = "Inserisci almeno nome, cognome e data.";
+    errBox.classList.remove("hidden");
+    return;
+  }
+
+  const fullName = firstName + " " + lastName;
+  const dateObj = new Date(birthDate + (birthTime ? "T" + birthTime : "T12:00"));
+  const d = dateObj.getDate(), m = dateObj.getMonth() + 1, y = dateObj.getFullYear();
+
+  // Calcoli
+  const lp = lifePath(d, m, y);
+  const birth = birthdayNumber(d);
+  const pyth = pythagoreanFor(fullName, yAsVowel);
+  // Soul Urge / Personality calcolati con yAsVowel toggle
+  const soulSep = (function() {
+    const norm = normalize(fullName);
+    let v = 0, c = 0;
+    const vs = new Set(VOWELS); if (yAsVowel) vs.add("Y");
+    for (const ch of norm) {
+      const val = PYTH[ch]; if (!val) continue;
+      if (vs.has(ch)) v += val; else c += val;
+    }
+    return { soulUrge: reduceToOne(v), soulUrgeRaw: v, personality: reduceToOne(c), personalityRaw: c };
+  })();
+  const maturity = reduceToOne(lp.value + pyth.expression);
+
+  const chald = chaldeanFor(fullName);
+  const kab = kabbalisticFor(fullName);
+
+  // Render
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  renderHeader(results, fullName, birthDate, birthTime, birthPlace);
+  renderPythagorean(results, fullName, lp, birth, pyth, soulSep, soulSep, maturity, yAsVowel);
+  renderChaldean(results, fullName, chald);
+  renderKabbalistic(results, fullName, kab);
+  renderAstrology(results, dateObj);
+  renderChinese(results, dateObj);
+  renderMaya(results, dateObj);
+  renderTarot(results, dateObj);
+  renderArchetypes(results, lp.value, pyth.expression);
+
+  // Scroll to results
+  results.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+</script>
+</body>
+</html>
