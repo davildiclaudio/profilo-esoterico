@@ -81,40 +81,50 @@
     100% { background-position: 30% 20%, 70% 80%, 60% 40%; }
   }
 
-  /* Sfondo arcano · simboli SVG fluttuanti */
-  .arcane-bg {
+  /* Starfield · solo punti luminosi (no simboli) */
+  .cosmic-stars {
     position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
   }
-  .arcane-bg .arc {
-    position: absolute;
-    color: rgba(244, 201, 93, 0.12);
-    will-change: transform, opacity, filter;
-    filter: drop-shadow(0 0 12px rgba(244, 201, 93, 0.45));
-    animation: arcDrift linear infinite, arcPulse ease-in-out infinite alternate;
+  .cosmic-stars .star {
+    position: absolute; border-radius: 50%;
+    background: rgba(232, 234, 255, 0.7);
+    box-shadow: 0 0 4px rgba(167, 200, 255, 0.6);
+    animation: starTwinkle ease-in-out infinite alternate;
+    will-change: opacity;
   }
-  .arcane-bg .arc.violet {
-    color: rgba(167, 139, 250, 0.13);
-    filter: drop-shadow(0 0 14px rgba(167, 139, 250, 0.5));
+  .cosmic-stars .star.bright {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 8px rgba(167, 200, 255, 0.9), 0 0 16px rgba(124, 58, 237, 0.5);
   }
-  .arcane-bg .arc.cyan {
-    color: rgba(34, 211, 238, 0.10);
-    filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.5));
+  .cosmic-stars .star.gold {
+    background: rgba(255, 240, 200, 0.9);
+    box-shadow: 0 0 8px rgba(244, 201, 93, 0.8), 0 0 14px rgba(244, 201, 93, 0.4);
   }
-  .arcane-bg .arc.crimson {
-    color: rgba(236, 90, 160, 0.11);
-    filter: drop-shadow(0 0 14px rgba(236, 90, 160, 0.45));
+  .cosmic-stars .star.magenta {
+    background: rgba(255, 200, 240, 0.85);
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.7);
   }
-  .arcane-bg .arc svg { width: 100%; height: 100%; display: block; }
-  @keyframes arcDrift {
-    0%   { transform: translate(0, 0) rotate(0deg); }
-    25%  { transform: translate(60px, -40px) rotate(90deg); }
-    50%  { transform: translate(-30px, -80px) rotate(180deg); }
-    75%  { transform: translate(-70px, -30px) rotate(270deg); }
-    100% { transform: translate(0, 0) rotate(360deg); }
+  @keyframes starTwinkle {
+    0%   { opacity: 0.3; transform: scale(0.85); }
+    100% { opacity: 1;   transform: scale(1.1); }
   }
-  @keyframes arcPulse {
-    0%   { opacity: 0.35; }
-    100% { opacity: 1; }
+  .cosmic-stars .shooting-star {
+    position: absolute; width: 2px; height: 2px;
+    background: #fff;
+    box-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(167,200,255,0.7);
+    border-radius: 50%;
+    animation: shootingStar linear forwards;
+  }
+  .cosmic-stars .shooting-star::after {
+    content: ""; position: absolute; right: 0; top: 50%;
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7));
+    transform-origin: right center;
+  }
+  @keyframes shootingStar {
+    0%   { transform: translate(0, 0); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translate(-60vw, 40vh); opacity: 0; }
   }
 
   /* Mandala centrale · ruota zodiacale arcana */
@@ -318,7 +328,7 @@
   }
 
   .card {
-    background: linear-gradient(135deg, rgba(30,20,60,.55), rgba(20,14,50,.40));
+    background: linear-gradient(135deg, rgba(10,12,46,.70), rgba(5,5,25,.55));
     border: 1px solid var(--border);
     border-radius: 18px;
     padding: 32px;
@@ -326,12 +336,86 @@
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     box-shadow:
       0 1px 0 rgba(255,255,255,.04) inset,
-      0 20px 40px -20px rgba(124,58,237,.20),
-      0 0 0 1px rgba(124,58,237,.06);
-    transition: border-color .35s, box-shadow .35s;
+      0 20px 40px -20px rgba(45,45,224,.30),
+      0 0 0 1px rgba(45,45,224,.10);
+    transition: border-color .45s, box-shadow .45s, transform .8s, opacity .8s;
+    position: relative;
+    overflow: hidden;
   }
+  /* Alternanza blu notte / blu elettrico */
+  .card.night-card {
+    background: linear-gradient(135deg, rgba(8,10,38,.78), rgba(3,4,18,.60));
+    border-color: rgba(110,140,255,0.18);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.04) inset,
+      0 20px 50px -20px rgba(20,30,100,.50),
+      0 0 0 1px rgba(20,30,100,.15);
+  }
+  .card.night-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(700px 400px at 80% -10%, rgba(20,40,140,.30), transparent 55%),
+      radial-gradient(500px 300px at 0% 110%, rgba(30,60,180,.18), transparent 60%);
+    z-index: 0;
+  }
+  .card.electric-card {
+    background: linear-gradient(135deg, rgba(40,50,200,.32), rgba(20,25,90,.55));
+    border-color: rgba(110,150,255,0.32);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.06) inset,
+      0 20px 60px -20px rgba(45,90,255,.40),
+      0 0 0 1px rgba(110,150,255,.18);
+  }
+  .card.electric-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(700px 400px at 100% 0%, rgba(80,120,255,.22), transparent 55%),
+      radial-gradient(500px 300px at 0% 100%, rgba(124,58,237,.18), transparent 60%);
+    z-index: 0;
+  }
+  .card > * { position: relative; z-index: 1; }
   .card:hover {
-    border-color: rgba(236,90,160,.35);
+    border-color: rgba(167,200,255,.55);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.08) inset,
+      0 30px 70px -20px rgba(80,120,255,.45),
+      0 0 60px rgba(124,58,237,.20);
+  }
+
+  /* Animazione di comparsa scroll-reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    filter: blur(8px);
+    transition: opacity 1s cubic-bezier(.22,.61,.36,1),
+                transform 1s cubic-bezier(.22,.61,.36,1),
+                filter 1.2s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  /* Effetti di comparsa alternati */
+  .reveal.from-left { transform: translateX(-60px) translateY(20px) scale(0.97); }
+  .reveal.from-left.in-view { transform: translateX(0) translateY(0) scale(1); }
+  .reveal.from-right { transform: translateX(60px) translateY(20px) scale(0.97); }
+  .reveal.from-right.in-view { transform: translateX(0) translateY(0) scale(1); }
+  /* Bordo luminoso che attraversa la card al reveal */
+  .card.in-view::after {
+    content: ""; position: absolute; inset: -1px; border-radius: 18px;
+    background: linear-gradient(135deg, transparent, rgba(167,200,255,0.4), transparent 50%);
+    background-size: 200% 200%;
+    animation: cardBorderSweep 1.2s ease-out forwards;
+    pointer-events: none; z-index: 2;
+    -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    padding: 1.5px;
+  }
+  @keyframes cardBorderSweep {
+    0%   { background-position: 0% 0%; opacity: 0; }
+    20%  { opacity: 1; }
+    100% { background-position: 200% 200%; opacity: 0; }
   }
   .card h2 {
     font-family: var(--ff-display);
@@ -1031,7 +1115,7 @@
 <div class="aurora"></div>
 <div class="cosmic-mandala"><svg><use href="#cosmic-mandala-svg"/></svg></div>
 <div class="cosmic-mandala-counter"><svg><use href="#cosmic-mandala-counter-svg"/></svg></div>
-<div class="arcane-bg" id="arcane-bg"></div>
+<div class="cosmic-stars" id="cosmic-stars"></div>
 
 <nav class="nav" id="nav">
   <div class="nav-logo-wrap" id="nav-logo-wrap">
@@ -1183,35 +1267,39 @@
 })();
 
 /* =====================================================================
-   ARCANE BACKGROUND · simboli SVG sacri fluttuanti
+   STARFIELD · solo punti luminosi + costellazioni · niente simboli
    ===================================================================== */
-(function buildArcaneBg() {
-  const SYMBOLS = [
-    "arc-pentagram", "arc-hexagram", "arc-eye", "arc-ra", "arc-ankh",
-    "arc-flower", "arc-tree", "arc-ouroboros", "arc-yantra", "arc-caduceus",
-    "arc-star8", "arc-triplemoon", "arc-vesica", "arc-bagua", "arc-lotus", "arc-rose"
-  ];
-  const colorClasses = ["", "violet", "cyan", "crimson"];
-  const container = document.getElementById("arcane-bg");
+(function buildStarfield() {
+  const container = document.getElementById("cosmic-stars");
   if (!container) return;
-  const COUNT = 28;
+  const COUNT = 140;
   for (let i = 0; i < COUNT; i++) {
-    const div = document.createElement("div");
-    const cls = colorClasses[Math.floor(Math.random() * colorClasses.length)];
-    div.className = "arc" + (cls ? " " + cls : "");
-    const size = 60 + Math.random() * 180;
-    div.style.width = size + "px";
-    div.style.height = size + "px";
-    div.style.left = Math.random() * 100 + "vw";
-    div.style.top = Math.random() * 100 + "vh";
-    const floatDur = 60 + Math.random() * 120;
-    const pulseDur = 6 + Math.random() * 14;
-    div.style.animationDuration = `${floatDur}s, ${pulseDur}s`;
-    div.style.animationDelay = `${-Math.random() * floatDur}s, ${-Math.random() * pulseDur}s`;
-    const sym = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-    div.innerHTML = `<svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><use href="#${sym}"/></svg>`;
-    container.appendChild(div);
+    const star = document.createElement("span");
+    star.className = "star";
+    if (Math.random() < 0.15) star.classList.add("bright");
+    if (Math.random() < 0.08) star.classList.add("gold");
+    if (Math.random() < 0.06) star.classList.add("magenta");
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+    const size = 0.8 + Math.random() * 2.2;
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+    star.style.animationDuration = (3 + Math.random() * 8) + "s";
+    star.style.animationDelay = (-Math.random() * 8) + "s";
+    container.appendChild(star);
   }
+  // Pioggia di stelle cadenti occasionali
+  function spawnShootingStar() {
+    const ss = document.createElement("span");
+    ss.className = "shooting-star";
+    ss.style.top = Math.random() * 60 + "vh";
+    ss.style.left = (60 + Math.random() * 30) + "vw";
+    ss.style.animationDuration = (1.5 + Math.random() * 1.5) + "s";
+    container.appendChild(ss);
+    setTimeout(() => ss.remove(), 3500);
+  }
+  setInterval(spawnShootingStar, 8000);
+  setTimeout(spawnShootingStar, 2500);
 })();
 
 /* =====================================================================
@@ -1689,8 +1777,10 @@ const PINNACLE_INTERP = {
   7: "Pinnacolo dell'introspezione. Studio, ricerca, spiritualità. Periodo contemplativo, ritiri scelti.",
   8: "Pinnacolo del potere. Materializzazione, riconoscimenti, economia, leadership matura.",
   9: "Pinnacolo del compimento. Servizio universale, lasciare andare, generosità, chiusura di un grande ciclo.",
-  11: "Pinnacolo del visionario. Intuizione potente, missione spirituale, sensibilità altissima da maneggiare.",
-  22: "Pinnacolo dell'opera. Possibilità di costruire qualcosa di portata storica. Pretende disciplina."
+  11: "Pinnacolo del visionario. Intuizione potente, missione spirituale, sensibilità altissima da maneggiare. Anni in cui il canale tra mondo invisibile e visibile si apre — chiede pratiche di radicamento per non disperdersi.",
+  22: "Pinnacolo dell'opera. Possibilità di costruire qualcosa di portata storica. Pretende disciplina, organizzazione, pazienza. Periodo in cui il sogno chiede di diventare materia.",
+  33: "Pinnacolo del maestro guaritore. Servizio cristico, presenza che cura, insegnamento che trasforma. Periodo che chiede di accettare il proprio dono e farsi accogliere a propria volta.",
+  44: "Pinnacolo dell'architetto cosmico. Costruzione di sistemi che durano oltre la vita. Insegnamento, eredità, opere che attraversano generazioni. Anni di scala lunga e responsabilità ampia."
 };
 
 /* ---------- HUMAN DESIGN ---------- */
@@ -1895,7 +1985,9 @@ function pinnaclesCalc(d, m, y, lp) {
   const p2 = reduceToOne(dR + yR);
   const p3 = reduceToOne(p1 + p2);
   const p4 = reduceToOne(mR + yR);
-  const firstEnd = 36 - lp;
+  // Per il calcolo dell'età di transizione, riduci LP a singola cifra (i Master danno età negative)
+  const lpForAge = lp > 9 ? digitSum(lp > 9 && isMaster(lp) ? digitSum(lp) : lp) : lp;
+  const firstEnd = 36 - lpForAge;
   return {
     p1: { value: p1, ageFrom: 0, ageTo: firstEnd },
     p2: { value: p2, ageFrom: firstEnd + 1, ageTo: firstEnd + 9 },
@@ -1993,12 +2085,14 @@ function birthCardsCalc(d, m, y) {
   const total = d + m + y;
   let p = total;
   while (p > 22) p = digitSum(p);
+  // Edge case: p=22 → mappa al Matto (Arcano 0), come da tradizione Greer
+  const pIdx = (p === 22) ? 0 : p;
   let s = p;
   if (s > 9) s = digitSum(s);
   if (total === 19 || p === 19) {
     return { total, personality: ARCANI[19], soul: ARCANI[1] };
   }
-  return { total, personality: ARCANI[p], soul: ARCANI[s] };
+  return { total, personality: ARCANI[pIdx], soul: ARCANI[s] };
 }
 
 function yearCardCalc(d, m, currentYear) {
@@ -3205,6 +3299,31 @@ document.getElementById("birth-form").addEventListener("submit", (e) => {
 
   results.appendChild(sectionMarker("11", "Archetipi junghiani"));
   renderArchetypes(results, lp.value, sums.expression);
+
+  // Alternanza colori card e scroll-reveal
+  const cards = results.querySelectorAll(".card, .section-marker");
+  let cardIdx = 0;
+  cards.forEach((c) => {
+    c.classList.add("reveal");
+    if (c.classList.contains("card")) {
+      c.classList.add(cardIdx % 2 === 0 ? "night-card" : "electric-card");
+      // alternate from-left / from-right
+      c.classList.add(cardIdx % 2 === 0 ? "from-left" : "from-right");
+      cardIdx++;
+    }
+  });
+
+  // IntersectionObserver per scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+
+  cards.forEach((c) => io.observe(c));
 
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
